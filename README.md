@@ -1,5 +1,11 @@
 # Compagnon D&D 5.5 FR
 
+**[Installer l’extension depuis le Chrome Web Store](https://chromewebstore.google.com/detail/compagnon-dd-55-fr/hamfahkbjnljnmcofgefoimhaabmjalb)**
+
+## Pourquoi ce compagnon ?
+
+Compagnon D&D 5.5 FR s’adresse à tous les joueurs et meneurs francophones qui utilisent la feuille D&D 2024 de Roll20. L’idée est née des difficultés rencontrées par les joueurs de mon groupe face à la feuille et aux références de règles en anglais. L’extension traduit l’interface et met à disposition un compendium fondé sur le SRD 5.2.1 français, directement dans la table, pour faciliter l’accès aux règles sans interrompre la partie. Elle est publiée sur le Chrome Web Store.
+
 Extension Chrome/Edge Manifest V3 pour la feuille **D&D 2024 de Roll20**. Elle traduit l’interface en français, enrichit les sorts, dons et aptitudes, et donne accès à un compendium et un bestiaire locaux fondés sur le SRD 5.2.1 français.
 
 ## Fonctionnalités
