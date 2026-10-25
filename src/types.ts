@@ -23,6 +23,14 @@ export type MonsterRollMode = "two" | "single" | "ask";
 export type RecentReference =
   | { kind: "local"; entryId: string }
   | { kind: "external"; referenceKind: "spell" | "feat" | "magic-item"; referenceId: string };
+export type FavoriteReference = RecentReference;
+export type ReferenceCollection = "favoriteReferences" | "recentReferences";
+export type ReferenceCollectionMutation =
+  | { collection: "favoriteReferences"; action: "replace"; references: FavoriteReference[] }
+  | { collection: "favoriteReferences"; action: "add" | "remove"; reference: FavoriteReference }
+  | { collection: "recentReferences"; action: "replace"; references: RecentReference[] }
+  | { collection: "recentReferences"; action: "visit" | "remove"; reference: RecentReference }
+  | { collection: "recentReferences"; action: "clear" };
 
 export interface MagicItemReference extends Reference {
   itemType: string;
@@ -45,4 +53,5 @@ export interface Preferences {
   launcherPosition?: { left: number; top: number } | null;
   panelPosition?: { left: number; top: number } | null;
   recentReferences?: RecentReference[];
+  favoriteReferences?: FavoriteReference[];
 }

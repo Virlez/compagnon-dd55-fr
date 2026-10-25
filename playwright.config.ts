@@ -1,5 +1,7 @@
 import { defineConfig } from "@playwright/test";
 
+const chromiumExecutable = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE;
+
 export default defineConfig({
   testDir: "./tests/e2e",
   fullyParallel: false,
@@ -7,9 +9,7 @@ export default defineConfig({
   reporter: "line",
   use: {
     headless: true,
-    launchOptions: {
-      executablePath: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
-    },
+    launchOptions: chromiumExecutable ? { executablePath: chromiumExecutable } : {},
     screenshot: "only-on-failure",
     trace: "retain-on-failure"
   }

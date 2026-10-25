@@ -27,6 +27,12 @@ async function loadBundle(page: Page): Promise<void> {
   await expect(page.locator("#dd55-launcher")).toBeVisible();
 }
 
+async function selectCategory(page: Page, type: string): Promise<void> {
+  await page.locator('[data-view="catalog"]').click();
+  await page.locator('[data-category-toggle]').click();
+  await page.locator(`[data-category="${type}"]`).click();
+}
+
 async function loadBundleInFrame(frame: Frame): Promise<void> {
   await frame.addStyleTag({ path: stylePath });
   await frame.addScriptTag({ path: bundlePath });
@@ -96,13 +102,13 @@ test("ouvre le compendium local et expose le catalogue complet", async ({ page }
   await loadBundle(page);
   await page.locator("#dd55-launcher").click();
   await expect(page.locator("#dd55-companion")).toBeVisible();
-  await expect(page.locator(".dd55-tabs")).toContainText("Règles 70");
-  await expect(page.locator(".dd55-tabs")).toContainText("Sorts 391");
-  await expect(page.locator(".dd55-tabs")).toContainText("Dons 137");
-  await expect(page.locator(".dd55-tabs")).toContainText("Équipement 51");
-  await expect(page.locator(".dd55-tabs")).toContainText("Origines 14");
-  await expect(page.locator(".dd55-tabs")).toContainText("Objets magiques 350");
-  await expect(page.locator(".dd55-tabs")).toContainText("Monstres 330");
+  await expect(page.locator("[data-category='rule']")).toHaveText("Règles70✓");
+  await expect(page.locator("[data-category='spell']")).toHaveText("Sorts391✓");
+  await expect(page.locator("[data-category='feat']")).toHaveText("Dons137✓");
+  await expect(page.locator("[data-category='equipment']")).toHaveText("Équipement51✓");
+  await expect(page.locator("[data-category='origins']")).toHaveText("Origines14✓");
+  await expect(page.locator("[data-category='magic-item']")).toHaveText("Objets magiques350✓");
+  await expect(page.locator("[data-category='monster']")).toHaveText("Monstres330✓");
 
   await page.locator("[data-dd55-open='spell-baies-nourricieres']").click();
   await expect(page.locator("[data-detail] h2")).toHaveText("Baies nourricières");
@@ -113,7 +119,7 @@ test("filtre les monstres et ouvre un profil DRS complet", async ({ page }) => {
   await page.setContent(sheetSignature);
   await loadBundle(page);
   await page.locator("#dd55-launcher").click();
-  await page.locator("[data-type='monster']").click();
+  await selectCategory(page, "monster");
   await expect(page.locator("[data-result-count]")).toContainText("330 références");
   await expect(page.locator("[data-monster-advanced]")).toBeHidden();
   await page.locator("[data-monster-type]").selectOption("Aberration");
@@ -139,7 +145,7 @@ test("prépare ou envoie les jets de monstre selon le réglage et conserve les b
   });
   await loadBundle(page);
   await page.locator("#dd55-launcher").click();
-  await page.locator("[data-type='monster']").click();
+  await selectCategory(page, "monster");
   await page.locator("[data-search]").fill("Aboleth");
   await page.locator("[data-entry-id='monster-aboleth']").click();
   const tentacle = page.locator(".dd55-monster-action").filter({ has: page.getByRole("heading", { name: "Tentacule", exact: true }) });
@@ -186,7 +192,7 @@ test("filtre les objets magiques et ouvre les fiches locales ou AideDD", async (
   });
   await loadBundle(page);
   await page.locator("#dd55-launcher").click();
-  await page.locator("[data-type='magic-item']").click();
+  await selectCategory(page, "magic-item");
   await expect(page.locator("[data-result-count]")).toContainText("350 références");
   await page.locator("[data-magic-item-type]").selectOption("Arme");
   await page.locator("[data-magic-rarity='Rare']").click();
@@ -235,7 +241,7 @@ test("ouvre les propriétés d’arme et les états depuis les règles", async (
   await page.setContent(sheetSignature);
   await loadBundle(page);
   await page.locator("#dd55-launcher").click();
-  await page.locator("[data-type='rule']").click();
+  await selectCategory(page, "rule");
   await page.locator("[data-rule-kind]").selectOption("Propriété d’arme");
   await expect(page.locator("[data-results] .dd55-entry-card")).toHaveCount(10);
   await page.locator("[data-search]").fill("Légère");
@@ -255,7 +261,7 @@ test("filtre les classes par défaut et ouvre la sous-classe liée", async ({ pa
   await page.setContent(sheetSignature);
   await loadBundle(page);
   await page.locator("#dd55-launcher").click();
-  await page.locator("[data-type='classes']").click();
+  await selectCategory(page, "classes");
   await expect(page.locator("[data-class-kind]")).toHaveValue("class");
   await expect(page.locator("[data-results] .dd55-entry-card")).toHaveCount(12);
   await expect(page.locator("[data-results] [data-entry-id^='subclass-']")).toHaveCount(0);
@@ -359,11 +365,11 @@ test("garde les réglages dans le panneau et applique le thème sombre aux fiche
   expect(await contrastRatio(".dd55-settings-content legend", ".dd55-settings-content fieldset")).toBeGreaterThanOrEqual(4.5);
   expect(await contrastRatio(".dd55-switch small", ".dd55-settings-content fieldset")).toBeGreaterThanOrEqual(4.5);
   await page.locator("[data-settings-back]").click();
-  expect(await contrastRatio(".dd55-tabs button small", "#dd55-companion")).toBeGreaterThanOrEqual(4.5);
+  expect(await contrastRatio(".dd55-category-nav button small", "#dd55-companion")).toBeGreaterThanOrEqual(4.5);
   expect(await contrastRatio(".dd55-entry-main strong", ".dd55-entry-card")).toBeGreaterThanOrEqual(4.5);
   expect(await contrastRatio(".dd55-entry-main small", ".dd55-entry-card")).toBeGreaterThanOrEqual(4.5);
   expect(await contrastRatio(".dd55-entry-main > span", ".dd55-entry-card")).toBeGreaterThanOrEqual(4.5);
-  await page.locator("[data-type='origins']").click();
+  await selectCategory(page, "origins");
   await page.locator("[data-entry-id='species-orc']").click();
   await expect(page.locator("#dd55-companion")).toHaveAttribute("data-theme", "dark");
   await expect(page.locator(".dd55-meta-grid div").first()).toHaveCSS("background-color", "rgb(36, 36, 36)");
@@ -376,7 +382,7 @@ test("garde les réglages dans le panneau et applique le thème sombre aux fiche
   expect(await contrastRatio(".dd55-source", "#dd55-companion")).toBeGreaterThanOrEqual(4.5);
 });
 
-test("affiche entièrement les textes des onglets et filtres en thème sombre", async ({ page }) => {
+test("garde la navigation des catégories compacte et lisible en thème sombre", async ({ page }) => {
   await page.setViewportSize({ width: 590, height: 720 });
   await page.setContent(sheetSignature);
   await loadBundle(page);
@@ -384,22 +390,30 @@ test("affiche entièrement les textes des onglets et filtres en thème sombre", 
   await page.locator("[data-expand]").click();
   await page.locator("#dd55-companion").evaluate(panel => { (panel as HTMLElement).dataset.theme = "dark"; });
 
-  const tabLayout = await page.locator(".dd55-tabs button").evaluateAll(buttons => buttons.map(button => {
-    const element = button as HTMLElement;
-    const style = getComputedStyle(element);
-    const label = element.querySelector<HTMLElement>(".dd55-tab-label")!.getBoundingClientRect();
-    const count = element.querySelector<HTMLElement>("small")!.getBoundingClientRect();
-    return { text: element.textContent?.replace(/\s+/g, " ").trim(), whiteSpace: style.whiteSpace, flexDirection: style.flexDirection, overflow: element.scrollWidth - element.clientWidth, height: element.getBoundingClientRect().height, lineDelta: Math.abs((label.top + label.bottom) / 2 - (count.top + count.bottom) / 2) };
-  }));
-  expect(tabLayout).toHaveLength(9);
-  await expect(page.locator(".dd55-tabs [data-type='recent']")).toHaveCount(0);
-  await expect(page.locator("[data-recent-open]")).toBeVisible();
-  expect(tabLayout.find(tab => tab.text === "Objets magiques 350")).toBeTruthy();
-  expect(tabLayout.every(tab => tab.whiteSpace === "nowrap" && tab.flexDirection === "row" && tab.overflow <= 1 && tab.lineDelta <= 1)).toBe(true);
-  expect(new Set(tabLayout.map(tab => Math.round(tab.height))).size).toBe(1);
+  const navigationLayout = await page.locator(".dd55-category-nav").evaluate(element => {
+    const nav = element as HTMLElement;
+    const style = getComputedStyle(nav);
+    return { display: style.display, overflowX: style.overflowX, height: nav.getBoundingClientRect().height, scrollable: nav.scrollWidth > nav.clientWidth };
+  });
+  expect(navigationLayout.display).toBe("grid");
+  expect(navigationLayout.height).toBeLessThan(55);
+  expect(navigationLayout.scrollable).toBe(false);
+  await expect(page.locator(".dd55-category-nav > button")).toHaveCount(3);
+  await expect(page.locator('[data-view="catalog"]')).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator('[data-view="favorites"]')).toContainText("Favoris 0");
+  await expect(page.locator('[data-view="recent"]')).toContainText("Récents");
+  await expect(page.locator("#dd55-category-options")).toBeHidden();
+  await page.locator("[data-category-toggle]").click();
+  await expect(page.locator("[data-category]")).toHaveCount(9);
+  await expect(page.locator("[data-category='magic-item']")).toContainText("Objets magiques");
+  await expect(page.locator("#dd55-category-options")).toHaveCSS("background-color", "rgb(36, 36, 36)");
+  await page.keyboard.press("Escape");
+  await expect(page.locator("#dd55-category-options")).toBeHidden();
+  await expect(page.locator("[data-category-toggle]")).toBeFocused();
+  await expect(page.locator("#dd55-companion")).toBeVisible();
 
   for (const [type, filter, heading] of [["classes", "[data-class-filters]", "Filtrer les classes"], ["feat", "[data-feat-filters]", "Filtrer les dons"], ["magic-item", "[data-magic-item-filters]", "Filtrer les objets magiques"]] as const) {
-    await page.locator(`[data-type='${type}']`).click();
+    await selectCategory(page, type);
     await expect(page.locator(`${filter} > div:first-child > span`)).toContainText(heading);
     const layout = await page.locator(filter).evaluate(element => {
       const container = element.getBoundingClientRect();
@@ -412,12 +426,75 @@ test("affiche entièrement les textes des onglets et filtres en thème sombre", 
   }
 });
 
+test("garde les accès visibles et utilisables malgré les styles hôtes et les petits écrans", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 });
+  await page.setContent(`<style>input[type=search] { height: 20px; padding: 2px; } button { margin-bottom: 5px; font-size: 18px; }</style>${sheetSignature}`);
+  await loadBundle(page);
+  await page.locator("#dd55-launcher").click();
+  for (const width of [320, 390, 590, 1280]) {
+    await page.setViewportSize({ width, height: 720 });
+    if (width === 1280) await page.locator("[data-expand]").click();
+    const layout = await page.locator("#dd55-companion").evaluate(panel => {
+      const bounds = panel.getBoundingClientRect();
+      const header = panel.querySelector("header")!.getBoundingClientRect();
+      const search = panel.querySelector("[data-search]")!.getBoundingClientRect();
+      const nav = panel.querySelector(".dd55-category-nav")!;
+      return { overflow: panel.scrollWidth - panel.clientWidth, headerHeight: header.height, searchHeight: search.height, navOverflow: nav.scrollWidth - nav.clientWidth, controls: [...nav.querySelectorAll("button")].map(button => {
+        const rect = button.getBoundingClientRect();
+        return rect.left >= bounds.left && rect.right <= bounds.right && rect.height >= 44;
+      }) };
+    });
+    expect(layout.overflow).toBe(0);
+    expect(layout.navOverflow).toBe(0);
+    expect(layout.headerHeight).toBeLessThanOrEqual(64);
+    expect(layout.searchHeight).toBe(42);
+    expect(layout.controls.every(Boolean)).toBe(true);
+    await page.locator("[data-category-toggle]").click();
+    await expect(page.locator("[data-category='monster']")).toBeVisible();
+    await page.locator("[data-category='monster']").click();
+    await expect(page.locator("[data-category-toggle]")).toHaveText("Monstres");
+    await expect(page.locator("#dd55-category-options")).toBeHidden();
+  }
+  await page.locator("#dd55-companion").evaluate(panel => { panel.scrollTop = 500; });
+  const gap = await page.locator(".dd55-library-controls").evaluate(controls => controls.getBoundingClientRect().top - document.querySelector("#dd55-companion > header")!.getBoundingClientRect().bottom);
+  expect(Math.abs(gap)).toBeLessThanOrEqual(1);
+  await page.locator("[data-view='favorites']").click();
+  await expect(page.locator("[data-search]")).toHaveAttribute("placeholder", "Rechercher dans mes favoris…");
+  await expect(page.locator("[data-category-toggle]")).toBeHidden();
+});
+
+test("navigue au clavier dans les catégories et conserve le contexte du catalogue", async ({ page }) => {
+  await page.setContent(sheetSignature);
+  await loadBundle(page);
+  await page.locator("#dd55-launcher").click();
+  await page.locator("[data-category-toggle]").focus();
+  await page.keyboard.press("ArrowDown");
+  await expect(page.locator("[data-category='']")).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(page.locator("[data-category='rule']")).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(page.locator("[data-category-toggle]")).toBeFocused();
+  await expect(page.locator("[data-category-toggle]")).toHaveText("Règles");
+  await selectCategory(page, "spell");
+  await page.locator("[data-spell-level]").selectOption("3");
+  await page.locator("[data-search]").fill("Boule de feu");
+  await page.locator("[data-view='favorites']").click();
+  await expect(page.locator("[data-search]")).toHaveValue("");
+  await page.locator("[data-view='catalog']").click();
+  await expect(page.locator("[data-search]")).toHaveValue("Boule de feu");
+  await expect(page.locator("[data-spell-level]")).toHaveValue("3");
+  await expect(page.locator("[data-entry-id='spell-boule-de-feu']")).toBeVisible();
+  await page.locator("[data-category-toggle]").click();
+  await page.locator("[data-search]").click();
+  await expect(page.locator("#dd55-category-options")).toBeHidden();
+});
+
 test("garde les filtres des objets magiques lisibles sur un panneau étroit", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 720 });
   await page.setContent(sheetSignature);
   await loadBundle(page);
   await page.locator("#dd55-launcher").click();
-  await page.locator("[data-type='magic-item']").click();
+  await selectCategory(page, "magic-item");
   const layout = await page.locator("#dd55-companion").evaluate(panel => {
     const filters = panel.querySelector<HTMLElement>("[data-magic-item-filters]")!;
     const bounds = panel.getBoundingClientRect();
@@ -439,8 +516,8 @@ test("combine les filtres avancés des sorts, les récents et la navigation clav
   });
   await loadBundle(page);
   await page.locator("#dd55-launcher").click();
-  await page.locator("[data-type='spell']").click();
-  await expect(page.locator("[data-spell-sort]")).toHaveValue("name");
+  await selectCategory(page, "spell");
+  await expect(page.locator("[data-spell-sort]")).toHaveValue("relevance");
   await page.locator("[data-spell-sort]").selectOption("level");
   const levelOrder = await page.locator("[data-results] .dd55-entry-card").evaluateAll(cards => cards.map(card => {
     const subtitle = card.querySelector("small")?.textContent ?? "";
@@ -471,9 +548,9 @@ test("combine les filtres avancés des sorts, les récents et la navigation clav
   await page.locator("[data-recent-open]").click();
   await expect(page.locator("[data-external-url$='/spell/fr/armure-d-agathys']")).toBeVisible();
   await expect(page.locator("[data-recent-count]")).toHaveText("1");
-  await page.locator("[data-type='spell']").click();
+  await selectCategory(page, "spell");
   await page.locator("[data-clear-spell-filters]").click();
-  await expect(page.locator("[data-spell-sort]")).toHaveValue("name");
+  await expect(page.locator("[data-spell-sort]")).toHaveValue("relevance");
   await page.locator("[data-search]").fill("Boule de feu");
   await page.locator("[data-entry-id='spell-boule-de-feu']").click();
   await page.keyboard.press("Escape");
@@ -528,7 +605,7 @@ test("garde les filtres avancés des monstres lisibles sur un panneau étroit", 
   await page.setContent(sheetSignature);
   await loadBundle(page);
   await page.locator("#dd55-launcher").click();
-  await page.locator("[data-type='monster']").click();
+  await selectCategory(page, "monster");
   await page.locator("[data-monster-advanced-toggle]").click();
   const layout = await page.locator("#dd55-companion").evaluate(panel => {
     const advanced = panel.querySelector<HTMLElement>("[data-monster-advanced]")!;
@@ -547,7 +624,7 @@ test("filtre l’équipement et ouvre la règle de maîtrise depuis une arme", a
   await page.setContent(sheetSignature);
   await loadBundle(page);
   await page.locator("#dd55-launcher").click();
-  await page.locator("[data-type='equipment']").click();
+  await selectCategory(page, "equipment");
   await page.locator("[data-equipment-type]").selectOption("Arme de guerre à distance");
   await page.locator("[data-weapon-mastery]").selectOption("Ouverture");
   await expect(page.locator("[data-results] .dd55-entry-card")).toHaveCount(3);
@@ -562,7 +639,7 @@ test("ouvre une origine puis le don lié à son historique", async ({ page }) =>
   await page.setContent(sheetSignature);
   await loadBundle(page);
   await page.locator("#dd55-launcher").click();
-  await page.locator("[data-type='origins']").click();
+  await selectCategory(page, "origins");
   await expect(page.locator("[data-results] .dd55-entry-card")).toHaveCount(14);
   await page.locator("[data-origin-kind]").selectOption("background");
   await expect(page.locator("[data-results] .dd55-entry-card")).toHaveCount(4);

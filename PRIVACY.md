@@ -4,7 +4,7 @@ Compagnon D&D 5.5 FR fonctionne localement dans le navigateur.
 
 - Aucune donnée personnelle, fiche de personnage ou donnée de campagne n'est collectée, transmise ou vendue.
 - L’extension analyse localement les libellés et contenus visibles de la feuille Roll20 uniquement pour les traduire, détecter les références du compendium et intégrer les commandes de dés demandées par l’utilisateur. Ces contenus ne sont ni enregistrés ni transmis par l’extension.
-- Les préférences d’interface sont enregistrées dans le stockage local de Chrome/Edge : traduction et bilinguisme, thème, taille et densité d’affichage, catégorie de démarrage, mode d’ouverture, visibilité et position du panneau, ainsi que les modes de jets de monstres.
+- Les préférences d’interface sont enregistrées dans le stockage local de Chrome/Edge : traduction et bilinguisme, thème, taille et densité d’affichage, catégorie de démarrage, mode d’ouverture, visibilité et position du panneau, ainsi que les modes de jets de monstres. Les identifiants des favoris locaux et AideDD sont également enregistrés localement et peuvent être retirés depuis le compendium.
 - L’historique « Récents » conserve au maximum dix identifiants de références locales ou AideDD consultées. Il ne contient aucun texte de fiche, personnage ou campagne et peut être effacé depuis le compendium.
 - Les contenus du SRD sont embarqués dans l'extension et restent disponibles hors ligne.
 - Un nouvel onglet AideDD n'est ouvert qu'après un clic explicite sur une référence absente du SRD local.

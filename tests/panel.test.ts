@@ -1,11 +1,13 @@
 // @vitest-environment jsdom
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { mountPanel } from "../src/content/panel";
+import { createBackup } from "../src/content/backup";
 import { compendiumEntries } from "../src/services/srd-compendium";
 
 describe("compendium SRD local", () => {
   beforeEach(() => { document.body.innerHTML = ""; });
   afterEach(() => {
+    vi.restoreAllMocks();
     vi.unstubAllGlobals();
     vi.useRealTimers();
     Reflect.deleteProperty(document, "execCommand");
@@ -17,22 +19,167 @@ describe("compendium SRD local", () => {
     input.dispatchEvent(new Event("input", { bubbles: true }));
   }
 
-  it("présente des catégories et des centaines de fiches", () => {
+  function selectCategory(type: string): void {
+    document.querySelector<HTMLButtonElement>(`[data-category="${type}"]`)!.click();
+  }
+
+  it("conserve la catégorie, les filtres et la recherche de chaque espace", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    expect(document.querySelector("[data-type='spell']")?.textContent).toContain("391");
-    expect(document.querySelector("[data-type='feat']")?.textContent).toContain("137");
-    expect(document.querySelector("[data-type='rule']")?.textContent).toContain("70");
-    expect(document.querySelector("[data-type='classes']")?.textContent).toContain("24");
-    expect(document.querySelector("[data-type='equipment']")?.textContent).toContain("51");
-    expect(document.querySelector("[data-type='origins']")?.textContent).toContain("14");
-    expect(document.querySelector("[data-type='magic-item']")?.textContent).toContain("350");
-    expect(document.querySelector("[data-type='monster']")?.textContent).toContain("330");
+    selectCategory("spell");
+    const level = document.querySelector<HTMLSelectElement>("[data-spell-level]")!;
+    level.value = "3";
+    level.dispatchEvent(new Event("change"));
+    search("Boule de feu");
+    document.querySelector<HTMLButtonElement>("[data-view='favorites']")!.click();
+    expect(document.querySelector<HTMLInputElement>("[data-search]")!.value).toBe("");
+    expect(document.querySelector<HTMLElement>(".dd55-category-browser")!.hidden).toBe(true);
+    search("Dragon");
+    document.querySelector<HTMLButtonElement>("[data-view='recent']")!.click();
+    expect(document.querySelector<HTMLInputElement>("[data-search]")!.value).toBe("");
+    document.querySelector<HTMLButtonElement>("[data-view='catalog']")!.click();
+    expect(document.querySelector("[data-category-label]")!.textContent).toBe("Sorts");
+    expect(document.querySelector<HTMLInputElement>("[data-search]")!.value).toBe("Boule de feu");
+    expect(level.value).toBe("3");
+    expect(document.querySelector("[data-entry-id='spell-boule-de-feu']")).not.toBeNull();
+    document.querySelector<HTMLButtonElement>("[data-view='favorites']")!.click();
+    expect(document.querySelector<HTMLInputElement>("[data-search]")!.value).toBe("Dragon");
+  });
+
+  it("ferme le sélecteur avant le panneau et rend le focus à son déclencheur", () => {
+    mountPanel({ enabled: true, bilingual: true }, () => undefined);
+    document.querySelector<HTMLButtonElement>("#dd55-launcher")!.click();
+    const trigger = document.querySelector<HTMLButtonElement>("[data-category-toggle]")!;
+    const picker = document.querySelector<HTMLElement>("#dd55-category-options")!;
+    trigger.focus();
+    trigger.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }));
+    expect(picker.hidden).toBe(false);
+    expect(document.activeElement).toBe(picker.querySelector("[aria-pressed='true']"));
+    document.activeElement!.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+    expect(picker.hidden).toBe(true);
+    expect(document.querySelector<HTMLElement>("#dd55-companion")!.hidden).toBe(false);
+    expect(document.activeElement).toBe(trigger);
+    trigger.click();
+    selectCategory("monster");
+    expect(picker.hidden).toBe(true);
+    expect(trigger.getAttribute("aria-expanded")).toBe("false");
+    expect(document.activeElement).toBe(trigger);
+  });
+
+  it("rend le catalogue complet par pages et inclut la dernière référence locale", () => {
+    mountPanel({ enabled: true, bilingual: true }, () => undefined);
+    expect(document.querySelector("[data-category='spell']")?.textContent).toContain("391");
+    expect(document.querySelector("[data-category='feat']")?.textContent).toContain("137");
+    expect(document.querySelector("[data-category='rule']")?.textContent).toContain("70");
+    expect(document.querySelector("[data-category='classes']")?.textContent).toContain("24");
+    expect(document.querySelector("[data-category='equipment']")?.textContent).toContain("51");
+    expect(document.querySelector("[data-category='origins']")?.textContent).toContain("14");
+    expect(document.querySelector("[data-category='magic-item']")?.textContent).toContain("350");
+    expect(document.querySelector("[data-category='monster']")?.textContent).toContain("330");
+    document.querySelector<HTMLButtonElement>("#dd55-launcher")!.click();
+    expect(document.querySelector("[data-result-count]")?.textContent).toContain("1367");
+    expect(document.querySelectorAll("[data-results] .dd55-entry-card")).toHaveLength(80);
+    while (document.querySelector<HTMLButtonElement>("[data-load-more]")) document.querySelector<HTMLButtonElement>("[data-load-more]")!.click();
+    expect(document.querySelectorAll("[data-results] .dd55-entry-card")).toHaveLength(1367);
+    expect(document.querySelector("[data-entry-id='monster-vautour-geant']")).not.toBeNull();
+  }, 20_000);
+
+  it("permet d’ajouter un favori depuis les résultats et restaure le focus après une fiche", async () => {
+    const save = vi.fn();
+    mountPanel({ enabled: true, bilingual: true }, () => undefined, save);
+    document.querySelector<HTMLButtonElement>("#dd55-launcher")!.click();
+    const card = document.querySelector<HTMLButtonElement>("[data-results] .dd55-entry-card[data-entry-id='spell-boule-de-feu']")!;
+    const favoriteToggle = card.parentElement!.querySelector<HTMLButtonElement>("[data-favorite-toggle]")!;
+    favoriteToggle.click();
+    expect(favoriteToggle.getAttribute("aria-pressed")).toBe("true");
+    expect(save).toHaveBeenLastCalledWith({ favoriteReferences: [{ kind: "local", entryId: "spell-boule-de-feu" }] }, [
+      { collection: "favoriteReferences", action: "add", reference: { kind: "local", entryId: "spell-boule-de-feu" } }
+    ]);
+    card.focus();
+    card.click();
+    document.querySelector<HTMLButtonElement>("[data-back]")!.click();
+    await new Promise(resolve => requestAnimationFrame(resolve));
+    expect(document.activeElement).toBe(document.querySelector("[data-entry-id='spell-boule-de-feu']"));
+    document.querySelector<HTMLButtonElement>("[data-view='favorites']")!.click();
+    const savedFavorite = document.querySelector<HTMLButtonElement>("[data-results] [data-favorite-toggle]")!;
+    savedFavorite.click();
+    expect(document.querySelector("[data-results] [data-empty-open-catalogue]")).not.toBeNull();
+    expect(document.activeElement).toBe(document.querySelector("[data-empty-open-catalogue]"));
+  });
+
+  it("synchronise les favoris reçus d’un autre panneau", () => {
+    mountPanel({ enabled: true, bilingual: true }, () => undefined);
+    document.querySelector<HTMLButtonElement>("#dd55-launcher")!.click();
+    const favorite = { kind: "local" as const, entryId: "spell-boule-de-feu" };
+    document.dispatchEvent(new CustomEvent("dd55:reference-collections-changed", { detail: { favoriteReferences: [favorite] } }));
+    const toggle = document.querySelector<HTMLButtonElement>("[data-entry-id='spell-boule-de-feu']")!.parentElement!.querySelector<HTMLButtonElement>("[data-favorite-toggle]")!;
+    expect(toggle.getAttribute("aria-pressed")).toBe("true");
+    document.querySelector<HTMLButtonElement>("[data-view='favorites']")!.click();
+    expect(document.querySelector("[data-entry-id='spell-boule-de-feu']")).not.toBeNull();
+  });
+
+  it("annule le retrait d’un favori et restaure le focus sur sa fiche", () => {
+    const save = vi.fn();
+    const favorite = { kind: "local" as const, entryId: "spell-boule-de-feu" };
+    mountPanel({ enabled: true, bilingual: true, favoriteReferences: [favorite] }, () => undefined, save);
+    document.querySelector<HTMLButtonElement>("#dd55-launcher")!.click();
+    document.querySelector<HTMLButtonElement>("[data-view='favorites']")!.click();
+    document.querySelector<HTMLButtonElement>("[data-favorite-toggle]")!.click();
+    const undo = document.querySelector<HTMLButtonElement>("[data-undo-favorite]")!;
+    expect(undo).not.toBeNull();
+    expect(document.querySelector("[data-collection-status]")?.textContent).toContain("Retiré des favoris");
+    undo.click();
+    const restored = document.querySelector<HTMLButtonElement>("[data-results] [data-favorite-toggle]")!;
+    expect(restored.dataset.favoriteId).toBe("spell-boule-de-feu");
+    expect(restored.getAttribute("aria-pressed")).toBe("true");
+    expect(document.activeElement).toBe(restored);
+    expect(document.querySelector("[data-collection-status]")?.textContent).toBe("Favori rétabli.");
+    expect(save).toHaveBeenLastCalledWith({ favoriteReferences: [favorite] }, [
+      { collection: "favoriteReferences", action: "add", reference: favorite }
+    ]);
+  });
+
+  it("restaure une sauvegarde après confirmation et la propage sans réécrire les collections directement", async () => {
+    const savePreferences = vi.fn();
+    const saveCollections = vi.fn();
+    const backup = createBackup({
+      enabled: false,
+      bilingual: false,
+      theme: "dark",
+      fontSize: "large",
+      resultDensity: "compact",
+      defaultCategory: "monster",
+      expandedByDefault: true,
+      monsterRollMode: "ask",
+      autoRollMonsterActions: true,
+      launcherVisible: false
+    }, [{ kind: "local", entryId: "spell-boule-de-feu" }], [{ kind: "local", entryId: "monster-aboleth" }]);
+    mountPanel({ enabled: true, bilingual: true }, savePreferences, saveCollections);
+    document.querySelector<HTMLButtonElement>("#dd55-launcher")!.click();
+    document.querySelector<HTMLButtonElement>("[data-settings-open]")!.click();
+    vi.spyOn(window, "confirm").mockReturnValue(true);
+    const input = document.querySelector<HTMLInputElement>("[data-backup-file]")!;
+    const file = { size: JSON.stringify(backup).length, text: async () => JSON.stringify(backup) } as File;
+    Object.defineProperty(input, "files", { configurable: true, value: [file] });
+    input.dispatchEvent(new Event("change"));
+    await vi.waitFor(() => expect(document.querySelector("[data-backup-status]")?.textContent).toContain("Sauvegarde restaurée"));
+
+    expect(savePreferences).toHaveBeenCalledWith(expect.objectContaining({ enabled: false, theme: "dark", monsterRollMode: "ask" }));
+    expect(saveCollections).toHaveBeenCalledWith(
+      expect.objectContaining({ favoriteReferences: backup.favoriteReferences, recentReferences: backup.recentReferences }),
+      [
+        { collection: "favoriteReferences", action: "replace", references: backup.favoriteReferences },
+        { collection: "recentReferences", action: "replace", references: backup.recentReferences }
+      ]
+    );
+    expect(document.querySelector<HTMLElement>("#dd55-companion")?.dataset.theme).toBe("dark");
+    expect(document.querySelector<HTMLInputElement>("[data-auto-roll-monsters]")?.checked).toBe(true);
+    expect(document.querySelector<HTMLInputElement>("#dd55-launcher")?.hidden).toBe(true);
   });
 
   it("affiche les filtres minimaux des monstres et replie les options avancées", () => {
     mountPanel({ enabled: true, bilingual: true, defaultCategory: "monster" }, () => undefined);
     document.querySelector<HTMLButtonElement>("#dd55-launcher")!.click();
-    expect(document.querySelector("[data-type='monster']")?.classList.contains("is-active")).toBe(true);
+    expect(document.querySelector("[data-category='monster']")?.getAttribute("aria-pressed")).toBe("true");
     expect(document.querySelector<HTMLElement>("[data-monster-filters]")!.hidden).toBe(false);
     expect(document.querySelector<HTMLElement>("[data-monster-advanced]")!.hidden).toBe(true);
     expect(document.querySelector("[data-result-count]")?.textContent).toContain("330");
@@ -41,7 +188,7 @@ describe("compendium SRD local", () => {
 
   it("filtre les monstres par type, FP et critères avancés avec bornes cohérentes", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='monster']")!.click();
+    selectCategory("monster");
     const type = document.querySelector<HTMLSelectElement>("[data-monster-type]")!;
     const fpMin = document.querySelector<HTMLSelectElement>("[data-monster-fp-min]")!;
     const fpMax = document.querySelector<HTMLSelectElement>("[data-monster-fp-max]")!;
@@ -78,7 +225,7 @@ describe("compendium SRD local", () => {
     const writeText = vi.fn().mockResolvedValue(undefined);
     vi.stubGlobal("navigator", { clipboard: { writeText } });
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='monster']")!.click();
+    selectCategory("monster");
     search("Aboleth");
     document.querySelector<HTMLButtonElement>("[data-entry-id='monster-aboleth']")!.click();
     expect(document.querySelector("[data-detail] h2")?.textContent).toBe("Aboleth");
@@ -93,7 +240,7 @@ describe("compendium SRD local", () => {
 
   it("affiche les boutons Roll20 uniquement sur les actions mécaniques", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='monster']")!.click();
+    selectCategory("monster");
     search("Aboleth");
     document.querySelector<HTMLButtonElement>("[data-entry-id='monster-aboleth']")!.click();
     const cards = [...document.querySelectorAll<HTMLElement>(".dd55-monster-action")];
@@ -111,7 +258,7 @@ describe("compendium SRD local", () => {
     const sent = vi.fn();
     document.querySelector("#send-chat")!.addEventListener("click", sent);
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='monster']")!.click();
+    selectCategory("monster");
     search("Aboleth");
     document.querySelector<HTMLButtonElement>("[data-entry-id='monster-aboleth']")!.click();
     const action = [...document.querySelectorAll<HTMLElement>(".dd55-monster-action")].find(card => card.querySelector("h4")?.textContent === "Tentacule")!;
@@ -128,7 +275,7 @@ describe("compendium SRD local", () => {
     const sent = vi.fn();
     document.querySelector("#chatSendBtn")!.addEventListener("click", sent);
     mountPanel({ enabled: true, bilingual: true, autoRollMonsterActions: true }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='monster']")!.click();
+    selectCategory("monster");
     search("Aboleth");
     document.querySelector<HTMLButtonElement>("[data-entry-id='monster-aboleth']")!.click();
     const action = [...document.querySelectorAll<HTMLElement>(".dd55-monster-action")].find(card => card.querySelector("h4")?.textContent === "Tentacule")!;
@@ -140,7 +287,7 @@ describe("compendium SRD local", () => {
   it("demande Normal, Avantage ou Désavantage avant une attaque", async () => {
     document.body.innerHTML = `<div id="textchat-input"><textarea></textarea><button id="chatSendBtn">Envoyer</button></div>`;
     mountPanel({ enabled: true, bilingual: true, monsterRollMode: "ask" }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='monster']")!.click();
+    selectCategory("monster");
     search("Aboleth");
     document.querySelector<HTMLButtonElement>("[data-entry-id='monster-aboleth']")!.click();
     const action = [...document.querySelectorAll<HTMLElement>(".dd55-monster-action")].find(card => card.querySelector("h4")?.textContent === "Tentacule")!;
@@ -156,7 +303,7 @@ describe("compendium SRD local", () => {
   it("ne demande pas de mode pour une action sans jet d’attaque", async () => {
     document.body.innerHTML = `<div id="textchat-input"><textarea></textarea></div>`;
     mountPanel({ enabled: true, bilingual: true, monsterRollMode: "ask" }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='monster']")!.click();
+    selectCategory("monster");
     search("Ankheg");
     document.querySelector<HTMLButtonElement>("[data-entry-id='monster-ankheg']")!.click();
     const action = [...document.querySelectorAll<HTMLElement>(".dd55-monster-action")].find(card => card.querySelector("h4")?.textContent?.startsWith("Aspersion acide"))!;
@@ -170,7 +317,7 @@ describe("compendium SRD local", () => {
     vi.stubGlobal("navigator", { clipboard: { writeText } });
     document.body.innerHTML = `<div id="textchat-input"><textarea>brouillon MJ</textarea></div>`;
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='monster']")!.click();
+    selectCategory("monster");
     search("Ankheg");
     document.querySelector<HTMLButtonElement>("[data-entry-id='monster-ankheg']")!.click();
     const action = [...document.querySelectorAll<HTMLElement>(".dd55-monster-action")].find(card => card.querySelector("h4")?.textContent?.startsWith("Aspersion acide"))!;
@@ -233,7 +380,7 @@ describe("compendium SRD local", () => {
     document.querySelector<HTMLButtonElement>("#dd55-launcher")!.click();
     expect(panel.dataset).toMatchObject({ theme: "dark", fontSize: "large", density: "compact" });
     expect(panel.classList.contains("is-expanded")).toBe(true);
-    expect(document.querySelector("[data-type='spell']")?.classList.contains("is-active")).toBe(true);
+    expect(document.querySelector("[data-category='spell']")?.getAttribute("aria-pressed")).toBe("true");
     expect(document.querySelector<HTMLElement>("[data-spell-filters]")!.hidden).toBe(false);
   });
 
@@ -281,7 +428,7 @@ describe("compendium SRD local", () => {
 
   it("parcourt les classes et ouvre une sous-classe", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='classes']")!.click();
+    selectCategory("classes");
     expect(document.querySelector<HTMLSelectElement>("[data-class-kind]")?.value).toBe("class");
     expect(document.querySelectorAll("[data-results] .dd55-entry-card")).toHaveLength(12);
     expect(document.querySelector("[data-entry-id='class-magicien']")).not.toBeNull();
@@ -297,7 +444,7 @@ describe("compendium SRD local", () => {
 
   it("filtre les classes et sous-classes par type de fiche", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='classes']")!.click();
+    selectCategory("classes");
     const select = document.querySelector<HTMLSelectElement>("[data-class-kind]")!;
     select.value = "subclass";
     select.dispatchEvent(new Event("change"));
@@ -311,7 +458,7 @@ describe("compendium SRD local", () => {
 
   it("filtre les règles par type", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='rule']")!.click();
+    selectCategory("rule");
     const select = document.querySelector<HTMLSelectElement>("[data-rule-kind]")!;
     select.value = "État";
     select.dispatchEvent(new Event("change"));
@@ -327,7 +474,7 @@ describe("compendium SRD local", () => {
 
   it("affiche la progression d’une classe comme un vrai tableau", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='classes']")!.click();
+    selectCategory("classes");
     document.querySelector<HTMLButtonElement>("[data-entry-id='class-barde']")!.click();
     const table = document.querySelector<HTMLTableElement>(".dd55-progression table")!;
     expect(table).not.toBeNull();
@@ -388,7 +535,7 @@ describe("compendium SRD local", () => {
     const writeText = vi.fn().mockResolvedValue(undefined);
     vi.stubGlobal("navigator", { clipboard: { writeText } });
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='classes']")!.click();
+    selectCategory("classes");
     document.querySelector<HTMLButtonElement>("[data-entry-id='class-barde']")!.click();
     document.querySelector<HTMLButtonElement>("[data-copy-target='presentation']")!.click();
     await vi.waitFor(() => expect(writeText).toHaveBeenCalledTimes(1));
@@ -431,7 +578,7 @@ describe("compendium SRD local", () => {
 
   it("sépare les paragraphes, encarts et listes des aptitudes de classe", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='classes']")!.click();
+    selectCategory("classes");
     document.querySelector<HTMLButtonElement>("[data-entry-id='class-barbare']")!.click();
     expect(document.querySelectorAll(".dd55-rule-point").length).toBeGreaterThan(3);
     expect(document.querySelectorAll(".dd55-bullets li").length).toBeGreaterThanOrEqual(3);
@@ -453,7 +600,7 @@ describe("compendium SRD local", () => {
 
   it("affiche les 137 dons locaux et externes dans la catégorie Dons", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='feat']")!.click();
+    selectCategory("feat");
     expect(document.querySelector("[data-result-count]")?.textContent).toContain("137");
     expect(document.querySelectorAll("[data-results] .dd55-entry-card")).toHaveLength(80);
     expect(document.querySelector("[data-load-more]")?.textContent).toContain("57 restantes");
@@ -461,12 +608,12 @@ describe("compendium SRD local", () => {
 
   it("conserve les libellés complets dans les onglets et panneaux de filtres", () => {
     mountPanel({ enabled: true, bilingual: true, theme: "dark" }, () => undefined);
-    expect(document.querySelector("[data-type='magic-item']")?.textContent?.replace(/\s+/g, " ").trim()).toBe("Objets magiques 350");
-    document.querySelector<HTMLButtonElement>("[data-type='classes']")!.click();
+    expect(document.querySelector("[data-category='magic-item']")?.textContent).toContain("Objets magiques350");
+    selectCategory("classes");
     expect(document.querySelector("[data-class-filters] > div:first-child")?.textContent).toContain("Filtrer les classes");
     expect(document.querySelector("[data-class-filters] label > span")?.textContent).toBe("Type de fiche");
     expect(document.querySelector<HTMLSelectElement>("[data-class-kind]")?.selectedOptions[0].textContent).toBe("Classes seulement");
-    document.querySelector<HTMLButtonElement>("[data-type='feat']")!.click();
+    selectCategory("feat");
     expect(document.querySelector("[data-feat-filters] > div:first-child")?.textContent).toContain("Filtrer les dons");
     expect([...document.querySelectorAll("[data-feat-filters] label > span")].map(label => label.textContent)).toEqual(["Type de don", "Source"]);
     expect(document.querySelector<HTMLSelectElement>("[data-feat-category]")?.selectedOptions[0].textContent).toBe("Tous les types");
@@ -475,7 +622,7 @@ describe("compendium SRD local", () => {
 
   it("filtre les dons par type et par source", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='feat']")!.click();
+    selectCategory("feat");
     const category = document.querySelector<HTMLSelectElement>("[data-feat-category]")!;
     const source = document.querySelector<HTMLSelectElement>("[data-feat-source]")!;
 
@@ -505,7 +652,7 @@ describe("compendium SRD local", () => {
 
   it("affiche les 391 sorts locaux et externes dans la catégorie Sorts", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='spell']")!.click();
+    selectCategory("spell");
     expect(document.querySelector("[data-result-count]")?.textContent).toContain("391");
     expect(document.querySelectorAll("[data-results] .dd55-entry-card")).toHaveLength(80);
     expect(document.querySelector("[data-load-more]")?.textContent).toContain("311 restantes");
@@ -513,14 +660,19 @@ describe("compendium SRD local", () => {
 
   it("trie les sorts par nom ou par niveau sans compter le tri comme filtre", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='spell']")!.click();
+    selectCategory("spell");
     const sort = document.querySelector<HTMLSelectElement>("[data-spell-sort]")!;
-    expect([...sort.options].map(option => option.textContent)).toEqual(["Nom A–Z", "Niveau croissant"]);
+    expect([...sort.options].map(option => option.textContent)).toEqual(["Pertinence", "Nom A–Z", "Niveau croissant"]);
+    expect(sort.value).toBe("relevance");
 
     search("armure");
     const searchedTitles = [...document.querySelectorAll<HTMLElement>("[data-results] .dd55-entry-card strong")].map(element => element.textContent ?? "");
     expect(searchedTitles.length).toBeGreaterThan(1);
-    expect(searchedTitles).toEqual([...searchedTitles].sort((left, right) => left.localeCompare(right, "fr")));
+    expect(searchedTitles[0].toLocaleLowerCase("fr")).toMatch(/^armure/);
+    sort.value = "name";
+    sort.dispatchEvent(new Event("change"));
+    const alphabeticalTitles = [...document.querySelectorAll<HTMLElement>("[data-results] .dd55-entry-card strong")].map(element => element.textContent ?? "");
+    expect(alphabeticalTitles).toEqual([...alphabeticalTitles].sort((left, right) => left.localeCompare(right, "fr")));
 
     search("");
     sort.value = "level";
@@ -540,15 +692,15 @@ describe("compendium SRD local", () => {
     expect(document.querySelectorAll("[data-results] [data-entry-id]").length).toBeGreaterThan(0);
 
     document.querySelector<HTMLButtonElement>("[data-clear-spell-filters]")!.click();
-    expect(sort.value).toBe("name");
+    expect(sort.value).toBe("relevance");
     document.body.innerHTML = "";
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    expect(document.querySelector<HTMLSelectElement>("[data-spell-sort]")!.value).toBe("name");
+    expect(document.querySelector<HTMLSelectElement>("[data-spell-sort]")!.value).toBe("relevance");
   });
 
   it("combine les filtres avancés des sorts et affiche leurs compteurs", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='spell']")!.click();
+    selectCategory("spell");
     const advanced = document.querySelector<HTMLElement>("[data-spell-advanced]")!;
     expect(advanced.hidden).toBe(true);
     document.querySelector<HTMLButtonElement>("[data-spell-advanced-toggle]")!.click();
@@ -578,17 +730,17 @@ describe("compendium SRD local", () => {
     }
     document.querySelector<HTMLButtonElement>("[data-clear-spell-filters]")!.click();
     expect(document.querySelector("[data-result-count]")?.textContent).toContain("391");
-    expect(sort.value).toBe("name");
+    expect(sort.value).toBe("relevance");
     expect(advanced.hidden).toBe(true);
     expect(document.querySelector<HTMLElement>("[data-spell-filter-count]")!.hidden).toBe(true);
-    document.querySelector<HTMLButtonElement>("[data-type='feat']")!.click();
-    document.querySelector<HTMLButtonElement>("[data-type='spell']")!.click();
+    selectCategory("feat");
+    selectCategory("spell");
     expect(advanced.hidden).toBe(true);
   });
 
   it("filtre aussi les références AideDD avec les métadonnées avancées", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='spell']")!.click();
+    selectCategory("spell");
     const level = document.querySelector<HTMLSelectElement>("[data-spell-level]")!;
     const school = document.querySelector<HTMLSelectElement>("[data-spell-school]")!;
     const concentration = document.querySelector<HTMLSelectElement>("[data-spell-concentration]")!;
@@ -603,13 +755,15 @@ describe("compendium SRD local", () => {
     const save = vi.fn();
     const recentReferences = Array.from({ length: 10 }, (_, index) => ({ kind: "local" as const, entryId: compendiumEntries[index].id }));
     mountPanel({ enabled: true, bilingual: true, recentReferences }, () => undefined, save);
-    expect(document.querySelector(".dd55-tabs [data-type='recent']")).toBeNull();
+    expect(document.querySelector(".dd55-category-nav [data-recent-open]")).not.toBeNull();
     document.querySelector<HTMLButtonElement>("[data-recent-open]")!.click();
     expect(document.querySelectorAll("[data-results] .dd55-entry-card")).toHaveLength(10);
     const firstId = recentReferences[0].entryId;
     document.querySelector<HTMLButtonElement>(`[data-entry-id='${firstId}']`)!.click();
-    expect(save).toHaveBeenLastCalledWith({ recentReferences });
-    document.querySelector<HTMLButtonElement>("[data-recent-open]")!.click();
+    expect(save).toHaveBeenLastCalledWith({ recentReferences }, [
+      { collection: "recentReferences", action: "visit", reference: recentReferences[0] }
+    ]);
+    document.querySelector<HTMLButtonElement>("[data-back]")!.click();
     expect(document.querySelector<HTMLElement>("[data-home]")!.hidden).toBe(false);
     expect(document.querySelector<HTMLElement>("[data-detail]")!.hidden).toBe(true);
     document.querySelector<HTMLButtonElement>(`[data-entry-id='${recentReferences[1].entryId}']`)!.click();
@@ -619,7 +773,7 @@ describe("compendium SRD local", () => {
     expect(new Set(lastSaved.map((reference: { entryId: string }) => reference.entryId)).size).toBe(10);
     document.querySelector<HTMLButtonElement>("[data-back]")!.click();
     document.querySelector<HTMLButtonElement>("[data-clear-recents]")!.click();
-    expect(save).toHaveBeenLastCalledWith({ recentReferences: [] });
+    expect(save).toHaveBeenLastCalledWith({ recentReferences: [] }, [{ collection: "recentReferences", action: "clear" }]);
     expect(document.querySelector(".dd55-empty")?.textContent).toContain("Aucune fiche consultée");
   });
 
@@ -629,13 +783,58 @@ describe("compendium SRD local", () => {
     vi.stubGlobal("chrome", { runtime: { sendMessage } });
     mountPanel({ enabled: true, bilingual: true, recentReferences: [{ kind: "local", entryId: "fiche-disparue" }] }, () => undefined, save);
     document.querySelector<HTMLButtonElement>("[data-recent-open]")!.click();
-    expect(save).toHaveBeenCalledWith({ recentReferences: [] });
-    document.querySelector<HTMLButtonElement>("[data-type='spell']")!.click();
+    expect(save).toHaveBeenCalledWith({ recentReferences: [] }, [
+      { collection: "recentReferences", action: "remove", reference: { kind: "local", entryId: "fiche-disparue" } }
+    ]);
+    selectCategory("spell");
     search("Armor of Agathys");
     document.querySelector<HTMLButtonElement>("[data-external-url$='/spell/fr/armure-d-agathys']")!.click();
-    expect(save).toHaveBeenLastCalledWith({ recentReferences: [{ kind: "external", referenceKind: "spell", referenceId: "armor-of-agathys" }] });
+    expect(save).toHaveBeenLastCalledWith({ recentReferences: [{ kind: "external", referenceKind: "spell", referenceId: "armor-of-agathys" }] }, [
+      { collection: "recentReferences", action: "visit", reference: { kind: "external", referenceKind: "spell", referenceId: "armor-of-agathys" } }
+    ]);
     document.querySelector<HTMLButtonElement>("[data-recent-open]")!.click();
     expect(document.querySelector("[data-external-url$='/spell/fr/armure-d-agathys']")).not.toBeNull();
+  });
+
+  it("ajoute et retire des favoris locaux et AideDD depuis les résultats et les fiches", () => {
+    const save = vi.fn();
+    mountPanel({ enabled: true, bilingual: true }, () => undefined, save);
+    selectCategory("spell");
+    search("Armor of Agathys");
+    const externalCard = document.querySelector<HTMLElement>("[data-external-url$='/spell/fr/armure-d-agathys']")!;
+    externalCard.parentElement!.querySelector<HTMLButtonElement>("[data-favorite-toggle]")!.click();
+    expect(save).toHaveBeenLastCalledWith({ favoriteReferences: [{ kind: "external", referenceKind: "spell", referenceId: "armor-of-agathys" }] }, [
+      { collection: "favoriteReferences", action: "add", reference: { kind: "external", referenceKind: "spell", referenceId: "armor-of-agathys" } }
+    ]);
+    expect(document.querySelector("[data-favorites-count]")?.textContent).toBe("1");
+
+    document.querySelector<HTMLButtonElement>(".dd55-category-nav [data-type='favorites']")!.click();
+    expect(document.querySelector<HTMLInputElement>("[data-search]")!.value).toBe("");
+    expect(document.querySelector<HTMLButtonElement>(".dd55-category-nav [data-type='favorites']")!.getAttribute("aria-label")).toBe("Favoris (1)");
+    expect(document.querySelector("[data-external-url$='/spell/fr/armure-d-agathys']")).not.toBeNull();
+    const favoriteExternalCard = document.querySelector<HTMLElement>("[data-external-url$='/spell/fr/armure-d-agathys']")!;
+    favoriteExternalCard.parentElement!.querySelector<HTMLButtonElement>("[data-favorite-toggle]")!.click();
+    expect(document.querySelectorAll("[data-results] .dd55-entry-card")).toHaveLength(0);
+    expect(save).toHaveBeenLastCalledWith({ favoriteReferences: [] }, [
+      { collection: "favoriteReferences", action: "remove", reference: { kind: "external", referenceKind: "spell", referenceId: "armor-of-agathys" } }
+    ]);
+
+    selectCategory("monster");
+    search("");
+    const localCard = document.querySelector<HTMLElement>("[data-entry-id='monster-aboleth']")!;
+    localCard.click();
+    document.querySelector<HTMLButtonElement>("[data-detail] [data-favorite-toggle]")!.click();
+    document.querySelector<HTMLButtonElement>("[data-back]")!.click();
+    document.querySelector<HTMLButtonElement>(".dd55-category-nav [data-type='favorites']")!.click();
+    document.querySelector<HTMLButtonElement>("[data-entry-id='monster-aboleth']")!.click();
+    const detailFavorite = document.querySelector<HTMLButtonElement>("[data-detail] [data-favorite-toggle]")!;
+    expect(detailFavorite.getAttribute("aria-pressed")).toBe("true");
+    detailFavorite.click();
+    document.querySelector<HTMLButtonElement>("[data-back]")!.click();
+    expect(document.querySelector(".dd55-empty")?.textContent).toContain("Aucun favori");
+    expect(save).toHaveBeenLastCalledWith({ favoriteReferences: [] }, [
+      { collection: "favoriteReferences", action: "remove", reference: { kind: "local", entryId: "monster-aboleth" } }
+    ]);
   });
 
   it("restaure la liste chargée et applique les niveaux de navigation clavier", async () => {
@@ -663,7 +862,7 @@ describe("compendium SRD local", () => {
 
   it("filtre et trie les objets magiques locaux et externes par type et rareté", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='magic-item']")!.click();
+    selectCategory("magic-item");
     expect(document.querySelector("[data-result-count]")?.textContent).toContain("350");
     expect(document.querySelectorAll("[data-results] .dd55-entry-card")).toHaveLength(80);
     expect(document.querySelector("[data-load-more]")?.textContent).toContain("270 restantes");
@@ -705,7 +904,7 @@ describe("compendium SRD local", () => {
     const sendMessage = vi.fn();
     vi.stubGlobal("chrome", { runtime: { sendMessage } });
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='magic-item']")!.click();
+    selectCategory("magic-item");
     search("Amulette d’antidétection");
     document.querySelector<HTMLButtonElement>("[data-entry-id='magic-item-amulette-d-antidetection']")!.click();
     expect(document.querySelector("[data-detail] h2")?.textContent).toBe("Amulette d’antidétection");
@@ -749,7 +948,7 @@ describe("compendium SRD local", () => {
 
   it("filtre les sorts simultanément par classe et par niveau", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='spell']")!.click();
+    selectCategory("spell");
     const filters = document.querySelector<HTMLElement>("[data-spell-filters]")!;
     expect(filters.hidden).toBe(false);
     const classSelect = document.querySelector<HTMLSelectElement>("[data-spell-class]")!;
@@ -770,7 +969,7 @@ describe("compendium SRD local", () => {
 
   it("filtre l’équipement par type et maîtrise d’arme", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='equipment']")!.click();
+    selectCategory("equipment");
     expect(document.querySelector("[data-result-count]")?.textContent).toContain("51");
     const typeSelect = document.querySelector<HTMLSelectElement>("[data-equipment-type]")!;
     const masterySelect = document.querySelector<HTMLSelectElement>("[data-weapon-mastery]")!;
@@ -789,7 +988,7 @@ describe("compendium SRD local", () => {
 
   it("relie une arme à la règle de sa botte d’arme", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='equipment']")!.click();
+    selectCategory("equipment");
     document.querySelector<HTMLButtonElement>("[data-entry-id='equipment-weapon-pistolet']")!.click();
     expect(document.querySelector("[data-detail]")?.textContent).toContain("1d10 perforants");
     const masteryLink = document.querySelector<HTMLButtonElement>(".dd55-mastery-link [data-entry-id='rule-botte-ouverture']")!;
@@ -801,7 +1000,7 @@ describe("compendium SRD local", () => {
 
   it("parcourt les origines et ouvre le don accordé par un historique", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='origins']")!.click();
+    selectCategory("origins");
     expect(document.querySelector("[data-result-count]")?.textContent).toContain("14");
     expect(document.querySelector("[data-entry-id='species-drakeide']")).not.toBeNull();
     document.querySelector<HTMLButtonElement>("[data-entry-id='background-criminel']")!.click();
@@ -814,7 +1013,7 @@ describe("compendium SRD local", () => {
 
   it("affiche les lignages d’une espèce dans un tableau d’options", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='origins']")!.click();
+    selectCategory("origins");
     document.querySelector<HTMLButtonElement>("[data-entry-id='species-elfe']")!.click();
     const options = document.querySelector<HTMLElement>(".dd55-options-table")!;
     expect(options).not.toBeNull();
@@ -828,7 +1027,7 @@ describe("compendium SRD local", () => {
 
   it("présente l’Aasimar avec une source complémentaire distincte du SRD", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='origins']")!.click();
+    selectCategory("origins");
     document.querySelector<HTMLButtonElement>("[data-entry-id='species-aasimar']")!.click();
     const detail = document.querySelector<HTMLElement>("[data-detail]")!;
     expect(detail.textContent).toContain("Mains guérisseuses");
@@ -840,7 +1039,7 @@ describe("compendium SRD local", () => {
 
   it("filtre les origines entre espèces et historiques", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    document.querySelector<HTMLButtonElement>("[data-type='origins']")!.click();
+    selectCategory("origins");
     const filters = document.querySelector<HTMLElement>("[data-origin-filters]")!;
     const select = document.querySelector<HTMLSelectElement>("[data-origin-kind]")!;
     expect(filters.hidden).toBe(false);

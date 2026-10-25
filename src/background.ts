@@ -1,7 +1,22 @@
 import { isAllowedExternalUrl } from "./services/external-url";
+import { applyReferenceCollectionMutation, isReferenceCollectionMutation } from "./services/reference-collections";
+import type { ReferenceCollectionMutation } from "./types";
 
 const MENU_ID = "dd55-translate-sheet";
 let menuReady = false;
+let collectionMutationQueue: Promise<void> = Promise.resolve();
+
+function saveReferenceCollectionMutation(mutation: ReferenceCollectionMutation): Promise<unknown[]> {
+  const save = async () => {
+    const current = await chrome.storage.local.get(mutation.collection);
+    const references = applyReferenceCollectionMutation(current[mutation.collection], mutation);
+    await chrome.storage.local.set({ [mutation.collection]: references });
+    return references;
+  };
+  const pending = collectionMutationQueue.then(save, save);
+  collectionMutationQueue = pending.then(() => undefined, () => undefined);
+  return pending;
+}
 
 function setupContextMenu(): void {
   if (menuReady) return;
@@ -34,8 +49,20 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
   void chrome.tabs.sendMessage(tab.id, { type: "DD55_TRANSLATE_SHEET" }, { frameId: info.frameId ?? 0 });
 });
 
-chrome.runtime.onMessage.addListener((message: unknown, sender) => {
+chrome.runtime.onMessage.addListener((message: unknown, sender, sendResponse) => {
   if (!message || typeof message !== "object") return;
+  if ((message as { type?: string }).type === "DD55_UPDATE_REFERENCE_COLLECTION") {
+    const mutation = (message as { mutation?: unknown }).mutation;
+    if (!isReferenceCollectionMutation(mutation)) {
+      sendResponse({ ok: false, error: "Invalid collection update" });
+      return;
+    }
+    void saveReferenceCollectionMutation(mutation).then(
+      references => sendResponse({ ok: true, collection: mutation.collection, references }),
+      () => sendResponse({ ok: false, collection: mutation.collection })
+    );
+    return true;
+  }
   if ((message as { type?: string }).type === "DD55_PREFERENCES_CHANGED") {
     const preferences = (message as { preferences?: { enabled?: unknown; bilingual?: unknown } }).preferences;
     if (!sender.tab?.id || !preferences) return;

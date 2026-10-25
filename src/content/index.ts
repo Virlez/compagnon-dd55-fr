@@ -1,7 +1,7 @@
 import "./style.css";
 import { mountPanel } from "./panel";
 import { enhanceSheet, isDnd2024Sheet } from "./sheet";
-import type { Preferences } from "../types";
+import type { Preferences, ReferenceCollectionMutation } from "../types";
 
 const defaults: Preferences = {
   enabled: true,
@@ -67,9 +67,38 @@ function ensurePanel(): void {
     applySheetPreferences(next);
     savePreferences(next);
     broadcastPreferences(next);
-  }, (next) => {
+  }, (next, mutations) => {
     preferences = { ...preferences, ...next };
-    savePreferences(next);
+    if (!mutations?.length || !globalThis.chrome?.runtime?.id) {
+      savePreferences(next);
+      return;
+    }
+    mutations.forEach(mutation => {
+      void chrome.runtime.sendMessage({ type: "DD55_UPDATE_REFERENCE_COLLECTION", mutation })
+        .then((response: { ok?: boolean } | undefined) => {
+          if (response?.ok) return;
+          reconcileReferenceCollections();
+        })
+        .catch(() => reconcileReferenceCollections());
+    });
+  });
+}
+
+function reconcileReferenceCollections(): void {
+  if (!globalThis.chrome?.storage?.local) {
+    document.dispatchEvent(new CustomEvent("dd55:reference-collection-save-failed"));
+    return;
+  }
+  void chrome.storage.local.get(["favoriteReferences", "recentReferences"]).then(stored => {
+    const next: Partial<Preferences> = {};
+    next.favoriteReferences = Array.isArray(stored.favoriteReferences) ? stored.favoriteReferences : [];
+    next.recentReferences = Array.isArray(stored.recentReferences) ? stored.recentReferences : [];
+    if (Object.keys(next).length) {
+      preferences = { ...preferences, ...next };
+      document.dispatchEvent(new CustomEvent("dd55:reference-collections-changed", { detail: next }));
+    }
+  }).catch(() => undefined).finally(() => {
+    document.dispatchEvent(new CustomEvent("dd55:reference-collection-save-failed"));
   });
 }
 
@@ -137,11 +166,17 @@ async function start(): Promise<void> {
 
   if (globalThis.chrome?.storage?.onChanged) {
     chrome.storage.onChanged.addListener((changes, areaName) => {
-      if (areaName !== "local" || (!changes.enabled && !changes.bilingual)) return;
+      if (areaName !== "local") return;
       const next: Partial<Preferences> = {};
+      if (changes.favoriteReferences) next.favoriteReferences = changes.favoriteReferences.newValue ?? [];
+      if (changes.recentReferences) next.recentReferences = changes.recentReferences.newValue ?? [];
       if (changes.enabled) next.enabled = changes.enabled.newValue ?? defaults.enabled;
       if (changes.bilingual) next.bilingual = changes.bilingual.newValue ?? defaults.bilingual;
-      applySheetPreferences(next);
+      if (next.favoriteReferences || next.recentReferences) {
+        preferences = { ...preferences, ...next };
+        document.dispatchEvent(new CustomEvent("dd55:reference-collections-changed", { detail: next }));
+      }
+      if (next.enabled !== undefined || next.bilingual !== undefined) applySheetPreferences(next);
     });
   }
 

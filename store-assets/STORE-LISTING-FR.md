@@ -27,11 +27,13 @@ Cette description fait 115 caractères et correspond au champ `description` du m
 >
 > • traduction des principaux libellés de la feuille ;
 > • noms anglais conservés en option ;
-> • recherche locale dans les règles, sorts, dons, classes, origines, équipements et objets magiques ;
+> • recherche locale avec résultats par pertinence dans les règles, sorts, dons, classes, origines, équipements et objets magiques ;
 > • dix espèces jouables, avec une fiche Aasimar complémentaire clairement distinguée du contenu SRD ;
 > • filtres avancés des sorts par école, rituel et concentration ;
 > • tri des sorts par nom ou par niveau croissant ;
 > • historique des 10 dernières références consultées, avec recherche et effacement ;
+> • favoris persistants pour retrouver les références locales et AideDD épinglées ;
+> • export et restauration manuels des favoris, récents et réglages dans un fichier JSON ;
 > • retour à la liste restauré et raccourci Ctrl/Cmd + K vers la recherche ;
 > • compteurs de filtres actifs dans les différentes catégories ;
 > • bestiaire de 330 profils avec filtres simples ou avancés ;
@@ -43,7 +45,7 @@ Cette description fait 115 caractères et correspond au champ `description` du m
 >
 > RESPECT DE VOS DONNÉES
 >
-> L’extension fonctionne localement, sans compte supplémentaire, publicité, analyse d’usage ni télémétrie. Elle ne collecte et ne transmet aucune fiche de personnage ou donnée de campagne. Les contenus du SRD sont intégrés à l’extension et seules vos préférences d’interface sont conservées dans le stockage local du navigateur.
+> L’extension fonctionne localement, sans compte supplémentaire, publicité, analyse d’usage ni télémétrie. Elle ne collecte et ne transmet aucune fiche de personnage ou donnée de campagne. Les contenus du SRD sont intégrés à l’extension. Les préférences d’interface, les identifiants des favoris et ceux des dix références récentes sont conservés dans le stockage local du navigateur. Un fichier de sauvegarde est créé ou lu uniquement après une action explicite.
 >
 > COMPATIBILITÉ
 >
@@ -70,7 +72,7 @@ Cette description fait 115 caractères et correspond au champ `description` du m
 
 ### Justification des permissions
 
-- **storage** : mémoriser uniquement les préférences locales d’interface, d’affichage et de jets, ainsi que les identifiants des dix références récentes.
+- **storage** : mémoriser les préférences d’interface, les identifiants des favoris et ceux des dix références récentes, dans le stockage local du navigateur.
 - **contextMenus** : proposer la commande « Traduire cette fiche D&D 2024 » dans le menu contextuel du navigateur.
 - **Accès aux domaines Roll20 et à ses hébergeurs de fiches** : traduire et enrichir la feuille D&D 2024 lorsqu’elle est intégrée à la table, dans une iframe ou dans une fenêtre détachée.
 - **Code distant** : non. Tout le code exécutable et le catalogue SRD sont inclus dans l’archive.

@@ -16,8 +16,10 @@ Extension Chrome/Edge Manifest V3 pour la feuille **D&D 2024 de Roll20**. Elle t
 - compendium local consultable hors ligne : règles, sorts, dons, classes, sous-classes, origines, équipement, objets magiques et tables de progression ;
 - bestiaire DRS hors ligne de **330 profils** (235 monstres et 95 animaux), avec filtres simples par type et FP et filtres avancés repliables ;
 - boutons de jet sur les attaques et actions mécaniques des monstres : un ou deux d20, choix Normal/Avantage/Désavantage à la demande, envoi automatique optionnel ou copie de la macro ;
-- recherche, tri des sorts par nom ou niveau et filtres par classe et niveau, complétés par un panneau avancé repliable pour l’école, les rituels et la concentration ;
-- bouton d’historique compact dans l’en-tête pour retrouver les 10 dernières fiches locales ou références AideDD consultées, sans ajouter une ligne aux catégories ;
+- recherche avec tri par pertinence, nom ou niveau pour les sorts, et par pertinence, nom ou rareté pour les objets magiques ; filtres par classe et niveau pour les sorts, complétés par un panneau avancé repliable pour l’école, les rituels et la concentration ;
+- navigation persistante **Catalogue / Favoris / Récents**, avec catégories regroupées dans un sélecteur compact et accès aux 10 dernières fiches locales ou références AideDD consultées ;
+- favoris persistants pour épingler les fiches locales et références AideDD depuis les résultats ou leur fiche ;
+- sauvegarde et restauration locale des favoris, des récents et des réglages dans un fichier JSON ;
 - retour à la liste avec position et nombre de résultats restaurés, raccourci `Ctrl/Cmd + K` vers la recherche et navigation progressive avec Échap ;
 - compteurs de filtres actifs dans chaque catégorie ;
 - catalogue de 350 objets magiques avec filtres combinables par type et rareté ;
@@ -55,6 +57,10 @@ Ouvrez une table Roll20 utilisant la feuille officielle D&D 5 moderne (`dnd2024b
 Faites glisser le bouton pour le placer où vous le souhaitez. Un clic sur l'icône de l'extension dans Chrome ou Edge permet de masquer ou réafficher ce bouton ; sa position et sa visibilité sont mémorisées.
 
 Dans une fiche de monstre, le bouton **Roll20** prépare une carte privée pour le MJ avec le jet d’attaque, les dégâts, les sauvegardes et les effets disponibles. Le réglage **Mode des jets d’attaque** permet de toujours lancer deux d20 indépendants, de lancer un seul d20 ou de demander à chaque attaque entre Normal, Avantage et Désavantage. Dans ce dernier mode, l’Avantage conserve le meilleur de deux d20 et le Désavantage le moins bon. Par défaut, la commande est placée dans un chat Roll20 visible et vide sans être envoyée. Le réglage **Lancer automatiquement les jets** permet de l’envoyer immédiatement par le bouton officiel du chat. Si le chat est masqué, détaché ou contient déjà un brouillon, la macro est copiée dans le presse-papiers sans écraser le texte existant.
+
+Utilisez l’étoile d’une fiche locale ou d’un résultat AideDD pour l’ajouter aux **Favoris**. Les accès **Catalogue**, **Favoris** et **Récents** restent visibles pendant le défilement. Dans le catalogue, le bouton de catégorie ouvre les catégories regroupées par usage ; Échap referme ce sélecteur avant de fermer le compendium. Chaque espace conserve sa recherche pendant la session ; revenir au catalogue retrouve aussi sa catégorie et ses filtres. Les favoris sont stockés localement dans le navigateur et peuvent être retirés depuis leur fiche ou la liste des favoris.
+
+Dans **Réglages > Sauvegarde**, exportez ou restaurez favoris, récents et réglages dans un fichier JSON. La restauration remplace les données locales après confirmation ; le fichier n’est créé ou lu qu’à votre demande.
 
 Vous pouvez également faire un clic droit dans la fiche et sélectionner **Traduire cette fiche D&D 2024**. Les références absentes du SRD local ne sont ouvertes sur AideDD qu’après une action explicite de votre part.
 
@@ -98,7 +104,7 @@ L'archive prête à distribuer est générée dans `releases/`. Consultez aussi 
 
 ## Confidentialité
 
-L’extension ne collecte ni ne transmet les champs ou données du personnage. Elle traite localement les contenus visibles nécessaires à la traduction et conserve uniquement les préférences d’interface ainsi que les identifiants des 10 dernières références consultées dans le stockage local du navigateur. Le compendium SRD est embarqué dans l’extension et fonctionne hors ligne.
+L’extension ne collecte ni ne transmet les champs ou données du personnage. Elle traite localement les contenus visibles nécessaires à la traduction et conserve dans le stockage local du navigateur les préférences d’interface, les identifiants des favoris et ceux des 10 dernières références consultées. Un fichier de sauvegarde n’est exporté ou importé qu’après une action explicite. Le compendium SRD est embarqué dans l’extension et fonctionne hors ligne.
 
 ## Attribution
 

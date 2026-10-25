@@ -122,7 +122,9 @@ function isHitPointControl(element: HTMLElement): boolean {
       return cached;
     }
     visited.push(ancestor);
-    const text = normalizeName(ancestor.textContent ?? "");
+    const rawText = ancestor.textContent ?? "";
+    if (rawText.length > 1400) continue;
+    const text = normalizeName(rawText);
     if (text.length > 700) continue;
     const hasHeading = text.includes("hit points") || text.includes("points de vie");
     const controlMarkers = ["current", "actuels", "maximum", "temporary", "temporaire", "damage", "degats", "heal", "soigner"];
@@ -153,7 +155,9 @@ function isCharacterSummaryContext(element: HTMLElement): boolean {
       return cached;
     }
     visited.push(ancestor);
-    const text = normalizeName(ancestor.textContent ?? "");
+    const rawText = ancestor.textContent ?? "";
+    if (rawText.length > 1800) continue;
+    const text = normalizeName(rawText);
     if (text.length > 900) continue;
     const markers = ["inspiration", "initiative", "exp", "experience", "bonus de maitrise", "proficiency bonus"];
     if (markers.filter(marker => text.includes(marker)).length >= 3) {
@@ -205,7 +209,9 @@ function isInventoryContext(element: HTMLElement): boolean {
     const heading = panelHeading(ancestor);
     if (heading && ["equipment", "inventory", "equipement", "inventaire"].includes(heading)) return true;
     if (isInventoryItemRow(ancestor)) return true;
-    const text = normalizeName(ancestor.textContent ?? "");
+    const rawText = ancestor.textContent ?? "";
+    if (rawText.length > 1800) continue;
+    const text = normalizeName(rawText);
     if (text.length > 900) continue;
     const inventoryLabel = /(?:^| )(?:inventory|inventaire|equipment|equipement)(?: |$)/.test(text);
     const itemControls = ancestor.querySelectorAll("button").length >= 2 || /(?:^| )(?:lbs?|kg|poids|quantity|quantite)(?: |$)/.test(text);
@@ -222,7 +228,9 @@ function isEquipmentPropertyContext(element: HTMLElement): boolean {
   let ancestor: HTMLElement | null = element.parentElement;
   for (let depth = 0; ancestor && depth < 8; depth++, ancestor = ancestor.parentElement) {
     if (ancestor === element.ownerDocument.body || ancestor === element.ownerDocument.documentElement) break;
-    const text = normalizeName(ancestor.textContent ?? "");
+    const rawText = ancestor.textContent ?? "";
+    if (rawText.length > 2400) continue;
+    const text = normalizeName(rawText);
     if (text.length > 1200) continue;
     if (markers.filter(marker => text.includes(marker)).length >= 2) return true;
   }
@@ -317,8 +325,11 @@ function isWeaponMasteryContext(element: HTMLElement): boolean {
   let ancestor: HTMLElement | null = element.parentElement;
   for (let depth = 0; ancestor && depth < 4; depth++, ancestor = ancestor.parentElement) {
     if (ancestor.matches("[data-testid*='mastery' i], [aria-label*='mastery' i], [class*='mastery' i]")) return true;
-    const context = normalizeName(ancestor.textContent ?? "");
-    if (context.length <= 500 && /(?:weapon )?mastery(?: property)?/.test(context)) return true;
+    const rawText = ancestor.textContent ?? "";
+    if (rawText.length > 1000) continue;
+    const context = normalizeName(rawText);
+    if (context.length > 500) continue;
+    if (/(?:weapon )?mastery(?: property)?/.test(context)) return true;
   }
   return false;
 }
