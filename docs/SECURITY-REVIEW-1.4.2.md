@@ -15,7 +15,9 @@
 - Le manifeste utilise MV3 avec `storage` et `contextMenus`. Le catalogue et le code exécutable sont intégrés au package ; les scripts de génération qui accèdent au réseau ne font pas partie de l’extension distribuée.
 - Les ouvertures déclenchées par le service worker sont limitées à des URL HTTPS de fiches AideDD par `isAllowedExternalUrl`. Les mutations de favoris et de récents sont validées avant écriture ; l’import JSON impose une taille maximale de 5 Mo, un format et une confirmation.
 - L’extension n’expose pas `externally_connectable` et n’écoute pas `onMessageExternal`. Le script de contenu principal s’exécute dans le monde isolé de Chrome ; le détecteur injecté dans le monde de la page est limité à `app.roll20.net/editor/*`.
-- Les tests sous Node 24.22.2 passent : 162 unitaires, 28 navigateur, vérification TypeScript et build. Le test de navigateur charge l’extension réelle dans Chromium.
+- Le premier accueil est réservé par le service worker pour éviter plusieurs parcours simultanés. Les réglages ne sont appliqués qu’après validation ; l’indicateur d’accueil reste local et n’est pas exporté dans les sauvegardes.
+- Le build refuse les imports de modules partagés dans le script de contenu, qui doit rester autonome pour son injection par Chrome.
+- Les tests sous Node 24.22.2 passent : 168 unitaires, 30 navigateur, vérification TypeScript et build. Les scénarios d’installation neuve, de migration et de synchronisation chargent l’extension réelle dans Chromium.
 
 ## Risques à suivre
 

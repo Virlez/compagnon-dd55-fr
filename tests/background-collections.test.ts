@@ -6,6 +6,24 @@ describe("écritures des collections du service worker", () => {
     vi.resetModules();
   });
 
+  it("réserve la première configuration à un seul onglet", async () => {
+    let stored: Record<string, unknown> = {};
+    let onMessage: ((message: unknown, sender: unknown, sendResponse: (response: unknown) => void) => boolean | void) | undefined;
+    vi.stubGlobal("chrome", {
+      contextMenus: { removeAll: (callback: () => void) => callback(), create: vi.fn(), onClicked: { addListener: vi.fn() } },
+      runtime: { onInstalled: { addListener: vi.fn() }, onMessage: { addListener: (listener: typeof onMessage) => { onMessage = listener; } } },
+      action: { onClicked: { addListener: vi.fn() } },
+      storage: { local: { get: async () => ({ ...stored }), set: async (next: Record<string, unknown>) => { stored = { ...stored, ...next }; } } }
+    });
+    await import("../src/background");
+    const claim = (id: number) => new Promise(resolve => {
+      onMessage!({ type: "DD55_CLAIM_ONBOARDING" }, { tab: { id } }, resolve);
+    });
+    expect(await Promise.all([claim(1), claim(2)])).toEqual([{ claimed: true }, { claimed: false }]);
+    expect(stored.onboardingVersion).toBe(1);
+    expect(await claim(3)).toEqual({ claimed: false });
+  });
+
   it("sérialise les ajouts de deux panneaux au lieu d’écraser le premier", async () => {
     let stored: Record<string, unknown> = { favoriteReferences: [], recentReferences: [] };
     let onMessage: ((message: unknown, sender: unknown, sendResponse: (response: unknown) => void) => boolean | void) | undefined;

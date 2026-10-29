@@ -12,6 +12,9 @@
 ## Vérifications manuelles
 
 - Charger `dist` comme extension non empaquetée dans Chrome et Edge.
+- Sur une installation neuve, ouvrir le compendium dans deux onglets : un seul propose la configuration rapide. Valider au clavier, vérifier la synchronisation des réglages et l’absence d’accueil après rechargement.
+- Vérifier qu’une installation déjà configurée conserve ses préférences, puis ouvrir « Revoir la configuration » dans Réglages et tester l’annulation et les réglages recommandés.
+- Filtrer les favoris par type, combiner avec la recherche, revenir du catalogue et retirer le dernier favori du type sélectionné ; vérifier la remise à zéro du filtre et le focus.
 - Vérifier une fiche intégrée, une fiche en fenêtre détachée et une fiche chargée dans une iframe.
 - Vérifier les profils Guerrier, Rôdeur, Magicien, Clerc et Roublard.
 - Vérifier que les fiches SRD ouvrent le compendium local et que les autres références ouvrent directement le bon onglet AideDD.

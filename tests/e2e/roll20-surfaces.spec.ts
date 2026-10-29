@@ -38,6 +38,34 @@ async function loadBundleInFrame(frame: Frame): Promise<void> {
   await frame.addScriptTag({ path: bundlePath });
 }
 
+test("filtre les favoris par type sans perdre la recherche ni le focus", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 390, height: 740 });
+  await page.setContent(sheetSignature);
+  await loadBundle(page);
+  await page.locator("#dd55-launcher").click();
+  for (const [query, id] of [["Boule de feu", "spell-boule-de-feu"], ["Aboleth", "monster-aboleth"]]) {
+    await page.locator("[data-search]").fill(query);
+    await page.locator(`[data-results] [data-entry-id='${id}']`).locator("..").locator("[data-favorite-toggle]").click();
+  }
+  await page.locator("[data-view='favorites']").click();
+  const filter = page.locator("[data-favorite-type]");
+  await filter.selectOption("monster");
+  await expect(page.locator("[data-result-count]")).toHaveText("1 référence");
+  await expect(page.locator("[data-results] [data-entry-id='monster-aboleth']")).toBeVisible();
+  await expect(page.locator("[data-results] [data-entry-id='spell-boule-de-feu']")).toHaveCount(0);
+  await page.locator("[data-search]").fill("Aboleth");
+  await page.locator("[data-view='catalog']").click();
+  await page.locator("[data-view='favorites']").click();
+  await expect(filter).toHaveValue("monster");
+  await expect(page.locator("[data-search]")).toHaveValue("Aboleth");
+  await page.locator("[data-search]").fill("");
+  await page.screenshot({ path: testInfo.outputPath("favorites-type.png") });
+  await page.locator("[data-results] [data-favorite-toggle]").click();
+  await expect(page.locator("[data-empty-clear-favorite-filter]")).toBeFocused();
+  await page.locator("[data-empty-clear-favorite-filter]").click();
+  await expect(page.locator("[data-results] [data-entry-id='spell-boule-de-feu']")).toBeVisible();
+});
+
 test("traduit les cinq profils sans casser les contrôles Roll20", async ({ page }) => {
   await page.setContent(`${sheetSignature}<main>${profilesMarkup()}<input value="Magic Missile"><div contenteditable="true">Fireball</div><button id="roll20-action">Roll</button></main>`);
   await page.evaluate(() => {

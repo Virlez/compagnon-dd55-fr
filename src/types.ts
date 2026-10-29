@@ -40,6 +40,7 @@ export interface MagicItemReference extends Reference {
 }
 
 export interface Preferences {
+  onboardingVersion?: number;
   enabled: boolean;
   bilingual: boolean;
   theme?: "light" | "dark";

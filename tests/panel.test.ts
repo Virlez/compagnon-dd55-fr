@@ -23,6 +23,80 @@ describe("compendium SRD local", () => {
     document.querySelector<HTMLButtonElement>(`[data-category="${type}"]`)!.click();
   }
 
+  it("configure la première ouverture avec aperçu puis conserve les choix", async () => {
+    const save = vi.fn();
+    mountPanel({ enabled: true, bilingual: true, onboardingVersion: 0 }, save);
+    document.querySelector<HTMLButtonElement>("#dd55-launcher")!.click();
+    await vi.waitFor(() => expect(document.querySelector<HTMLElement>("[data-quick-setup]")!.hidden).toBe(false));
+    expect(document.activeElement?.id).toBe("dd55-setup-title");
+    const bilingual = document.querySelector<HTMLInputElement>("[data-setup-bilingual]")!;
+    bilingual.checked = false;
+    bilingual.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(document.querySelector("[data-setup-preview]")!.textContent).toBe("Force · Dextérité");
+    const size = document.querySelector<HTMLSelectElement>("[data-setup-font-size]")!;
+    size.value = "large";
+    size.dispatchEvent(new Event("change", { bubbles: true }));
+    document.querySelector<HTMLButtonElement>("[data-setup-start]")!.click();
+    expect(save).toHaveBeenLastCalledWith({ enabled: true, bilingual: false, fontSize: "large" });
+    expect(document.querySelector<HTMLElement>("#dd55-companion")!.dataset.fontSize).toBe("large");
+    expect(document.querySelector<HTMLElement>("[data-quick-setup]")!.hidden).toBe(true);
+    expect(document.activeElement).toBe(document.querySelector("[data-search]"));
+    document.querySelector<HTMLButtonElement>("[data-close]")!.click();
+    document.querySelector<HTMLButtonElement>("#dd55-launcher")!.click();
+    expect(document.querySelector<HTMLElement>("[data-quick-setup]")!.hidden).toBe(true);
+  });
+
+  it("permet de revoir la configuration et d’annuler sans écraser les réglages", () => {
+    const save = vi.fn();
+    mountPanel({ enabled: false, bilingual: false, fontSize: "large", onboardingVersion: 1 }, save);
+    document.querySelector<HTMLButtonElement>("#dd55-launcher")!.click();
+    document.querySelector<HTMLButtonElement>("[data-settings-open]")!.click();
+    const reopen = document.querySelector<HTMLButtonElement>("[data-reopen-setup]")!;
+    reopen.click();
+    expect(document.querySelector<HTMLInputElement>("[data-setup-enabled]")!.checked).toBe(false);
+    document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
+    expect(save).not.toHaveBeenCalled();
+    expect(document.activeElement).toBe(reopen);
+    reopen.click();
+    document.querySelector<HTMLButtonElement>("[data-setup-recommended]")!.click();
+    expect(save).toHaveBeenLastCalledWith({ enabled: true, bilingual: true, fontSize: "normal" });
+    expect(document.querySelector<HTMLElement>("[data-settings]")!.hidden).toBe(false);
+  });
+
+  it("ferme le premier accueil sans modifier les préférences ni le reproposer", async () => {
+    const save = vi.fn();
+    mountPanel({ enabled: true, bilingual: true, onboardingVersion: 0 }, save);
+    const launcher = document.querySelector<HTMLButtonElement>("#dd55-launcher")!;
+    launcher.click();
+    await vi.waitFor(() => expect(document.querySelector<HTMLElement>("[data-quick-setup]")!.hidden).toBe(false));
+    document.querySelector<HTMLButtonElement>("[data-setup-skip]")!.click();
+    expect(save.mock.calls).toEqual([[{ onboardingVersion: 1 }]]);
+    launcher.click(); launcher.click();
+    expect(document.querySelector<HTMLElement>("[data-quick-setup]")!.hidden).toBe(true);
+  });
+
+  it("filtre les favoris par type et conserve ce filtre entre les espaces", () => {
+    mountPanel({ enabled: true, bilingual: true, favoriteReferences: [
+      { kind: "local", entryId: "spell-boule-de-feu" },
+      { kind: "local", entryId: "monster-aboleth" }
+    ] }, () => undefined);
+    document.querySelector<HTMLButtonElement>("[data-view='favorites']")!.click();
+    const filter = document.querySelector<HTMLSelectElement>("[data-favorite-type]")!;
+    filter.value = "monster";
+    filter.dispatchEvent(new Event("change"));
+    expect(document.querySelector("[data-results] [data-entry-id='monster-aboleth']")).not.toBeNull();
+    expect(document.querySelector("[data-results] [data-entry-id='spell-boule-de-feu']")).toBeNull();
+    expect(document.querySelector("[data-result-count]")!.textContent).toBe("1 référence");
+    document.querySelector<HTMLButtonElement>("[data-view='catalog']")!.click();
+    document.querySelector<HTMLButtonElement>("[data-view='favorites']")!.click();
+    expect(filter.value).toBe("monster");
+    document.querySelector<HTMLButtonElement>("[data-results] [data-favorite-toggle]")!.click();
+    expect(document.querySelector("[data-empty-clear-favorite-filter]")).not.toBeNull();
+    expect(document.activeElement).toBe(document.querySelector("[data-empty-clear-favorite-filter]"));
+    document.querySelector<HTMLButtonElement>("[data-empty-clear-favorite-filter]")!.click();
+    expect(document.querySelector("[data-results] [data-entry-id='spell-boule-de-feu']")).not.toBeNull();
+  });
+
   it("affiche une recherche sans résultat comme du texte, sans créer de HTML", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
     const query = '<img src=x onerror=alert(1)>';

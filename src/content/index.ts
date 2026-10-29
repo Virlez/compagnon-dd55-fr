@@ -2,6 +2,7 @@ import "./style.css";
 import { mountPanel } from "./panel";
 import { enhanceSheet, isDnd2024Sheet } from "./sheet";
 import type { Preferences, ReferenceCollectionMutation } from "../types";
+import { initialOnboardingVersion } from "../services/onboarding-state";
 
 const defaults: Preferences = {
   enabled: true,
@@ -23,7 +24,16 @@ const pendingRoots = new Set<Element>();
 async function loadPreferences(): Promise<Preferences> {
   if (!globalThis.chrome?.storage?.local) return defaults;
   try {
-    return { ...defaults, ...(await chrome.storage.local.get()) } as Preferences;
+    const stored = await chrome.storage.local.get();
+    const onboardingVersion = initialOnboardingVersion(stored);
+    if (stored.onboardingVersion === undefined && onboardingVersion > 0) {
+      try {
+        await chrome.storage.local.set({ onboardingVersion });
+      } catch {
+        // Une migration non enregistrée ne doit pas remplacer les réglages lus.
+      }
+    }
+    return { ...defaults, ...stored, onboardingVersion } as Preferences;
   } catch {
     return defaults;
   }
@@ -172,8 +182,11 @@ async function start(): Promise<void> {
       if (changes.recentReferences) next.recentReferences = changes.recentReferences.newValue ?? [];
       if (changes.enabled) next.enabled = changes.enabled.newValue ?? defaults.enabled;
       if (changes.bilingual) next.bilingual = changes.bilingual.newValue ?? defaults.bilingual;
+      if (changes.fontSize && ["small", "normal", "large"].includes(changes.fontSize.newValue)) next.fontSize = changes.fontSize.newValue;
+      if (changes.onboardingVersion) next.onboardingVersion = changes.onboardingVersion.newValue;
+      preferences = { ...preferences, ...next };
+      document.dispatchEvent(new CustomEvent("dd55:preferences-changed", { detail: next }));
       if (next.favoriteReferences || next.recentReferences) {
-        preferences = { ...preferences, ...next };
         document.dispatchEvent(new CustomEvent("dd55:reference-collections-changed", { detail: next }));
       }
       if (next.enabled !== undefined || next.bilingual !== undefined) applySheetPreferences(next);

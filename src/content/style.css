@@ -200,6 +200,28 @@
 #dd55-companion .dd55-empty button, #dd55-companion .dd55-settings-page button { border: 1px solid #c9a558; border-radius: 7px; background: #fff8e8; color: var(--dd55-red); padding: 8px 11px; font: 650 12px system-ui; cursor: pointer; }
 
 .dd55-settings-page { box-sizing: border-box; min-width: 0; min-height: 420px; }
+#dd55-companion.is-setup-open > footer, #dd55-companion.is-setup-open [data-settings-open] { display: none; }
+#dd55-companion .dd55-quick-setup { box-sizing: border-box; padding: 20px; }
+#dd55-companion .dd55-quick-setup h2 { margin: 0 0 8px; color: var(--dd55-ink); font: 700 22px/1.2 Georgia, serif; }
+#dd55-companion .dd55-quick-setup > p { margin: 0 0 20px; color: var(--dd55-ink); font: 400 13px/1.5 system-ui; }
+#dd55-companion .dd55-quick-setup form { display: grid; gap: 18px; margin: 0; }
+#dd55-companion .dd55-quick-setup .dd55-switch strong { color: var(--dd55-ink); font: 650 13px/1.4 system-ui; }
+#dd55-companion .dd55-quick-setup .dd55-switch small { color: var(--dd55-ink); font: 400 12px/1.4 system-ui; }
+#dd55-companion .dd55-setup-size { display: grid; gap: 6px; color: var(--dd55-ink); font: 650 13px/1.4 system-ui; }
+#dd55-companion .dd55-setup-size select, #dd55-companion .dd55-favorite-filter select { box-sizing: border-box; display: block; width: 100%; min-width: 0; height: 40px; margin: 0; padding: 6px 28px 6px 10px; border: 1px solid #a89d89; border-radius: 7px; color: var(--dd55-ink); background: var(--dd55-paper); font: 500 13px/1.3 system-ui; }
+#dd55-companion .dd55-setup-preview { padding: 12px; border: 1px solid var(--dd55-line); border-radius: 8px; background: var(--dd55-paper); }
+#dd55-companion .dd55-setup-preview small { color: var(--dd55-ink); font: 500 11px system-ui; }
+#dd55-companion .dd55-setup-preview p { margin: 6px 0 0; color: var(--dd55-ink); font-family: system-ui; line-height: 1.5; overflow-wrap: anywhere; }
+#dd55-companion .dd55-setup-actions { display: grid; gap: 8px; }
+#dd55-companion .dd55-setup-actions button { box-sizing: border-box; width: 100%; min-height: 42px; margin: 0; padding: 10px 12px; border: 1px solid var(--dd55-line); border-radius: 7px; color: var(--dd55-ink); background: var(--dd55-paper); font: 650 13px/1.4 system-ui; cursor: pointer; }
+#dd55-companion .dd55-setup-actions [data-setup-start] { background: var(--dd55-red); border-color: var(--dd55-red); color: var(--dd55-paper); }
+#dd55-companion .dd55-setup-actions [data-setup-skip] { border-color: transparent; text-decoration: underline; font-weight: 400; }
+#dd55-companion .dd55-quick-setup :is(button, select, input):focus-visible { outline: 2px solid var(--dd55-red); outline-offset: 2px; }
+#dd55-companion .dd55-setup-tip { display: flex; align-items: center; gap: 10px; margin: 12px; padding: 10px; border: 1px solid var(--dd55-line); border-radius: 7px; color: var(--dd55-ink); font: 400 12px/1.5 system-ui; }
+#dd55-companion .dd55-setup-tip button { flex: 0 0 32px; min-height: 32px; padding: 0; border: 0; color: inherit; background: transparent; font: 20px system-ui; cursor: pointer; }
+#dd55-companion .dd55-favorite-filter { flex: 1; min-width: 0; max-width: 240px; margin: 0; }
+#dd55-companion .dd55-favorite-filter > span { display: block; margin-bottom: 3px; color: var(--dd55-ink); font: 500 11px/1.3 system-ui; }
+#dd55-companion .dd55-favorite-filter select { height: 36px; }
 .dd55-settings-toolbar { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 12px; margin: 0; padding: 10px 15px; border-bottom: 1px solid var(--dd55-line); background: #fffaf0f2; backdrop-filter: blur(5px); }
 .dd55-settings-toolbar h2 { margin: 0; color: var(--dd55-ink); font: 700 19px Georgia, serif; }
 .dd55-settings-content { box-sizing: border-box; display: grid; min-width: 0; gap: 12px; padding: 15px; }

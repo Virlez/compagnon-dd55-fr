@@ -10,6 +10,7 @@ Extension Chrome/Edge Manifest V3 pour la feuille **D&D 2024 de Roll20**. Elle t
 
 ## Fonctionnalités
 
+- configuration guidée à la première ouverture, avec aperçu, réglages recommandés et reprise des préférences existantes ;
 - traduction automatique des principaux libellés de la feuille D&D 2024 ;
 - affichage optionnel des noms anglais à côté des traductions françaises ;
 - détection des sorts, dons et aptitudes de classe dans les contenus dynamiques de Roll20 ;
@@ -19,6 +20,7 @@ Extension Chrome/Edge Manifest V3 pour la feuille **D&D 2024 de Roll20**. Elle t
 - recherche avec tri par pertinence, nom ou niveau pour les sorts, et par pertinence, nom ou rareté pour les objets magiques ; filtres par classe et niveau pour les sorts, complétés par un panneau avancé repliable pour l’école, les rituels et la concentration ;
 - navigation persistante **Catalogue / Favoris / Récents**, avec catégories regroupées dans un sélecteur compact et accès aux 10 dernières fiches locales ou références AideDD consultées ;
 - favoris persistants pour épingler les fiches locales et références AideDD depuis les résultats ou leur fiche ;
+- filtre des favoris par type de référence, combinable avec la recherche ;
 - sauvegarde et restauration locale des favoris, des récents et des réglages dans un fichier JSON ;
 - retour à la liste avec position et nombre de résultats restaurés, raccourci `Ctrl/Cmd + K` vers la recherche et navigation progressive avec Échap ;
 - compteurs de filtres actifs dans chaque catégorie ;
@@ -49,7 +51,11 @@ Après une modification du code, relancez `npm run build`, puis rechargez l’ex
 
 ## Utilisation
 
-Ouvrez une table Roll20 utilisant la feuille officielle D&D 5 moderne (`dnd2024byroll20`). Le bouton **D&D 5.5 FR** donne accès au compendium dès l'arrivée sur la table :
+Ouvrez une table Roll20 utilisant la feuille officielle D&D 5 moderne (`dnd2024byroll20`). Le bouton **D&D 5.5 FR** donne accès au compendium dès l'arrivée sur la table.
+
+À la première ouverture d’une installation neuve, choisissez la traduction, l’affichage des noms anglais et la taille du texte dans la configuration rapide. L’aperçu s’actualise avant validation. **Commencer** applique vos choix ; **Utiliser les réglages recommandés** active la traduction bilingue avec un texte normal. Vous pouvez fermer sans modifier les réglages et retrouver ce parcours avec **Réglages > Revoir la configuration**. Il n’est proposé qu’une fois entre les onglets et n’interrompt pas les installations déjà configurées.
+
+Dans Réglages :
 
 - **Traduire la feuille** active ou désactive les enrichissements ;
 - **Conserver les noms anglais** affiche les noms bilingues lorsqu’ils sont disponibles.
@@ -61,6 +67,8 @@ Dans une fiche de monstre, le bouton **Roll20** prépare une carte privée pour 
 Utilisez l’étoile d’une fiche locale ou d’un résultat AideDD pour l’ajouter aux **Favoris**. Les accès **Catalogue**, **Favoris** et **Récents** restent visibles pendant le défilement. Dans le catalogue, le bouton de catégorie ouvre les catégories regroupées par usage ; Échap referme ce sélecteur avant de fermer le compendium. Chaque espace conserve sa recherche pendant la session ; revenir au catalogue retrouve aussi sa catégorie et ses filtres. Les favoris sont stockés localement dans le navigateur et peuvent être retirés depuis leur fiche ou la liste des favoris.
 
 Dans **Réglages > Sauvegarde**, exportez ou restaurez favoris, récents et réglages dans un fichier JSON. La restauration remplace les données locales après confirmation ; le fichier n’est créé ou lu qu’à votre demande.
+
+Dans **Favoris**, le sélecteur **Type de favori** affiche les catégories présentes et leurs compteurs. Il se combine avec la recherche et conserve le type choisi lorsque vous passez par le catalogue ou les récents.
 
 Vous pouvez également faire un clic droit dans la fiche et sélectionner **Traduire cette fiche D&D 2024**. Les références absentes du SRD local ne sont ouvertes sur AideDD qu’après une action explicite de votre part.
 

@@ -21,7 +21,10 @@ export default defineConfig({
     name: "copy-manifest",
     generateBundle(_, bundle) {
       const content = bundle["content.js"];
-      if (content?.type === "chunk") content.code = `(() => {\n${content.code}\n})();\n`;
+      if (content?.type === "chunk") {
+        if (content.imports.length || content.dynamicImports.length) this.error("Le script de contenu Chrome doit être autonome, sans import de module partagé.");
+        content.code = `(() => {\n${content.code}\n})();\n`;
+      }
       this.emitFile({ type: "asset", fileName: "manifest.json", source: JSON.stringify({
         manifest_version: 3,
         name: "Compagnon D&D 5.5 FR",

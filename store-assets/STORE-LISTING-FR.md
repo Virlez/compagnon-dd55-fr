@@ -25,6 +25,7 @@ Cette description fait 115 caractères et correspond au champ `description` du m
 >
 > PRINCIPALES FONCTIONNALITÉS
 >
+> • configuration rapide à la première ouverture, avec aperçu et réglages recommandés ;
 > • traduction des principaux libellés de la feuille ;
 > • noms anglais conservés en option ;
 > • recherche locale avec résultats par pertinence dans les règles, sorts, dons, classes, origines, équipements et objets magiques ;
@@ -32,7 +33,7 @@ Cette description fait 115 caractères et correspond au champ `description` du m
 > • filtres avancés des sorts par école, rituel et concentration ;
 > • tri des sorts par nom ou par niveau croissant ;
 > • historique des 10 dernières références consultées, avec recherche et effacement ;
-> • favoris persistants pour retrouver les références locales et AideDD épinglées ;
+> • favoris persistants pour retrouver les références locales et AideDD épinglées, avec recherche et filtre par type ;
 > • export et restauration manuels des favoris, récents et réglages dans un fichier JSON ;
 > • retour à la liste restauré et raccourci Ctrl/Cmd + K vers la recherche ;
 > • compteurs de filtres actifs dans les différentes catégories ;
@@ -55,6 +56,8 @@ Cette description fait 115 caractères et correspond au champ `description` du m
 
 ## Notes de version 1.4.2
 
+> • Configuration guidée à la première ouverture : traduction, noms anglais et taille du texte, avec aperçu et réglages recommandés.
+> • Filtre par type dans les favoris, combinable avec la recherche et conservé pendant la navigation.
 > • Correction de l’affichage des recherches sans résultat contenant des caractères HTML.
 > • Mise à jour de la chaîne de développement vers Node.js 24 LTS et de ses dépendances de sécurité.
 
