@@ -82,6 +82,8 @@ npm run build
 npm run test:e2e
 ```
 
+Les tests de mutation s’exécutent avec `npm run test:mutation`. Stryker modifie temporairement la logique de validation des sauvegardes, des collections de références, du premier démarrage et des URL externes, puis vérifie que les tests détectent ces changements. La CI échoue si le score de ce périmètre passe sous 90 %. Le rapport détaillé est généré dans `reports/mutation/index.html` et conservé comme artefact GitHub Actions. Voir [le périmètre et la méthode](docs/MUTATION-TESTING.md).
+
 Pour reconstruire automatiquement pendant le développement :
 
 ```bash

@@ -10,6 +10,7 @@
     "build": "vite build",
     "dev": "vite build --watch",
     "test": "vitest run --exclude tests/e2e/**",
+    "test:mutation": "stryker run",
     "test:e2e": "npm run build && playwright test",
     "icons": "node scripts/generate-icons.mjs",
     "data:magic-items": "node scripts/build-magic-items.mjs",
@@ -19,8 +20,15 @@
     "package": "npm run build && powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package-extension.ps1",
     "typecheck": "tsc --noEmit"
   },
+  "overrides": {
+    "typed-rest-client": {
+      "qs": "^6.17.1"
+    }
+  },
   "devDependencies": {
     "@playwright/test": "^1.62.0",
+    "@stryker-mutator/core": "10.1.1",
+    "@stryker-mutator/vitest-runner": "10.1.1",
     "@types/chrome": "^0.0.287",
     "@types/node": "^24.10.0",
     "jsdom": "^25.0.1",

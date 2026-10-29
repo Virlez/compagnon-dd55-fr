@@ -5,6 +5,7 @@
 - `npm ci`
 - `npm run typecheck`
 - `npm test`
+- `npm run test:mutation` (score du périmètre au moins égal à 90 %)
 - `npx playwright install chromium`
 - `npm run test:e2e`
 - `npm run package`
