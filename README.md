@@ -31,7 +31,7 @@ Extension Chrome/Edge Manifest V3 pour la feuille **D&D 2024 de Roll20**. Elle t
 
 ## Installation locale
 
-Prérequis : [Node.js](https://nodejs.org/) et npm.
+Prérequis : [Node.js 24 LTS](https://nodejs.org/en/download/) en version 24.22.2 ou plus récente dans la branche 24, et npm.
 
 ```bash
 npm install
@@ -69,6 +69,7 @@ Vous pouvez également faire un clic droit dans la fiche et sélectionner **Trad
 ```bash
 npm test
 npm run typecheck
+npm audit --audit-level=moderate
 npm run build
 npm run test:e2e
 ```

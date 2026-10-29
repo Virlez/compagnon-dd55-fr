@@ -23,6 +23,15 @@ describe("compendium SRD local", () => {
     document.querySelector<HTMLButtonElement>(`[data-category="${type}"]`)!.click();
   }
 
+  it("affiche une recherche sans résultat comme du texte, sans créer de HTML", () => {
+    mountPanel({ enabled: true, bilingual: true }, () => undefined);
+    const query = '<img src=x onerror=alert(1)>';
+    search(query);
+    const empty = document.querySelector<HTMLElement>("[data-results] .dd55-empty")!;
+    expect(empty.textContent).toContain(query);
+    expect(empty.querySelector("img")).toBeNull();
+  });
+
   it("conserve la catégorie, les filtres et la recherche de chaque espace", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
     selectCategory("spell");

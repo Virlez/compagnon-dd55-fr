@@ -559,7 +559,7 @@ function enrichClassContent(root: ParentNode): void {
   });
 }
 
-function escapeHtml(value: string): string { const span = document.createElement("span"); span.textContent = value; return span.innerHTML; }
+function escapeHtml(value: string): string { const span = document.createElement("span"); span.textContent = value; return span.innerHTML.replaceAll('"', "&quot;").replaceAll("'", "&#39;"); }
 
 export function enhanceSheet(root: ParentNode, preferences: Preferences): void {
   referenceContextCache = new WeakMap<HTMLElement, boolean>();

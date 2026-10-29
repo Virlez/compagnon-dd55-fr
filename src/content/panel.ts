@@ -91,7 +91,7 @@ const totalReferenceCount = compendiumEntries.length + externalReferenceCatalog.
 function escapeHtml(value: string): string {
   const element = document.createElement("span");
   element.textContent = value;
-  return element.innerHTML;
+  return element.innerHTML.replaceAll('"', "&quot;").replaceAll("'", "&#39;");
 }
 
 function searchTokens(value: string): string[] {
@@ -1118,7 +1118,7 @@ export function mountPanel(preferences: Preferences, onChange: (next: Partial<Pr
       results.querySelector("[data-load-more]")?.remove();
       if (pageMarkup) results.insertAdjacentHTML("beforeend", pageMarkup);
     } else {
-      results.innerHTML = pageMarkup || `<div class="dd55-empty"><strong>Aucune fiche trouvée</strong><p>${currentQuery ? `Aucun résultat pour « ${currentQuery} »${hasFilters ? " avec les filtres actifs" : ""}.` : "Aucune référence ne correspond aux filtres actifs."}</p><div>${currentQuery ? `<button type="button" data-empty-clear-search>Effacer la recherche</button>` : ""}${hasFilters ? `<button type="button" data-empty-reset-filters>Réinitialiser les filtres</button>` : ""}</div></div>`;
+      results.innerHTML = pageMarkup || `<div class="dd55-empty"><strong>Aucune fiche trouvée</strong><p>${currentQuery ? `Aucun résultat pour « ${escapeHtml(currentQuery)} »${hasFilters ? " avec les filtres actifs" : ""}.` : "Aucune référence ne correspond aux filtres actifs."}</p><div>${currentQuery ? `<button type="button" data-empty-clear-search>Effacer la recherche</button>` : ""}${hasFilters ? `<button type="button" data-empty-reset-filters>Réinitialiser les filtres</button>` : ""}</div></div>`;
     }
     if (remaining) results.insertAdjacentHTML("beforeend", `<button type="button" class="dd55-load-more" data-load-more>Afficher ${Math.min(80, remaining)} références de plus <small>${remaining} restantes</small></button>`);
   };
