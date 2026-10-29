@@ -1,6 +1,6 @@
 # Suite du compendium : diagnostic et plan
 
-Diagnostic initial : 27 septembre 2026. État mis à jour : 28 septembre 2026.
+Diagnostic initial : 27 septembre 2026. État mis à jour : 29 octobre 2026.
 
 ## Objectif
 
@@ -8,7 +8,7 @@ Permettre de trouver une référence, l’épingler et la retrouver pendant une 
 
 Ce document conserve le diagnostic initial et suit les améliorations demandées pour le compendium.
 
-## État d’avancement au 28 septembre
+## État d’avancement au 29 octobre
 
 | Lot | État | Changements et vérifications |
 | --- | --- | --- |
@@ -17,11 +17,11 @@ Ce document conserve le diagnostic initial et suit les améliorations demandées
 | Navigation, focus et contexte | Terminé | Action favoris sur les cartes locales et externes, retour au bon résultat, focus restauré, annulation visible du retrait, vues vides guidées et recherche/contexte conservés par espace. |
 | Réactivité | Terminé | Parcours DOM coûteux évités sur les grandes feuilles ; dernier passage : initialisation 918 ms, mutation 50 ms, accueil 328 ms, vues Sorts 207 ms, Objets magiques 152 ms et Monstres 143 ms. Chaque mesure reste sous son budget défini dans `tests/e2e/performance.spec.ts`. |
 | Sauvegarde et restauration | Terminé | Export/import JSON des favoris, récents et réglages portables, validation du fichier et confirmation avant remplacement ; tests unitaires et test d’import du panneau. |
-| Vérification automatisée | Terminé localement | Workflow GitHub Actions pour TypeScript, tests unitaires, Playwright, extension chargée et paquet ; 28 tests navigateur réussis localement, y compris l’extension chargée depuis l’archive. Le nouveau passage CI reste à confirmer après le push. |
+| Vérification automatisée | Terminé | 161 tests unitaires et 28 tests navigateur réussis localement, y compris l’extension chargée depuis l’archive. Le workflow GitHub Actions du commit `77dd377` a réussi : TypeScript, tests, build et paquet. |
 | Découpage du code et essai UX réel | En cours | Le service des collections est extrait, mais `panel.ts` porte encore plusieurs responsabilités. Restent l’essai sur une vraie table Roll20, la vérification Chrome/Edge et les contrôles de zoom 125–200 % avec retours utilisateur. |
-| Paquet de version | Préparé | Version 1.4.1 dans `package.json`, le lockfile et le manifeste ; archive locale vérifiée et chargée dans Chromium. Le test d’installation propre dans Chrome et Edge reste manuel. |
+| Paquet de version | Brouillon Store | Version 1.4.1 dans `package.json`, le lockfile et le manifeste ; archive locale vérifiée et chargée dans Chromium. Package 1.4.1 importé dans le brouillon Chrome Web Store ; la version publiée reste 1.3.0. Le test d’installation propre dans Chrome et Edge reste manuel. |
 
-Les 161 tests unitaires, le typecheck, le build et les 28 tests fonctionnels navigateur passent. Le scénario de concurrence des favoris charge l’extension réellement empaquetée dans Chromium et vérifie également l’absence d’erreur sur un événement clavier sans touche. L’ancien workflow CI a échoué à cause du mode headless et de deux mocks Chrome propres aux tests ; les corrections passent localement et doivent encore être confirmées par le nouveau passage CI.
+Les 161 tests unitaires, le typecheck, le build et les 28 tests fonctionnels navigateur passent. Le scénario de concurrence des favoris charge l’extension réellement empaquetée dans Chromium et vérifie également l’absence d’erreur sur un événement clavier sans touche. L’ancien workflow CI a échoué à cause du mode headless et de deux mocks Chrome propres aux tests ; le workflow relancé après correction est vert.
 
 ## Diagnostic initial (27 septembre)
 
