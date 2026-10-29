@@ -840,6 +840,11 @@ describe("compendium SRD local", () => {
   it("restaure la liste chargée et applique les niveaux de navigation clavier", async () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
     const panel = document.querySelector<HTMLElement>("#dd55-companion")!;
+    const onError = vi.fn();
+    window.addEventListener("error", onError);
+    document.dispatchEvent(new Event("keydown"));
+    window.removeEventListener("error", onError);
+    expect(onError).not.toHaveBeenCalled();
     document.querySelector<HTMLButtonElement>("#dd55-launcher")!.click();
     document.querySelector<HTMLButtonElement>("[data-load-more]")!.click();
     expect(document.querySelectorAll("[data-results] .dd55-entry-card")).toHaveLength(160);

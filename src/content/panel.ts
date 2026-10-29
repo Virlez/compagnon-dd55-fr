@@ -1606,7 +1606,7 @@ export function mountPanel(preferences: Preferences, onChange: (next: Partial<Pr
       panel.hidden = true; launcher.setAttribute("aria-expanded", "false"); launcher.focus();
       return;
     }
-    if (event.key.toLocaleLowerCase() !== "k" || !(event.ctrlKey || event.metaKey) || event.altKey || event.shiftKey) return;
+    if (typeof event.key !== "string" || event.key.toLocaleLowerCase() !== "k" || !(event.ctrlKey || event.metaKey) || event.altKey || event.shiftKey) return;
     if (panel.querySelector("[data-roll-mode-dialog]")) return;
     event.preventDefault();
     panel.hidden = false;

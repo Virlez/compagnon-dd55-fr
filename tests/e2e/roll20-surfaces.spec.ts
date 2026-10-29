@@ -186,8 +186,10 @@ test("filtre les objets magiques et ouvre les fiches locales ou AideDD", async (
   await page.setContent(sheetSignature);
   await page.evaluate(() => {
     const state = window as typeof window & { openedUrl?: string };
-    (chrome as unknown as { runtime: { sendMessage: (message: { url?: string }) => Promise<void> } }).runtime = {
-      sendMessage: (message) => { state.openedUrl = message.url; return Promise.resolve(); }
+    const host = globalThis as unknown as { chrome?: Record<string, unknown> };
+    host.chrome ??= {};
+    host.chrome.runtime = {
+      sendMessage: (message: { url?: string }) => { state.openedUrl = message.url; return Promise.resolve(); }
     };
   });
   await loadBundle(page);
@@ -512,7 +514,9 @@ test("combine les filtres avancés des sorts, les récents et la navigation clav
   await page.setViewportSize({ width: 390, height: 720 });
   await page.setContent(sheetSignature);
   await page.evaluate(() => {
-    Object.defineProperty(globalThis.chrome, "runtime", { configurable: true, value: { sendMessage: () => Promise.resolve() } });
+    const host = globalThis as unknown as { chrome?: Record<string, unknown> };
+    host.chrome ??= {};
+    host.chrome.runtime = { sendMessage: () => Promise.resolve() };
   });
   await loadBundle(page);
   await page.locator("#dd55-launcher").click();

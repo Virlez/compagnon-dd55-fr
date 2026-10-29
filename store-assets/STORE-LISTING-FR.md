@@ -1,4 +1,4 @@
-# Fiche Store française — version 1.3.0
+# Fiche Store française — version 1.4.1
 
 Ce document contient les textes prêts à copier dans le Chrome Web Store et Microsoft Edge Add-ons.
 
@@ -7,9 +7,9 @@ Ce document contient les textes prêts à copier dans le Chrome Web Store et Mic
 - **Nom** : Compagnon D&D 5.5 FR
 - **Langue principale** : français
 - **Catégorie suggérée** : Productivité ou Outils, selon les catégories proposées par le tableau de bord
-- **Site** : https://github.com/virlez-creations/compagnon-dd55-fr
-- **Assistance** : https://github.com/virlez-creations/compagnon-dd55-fr/issues
-- **Politique de confidentialité** : https://github.com/virlez-creations/compagnon-dd55-fr/blob/main/PRIVACY.md
+- **Site** : https://github.com/Virlez/compagnon-dd55-fr
+- **Assistance** : https://github.com/Virlez/compagnon-dd55-fr/issues
+- **Politique de confidentialité** : https://github.com/Virlez/compagnon-dd55-fr/blob/main/PRIVACY.md
 
 ## Description courte
 
@@ -53,16 +53,14 @@ Cette description fait 115 caractères et correspond au champ `description` du m
 >
 > Projet indépendant, non affilié à Roll20, Wizards of the Coast ou AideDD. Le contenu SRD intégré est utilisé sous licence Creative Commons Attribution 4.0.
 
-## Notes de version 1.3.0
+## Notes de version 1.4.1
 
-> • Ajout des filtres avancés École, Rituel et Concentration aux 391 sorts.
-> • Ajout du tri des sorts par nom ou par niveau croissant.
-> • Ajout de l’Aasimar aux espèces, avec une source complémentaire distincte du SRD.
-> • Nouvel historique compact conservant les 10 dernières références locales ou AideDD consultées.
-> • Retour à la liste restauré, avec position et nombre de résultats conservés.
-> • Nouveau raccourci Ctrl/Cmd + K et navigation progressive avec Échap.
-> • Ajout de compteurs de filtres actifs dans toutes les catégories concernées.
-> • Améliorations du clavier, des petites largeurs et des thèmes clair/sombre.
+> • Catalogue complet de 1 367 références, avec chargement progressif et compteurs cohérents.
+> • Favoris accessibles directement depuis les résultats, synchronisés entre les onglets et réversibles après un retrait.
+> • Recherche et position conservées lors du passage entre Catalogue, Favoris et Récents.
+> • Sauvegarde et restauration manuelles des favoris, récents et réglages dans un fichier JSON.
+> • Navigation au clavier et réactivité améliorées sur les grandes feuilles Roll20.
+> • Correction d’une erreur liée à certains événements clavier émis par Roll20.
 
 ## Déclarations à préparer dans l’onglet Confidentialité
 

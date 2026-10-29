@@ -17,11 +17,11 @@ Ce document conserve le diagnostic initial et suit les améliorations demandées
 | Navigation, focus et contexte | Terminé | Action favoris sur les cartes locales et externes, retour au bon résultat, focus restauré, annulation visible du retrait, vues vides guidées et recherche/contexte conservés par espace. |
 | Réactivité | Terminé | Parcours DOM coûteux évités sur les grandes feuilles ; dernier passage : initialisation 918 ms, mutation 50 ms, accueil 328 ms, vues Sorts 207 ms, Objets magiques 152 ms et Monstres 143 ms. Chaque mesure reste sous son budget défini dans `tests/e2e/performance.spec.ts`. |
 | Sauvegarde et restauration | Terminé | Export/import JSON des favoris, récents et réglages portables, validation du fichier et confirmation avant remplacement ; tests unitaires et test d’import du panneau. |
-| Vérification automatisée | Terminé dans le code | Workflow GitHub Actions pour TypeScript, tests unitaires, Playwright, extension chargée et paquet ; test navigateur exécuté : 27 réussis, 1 ignoré localement. |
+| Vérification automatisée | Terminé localement | Workflow GitHub Actions pour TypeScript, tests unitaires, Playwright, extension chargée et paquet ; 28 tests navigateur réussis localement, y compris l’extension chargée depuis l’archive. Le nouveau passage CI reste à confirmer après le push. |
 | Découpage du code et essai UX réel | En cours | Le service des collections est extrait, mais `panel.ts` porte encore plusieurs responsabilités. Restent l’essai sur une vraie table Roll20, la vérification Chrome/Edge et les contrôles de zoom 125–200 % avec retours utilisateur. |
-| Paquet de version | Préparé | Version 1.4.0 dans `package.json`, le lockfile et le manifeste ; archive locale vérifiée. Le test d’installation propre dans Chrome et Edge reste manuel ; aucune publication en boutique n’est lancée. |
+| Paquet de version | Préparé | Version 1.4.1 dans `package.json`, le lockfile et le manifeste ; archive locale vérifiée et chargée dans Chromium. Le test d’installation propre dans Chrome et Edge reste manuel. |
 
-Les 161 tests unitaires, le typecheck, le build et les 27 tests fonctionnels navigateur passent. Le test qui charge réellement l’extension est ignoré sur cette machine parce que Chrome Stable ne prend plus en charge `--load-extension` depuis Chrome 137 ; le workflow CI utilise le Chromium de Playwright. Voir les [notes de Chrome](https://developer.chrome.com/blog/extension-news-june-2025?authuser=31) et le guide officiel de [tests de bout en bout pour les extensions](https://developer.chrome.com/docs/extensions/how-to/test/end-to-end-testing). La vérification sur extension chargée reste à confirmer par le workflow CI.
+Les 161 tests unitaires, le typecheck, le build et les 28 tests fonctionnels navigateur passent. Le scénario de concurrence des favoris charge l’extension réellement empaquetée dans Chromium et vérifie également l’absence d’erreur sur un événement clavier sans touche. L’ancien workflow CI a échoué à cause du mode headless et de deux mocks Chrome propres aux tests ; les corrections passent localement et doivent encore être confirmées par le nouveau passage CI.
 
 ## Diagnostic initial (27 septembre)
 
@@ -149,4 +149,4 @@ Les efforts sont relatifs : petit = modification localisée ; moyen = plusieurs 
 - Filtres enregistrés, si des combinaisons sont répétées pendant les parties.
 - Personnalisation des accès rapides, si les essais montrent des catégories systématiquement utilisées.
 
-Le prochain contrôle concret est l’essai UX du ticket 5 sur une vraie table Roll20, puis la vérification du paquet 1.4.0 dans Chrome et Edge. Les observations de cet essai serviront à décider si d’autres changements visuels sont nécessaires.
+Le prochain contrôle concret est l’essai UX du ticket 5 sur une vraie table Roll20, puis la vérification du paquet 1.4.1 dans Chrome et Edge. Les observations de cet essai serviront à décider si d’autres changements visuels sont nécessaires.

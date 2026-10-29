@@ -1,15 +1,16 @@
 import { chromium, expect, test } from "@playwright/test";
 import path from "node:path";
 
-const extensionPath = path.resolve("dist");
+const extensionPath = path.resolve(process.env.DD55_EXTENSION_PATH ?? "dist");
 const executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE;
 const usesBrandedChrome = Boolean(executablePath && /^chrome(?:\.exe)?$/i.test(path.basename(executablePath)));
-const roll20Fixture = `<!doctype html><html><head><title>Roll20 test</title></head><body><main class="dnd2024"><h1>Feuille D&amp;D 2024</h1></main></body></html>`;
+const roll20Fixture = `<!doctype html><html><head><title>Roll20 test</title></head><body><main data-sheet-type="dnd2024byroll20"><h1>Feuille D&amp;D 2024</h1></main></body></html>`;
 
-test("préserve les favoris concurrents entre deux onglets et après rechargement", async ({}, testInfo) => {
+test("préserve les favoris concurrents et tolère les événements clavier de Roll20", async ({}, testInfo) => {
   test.skip(usesBrandedChrome, "Chrome stable bloque le chargement d’extensions par ligne de commande ; ce scénario utilise Chromium de Playwright.");
   const context = await chromium.launchPersistentContext(testInfo.outputPath("extension-profile"), {
     headless: true,
+    channel: "chromium",
     ...(executablePath ? { executablePath } : {}),
     ignoreDefaultArgs: ["--disable-extensions"],
     args: [
@@ -22,6 +23,8 @@ test("préserve les favoris concurrents entre deux onglets et après rechargemen
 
   try {
     const pageErrors: string[] = [];
+    const serviceWorker = context.serviceWorkers()[0] ?? await context.waitForEvent("serviceworker", { timeout: 10_000 });
+    expect(new URL(serviceWorker.url()).protocol).toBe("chrome-extension:");
     const pageA = await context.newPage();
     const pageB = await context.newPage();
     for (const page of [pageA, pageB]) {
@@ -35,9 +38,7 @@ test("préserve les favoris concurrents entre deux onglets et après rechargemen
       await expect(page.locator("#dd55-launcher")).toBeVisible();
       await page.locator("#dd55-launcher").click();
     }
-    const serviceWorker = context.serviceWorkers()[0] ?? await context.waitForEvent("serviceworker", { timeout: 5000 });
     expect(pageErrors).toEqual([]);
-    expect(new URL(serviceWorker.url()).protocol).toBe("chrome-extension:");
 
     await pageA.locator("[data-search]").fill("Boule de feu");
     await pageB.locator("[data-search]").fill("Baies nourricières");
@@ -56,6 +57,18 @@ test("préserve les favoris concurrents entre deux onglets et après rechargemen
     await pageA.locator("[data-view='favorites']").click();
     await expect(pageA.locator("[data-entry-id='spell-boule-de-feu']")).toBeVisible();
     await expect(pageA.locator("[data-entry-id='spell-baies-nourricieres']")).toBeVisible();
+
+    const pageC = await context.newPage();
+    pageC.on("pageerror", error => pageErrors.push(error.message));
+    await pageC.route("https://roll20.net/**", route => route.fulfill({
+      status: 200,
+      contentType: "text/html",
+      body: roll20Fixture
+    }));
+    await pageC.goto("https://roll20.net/");
+    await expect(pageC.locator("#dd55-launcher")).toBeVisible();
+    await pageC.evaluate(() => document.dispatchEvent(new Event("keydown")));
+    expect(pageErrors).toEqual([]);
   } finally {
     await context.close();
   }
