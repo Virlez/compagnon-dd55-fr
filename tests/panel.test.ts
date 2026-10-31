@@ -3,6 +3,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { mountPanel } from "../src/content/panel";
 import { createBackup } from "../src/content/backup";
 import { compendiumEntries } from "../src/services/srd-compendium";
+import { feats, spells } from "../src/data/references";
+import { referenceUrl } from "../src/services/reference-matcher";
+import magicItemsData from "../src/data/aidedd-magic-items.json";
 
 describe("compendium SRD local", () => {
   beforeEach(() => { document.body.innerHTML = ""; });
@@ -22,6 +25,89 @@ describe("compendium SRD local", () => {
   function selectCategory(type: string): void {
     document.querySelector<HTMLButtonElement>(`[data-category="${type}"]`)!.click();
   }
+
+  it("configure la première ouverture avec aperçu puis conserve les choix", async () => {
+    const save = vi.fn();
+    mountPanel({ enabled: true, bilingual: true, onboardingVersion: 0 }, save);
+    document.querySelector<HTMLButtonElement>("#dd55-launcher")!.click();
+    await vi.waitFor(() => expect(document.querySelector<HTMLElement>("[data-quick-setup]")!.hidden).toBe(false));
+    expect(document.activeElement?.id).toBe("dd55-setup-title");
+    const bilingual = document.querySelector<HTMLInputElement>("[data-setup-bilingual]")!;
+    bilingual.checked = false;
+    bilingual.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(document.querySelector("[data-setup-preview]")!.textContent).toBe("Force · Dextérité");
+    const size = document.querySelector<HTMLSelectElement>("[data-setup-font-size]")!;
+    size.value = "large";
+    size.dispatchEvent(new Event("change", { bubbles: true }));
+    document.querySelector<HTMLButtonElement>("[data-setup-start]")!.click();
+    expect(save).toHaveBeenLastCalledWith({ enabled: true, bilingual: false, fontSize: "large" });
+    expect(document.querySelector<HTMLElement>("#dd55-companion")!.dataset.fontSize).toBe("large");
+    expect(document.querySelector<HTMLElement>("[data-quick-setup]")!.hidden).toBe(true);
+    expect(document.activeElement).toBe(document.querySelector("[data-search]"));
+    document.querySelector<HTMLButtonElement>("[data-close]")!.click();
+    document.querySelector<HTMLButtonElement>("#dd55-launcher")!.click();
+    expect(document.querySelector<HTMLElement>("[data-quick-setup]")!.hidden).toBe(true);
+  });
+
+  it("permet de revoir la configuration et d’annuler sans écraser les réglages", () => {
+    const save = vi.fn();
+    mountPanel({ enabled: false, bilingual: false, fontSize: "large", onboardingVersion: 1 }, save);
+    document.querySelector<HTMLButtonElement>("#dd55-launcher")!.click();
+    document.querySelector<HTMLButtonElement>("[data-settings-open]")!.click();
+    const reopen = document.querySelector<HTMLButtonElement>("[data-reopen-setup]")!;
+    reopen.click();
+    expect(document.querySelector<HTMLInputElement>("[data-setup-enabled]")!.checked).toBe(false);
+    document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
+    expect(save).not.toHaveBeenCalled();
+    expect(document.activeElement).toBe(reopen);
+    reopen.click();
+    document.querySelector<HTMLButtonElement>("[data-setup-recommended]")!.click();
+    expect(save).toHaveBeenLastCalledWith({ enabled: true, bilingual: true, fontSize: "normal" });
+    expect(document.querySelector<HTMLElement>("[data-settings]")!.hidden).toBe(false);
+  });
+
+  it("ferme le premier accueil sans modifier les préférences ni le reproposer", async () => {
+    const save = vi.fn();
+    mountPanel({ enabled: true, bilingual: true, onboardingVersion: 0 }, save);
+    const launcher = document.querySelector<HTMLButtonElement>("#dd55-launcher")!;
+    launcher.click();
+    await vi.waitFor(() => expect(document.querySelector<HTMLElement>("[data-quick-setup]")!.hidden).toBe(false));
+    document.querySelector<HTMLButtonElement>("[data-setup-skip]")!.click();
+    expect(save.mock.calls).toEqual([[{ onboardingVersion: 1 }]]);
+    launcher.click(); launcher.click();
+    expect(document.querySelector<HTMLElement>("[data-quick-setup]")!.hidden).toBe(true);
+  });
+
+  it("filtre les favoris par type et conserve ce filtre entre les espaces", () => {
+    mountPanel({ enabled: true, bilingual: true, favoriteReferences: [
+      { kind: "local", entryId: "spell-boule-de-feu" },
+      { kind: "local", entryId: "monster-aboleth" }
+    ] }, () => undefined);
+    document.querySelector<HTMLButtonElement>("[data-view='favorites']")!.click();
+    const filter = document.querySelector<HTMLSelectElement>("[data-favorite-type]")!;
+    filter.value = "monster";
+    filter.dispatchEvent(new Event("change"));
+    expect(document.querySelector("[data-results] [data-entry-id='monster-aboleth']")).not.toBeNull();
+    expect(document.querySelector("[data-results] [data-entry-id='spell-boule-de-feu']")).toBeNull();
+    expect(document.querySelector("[data-result-count]")!.textContent).toBe("1 référence");
+    document.querySelector<HTMLButtonElement>("[data-view='catalog']")!.click();
+    document.querySelector<HTMLButtonElement>("[data-view='favorites']")!.click();
+    expect(filter.value).toBe("monster");
+    document.querySelector<HTMLButtonElement>("[data-results] [data-favorite-toggle]")!.click();
+    expect(document.querySelector("[data-empty-clear-favorite-filter]")).not.toBeNull();
+    expect(document.activeElement).toBe(document.querySelector("[data-empty-clear-favorite-filter]"));
+    document.querySelector<HTMLButtonElement>("[data-empty-clear-favorite-filter]")!.click();
+    expect(document.querySelector("[data-results] [data-entry-id='spell-boule-de-feu']")).not.toBeNull();
+  });
+
+  it("affiche une recherche sans résultat comme du texte, sans créer de HTML", () => {
+    mountPanel({ enabled: true, bilingual: true }, () => undefined);
+    const query = '<img src=x onerror=alert(1)>';
+    search(query);
+    const empty = document.querySelector<HTMLElement>("[data-results] .dd55-empty")!;
+    expect(empty.textContent).toContain(query);
+    expect(empty.querySelector("img")).toBeNull();
+  });
 
   it("conserve la catégorie, les filtres et la recherche de chaque espace", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
@@ -67,8 +153,8 @@ describe("compendium SRD local", () => {
 
   it("rend le catalogue complet par pages et inclut la dernière référence locale", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
-    expect(document.querySelector("[data-category='spell']")?.textContent).toContain("391");
-    expect(document.querySelector("[data-category='feat']")?.textContent).toContain("137");
+    expect(document.querySelector("[data-category='spell']")?.textContent).toContain("444");
+    expect(document.querySelector("[data-category='feat']")?.textContent).toContain("164");
     expect(document.querySelector("[data-category='rule']")?.textContent).toContain("70");
     expect(document.querySelector("[data-category='classes']")?.textContent).toContain("24");
     expect(document.querySelector("[data-category='equipment']")?.textContent).toContain("51");
@@ -76,10 +162,19 @@ describe("compendium SRD local", () => {
     expect(document.querySelector("[data-category='magic-item']")?.textContent).toContain("350");
     expect(document.querySelector("[data-category='monster']")?.textContent).toContain("330");
     document.querySelector<HTMLButtonElement>("#dd55-launcher")!.click();
-    expect(document.querySelector("[data-result-count]")?.textContent).toContain("1367");
+    expect(document.querySelector("[data-result-count]")?.textContent).toContain("1447");
     expect(document.querySelectorAll("[data-results] .dd55-entry-card")).toHaveLength(80);
     while (document.querySelector<HTMLButtonElement>("[data-load-more]")) document.querySelector<HTMLButtonElement>("[data-load-more]")!.click();
-    expect(document.querySelectorAll("[data-results] .dd55-entry-card")).toHaveLength(1367);
+    expect(document.querySelectorAll("[data-results] .dd55-entry-card")).toHaveLength(1447);
+    const localIds = [...document.querySelectorAll<HTMLElement>("[data-results] [data-entry-id]")].map(card => card.dataset.entryId);
+    expect(localIds.sort()).toEqual(compendiumEntries.map(entry => entry.id).sort());
+    const externalUrls = [...document.querySelectorAll<HTMLElement>("[data-results] [data-external-url]")].map(card => card.dataset.externalUrl);
+    expect(new Set(externalUrls).size).toBe(externalUrls.length);
+    for (const [kind, references] of [["spell", spells], ["feat", feats], ["magic-item", magicItemsData.items]] as const) {
+      for (const reference of references.filter(item => item.compendiumId)) {
+        expect(externalUrls, reference.nameFr).not.toContain(referenceUrl(kind, reference));
+      }
+    }
     expect(document.querySelector("[data-entry-id='monster-vautour-geant']")).not.toBeNull();
   }, 20_000);
 
@@ -598,12 +693,22 @@ describe("compendium SRD local", () => {
     expect(document.querySelector("[data-external-url*='/feat/fr/chanceux']")).not.toBeNull();
   });
 
-  it("affiche les 137 dons locaux et externes dans la catégorie Dons", () => {
+  it("retrouve un ancien favori de don après correction de son lien AideDD", () => {
+    mountPanel({ enabled: true, bilingual: true, favoriteReferences: [{ kind: "external", referenceKind: "feat", referenceId: "hof-adepte-de-magefeu" }] }, () => undefined);
+    document.querySelector<HTMLButtonElement>("[data-view='favorites']")!.click();
+    search("Adepte de magefeu");
+    const card = document.querySelector<HTMLElement>("[data-results] [data-reference-id='hof-adepte-de-magefeu']");
+    expect(card?.dataset.externalUrl).toBe("https://www.aidedd.org/feat/fr/adepte-du-magefeu");
+    expect(card?.textContent).toContain("Adepte du magefeu");
+    expect(document.querySelectorAll("[data-results] .dd55-entry-card")).toHaveLength(1);
+  });
+
+  it("affiche les 164 dons locaux et externes dans la catégorie Dons", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
     selectCategory("feat");
-    expect(document.querySelector("[data-result-count]")?.textContent).toContain("137");
+    expect(document.querySelector("[data-result-count]")?.textContent).toContain("164");
     expect(document.querySelectorAll("[data-results] .dd55-entry-card")).toHaveLength(80);
-    expect(document.querySelector("[data-load-more]")?.textContent).toContain("57 restantes");
+    expect(document.querySelector("[data-load-more]")?.textContent).toContain("84 restantes");
   });
 
   it("conserve les libellés complets dans les onglets et panneaux de filtres", () => {
@@ -647,15 +752,15 @@ describe("compendium SRD local", () => {
     expect(document.querySelector("[data-result-count]")?.textContent).toContain("10");
 
     document.querySelector<HTMLButtonElement>("[data-clear-feat-filters]")!.click();
-    expect(document.querySelector("[data-result-count]")?.textContent).toContain("137");
+    expect(document.querySelector("[data-result-count]")?.textContent).toContain("164");
   });
 
-  it("affiche les 391 sorts locaux et externes dans la catégorie Sorts", () => {
+  it("affiche les 444 sorts locaux et externes dans la catégorie Sorts", () => {
     mountPanel({ enabled: true, bilingual: true }, () => undefined);
     selectCategory("spell");
-    expect(document.querySelector("[data-result-count]")?.textContent).toContain("391");
+    expect(document.querySelector("[data-result-count]")?.textContent).toContain("444");
     expect(document.querySelectorAll("[data-results] .dd55-entry-card")).toHaveLength(80);
-    expect(document.querySelector("[data-load-more]")?.textContent).toContain("311 restantes");
+    expect(document.querySelector("[data-load-more]")?.textContent).toContain("364 restantes");
   });
 
   it("trie les sorts par nom ou par niveau sans compter le tri comme filtre", () => {
@@ -685,7 +790,7 @@ describe("compendium SRD local", () => {
       const match = subtitle.match(/niveau\s+(\d+)/i);
       return { title: card.querySelector("strong")?.textContent ?? "", level: /sort mineur/i.test(subtitle) ? 0 : Number(match?.[1]) };
     });
-    expect(rows).toHaveLength(391);
+    expect(rows).toHaveLength(444);
     expect(new Set(rows.map(row => row.level))).toEqual(new Set([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]));
     expect(rows).toEqual([...rows].sort((left, right) => left.level - right.level || left.title.localeCompare(right.title, "fr")));
     expect(document.querySelectorAll("[data-results] .dd55-external").length).toBeGreaterThan(0);
@@ -729,7 +834,7 @@ describe("compendium SRD local", () => {
       expect(entry.meta["Durée"]).toMatch(/concentration/i);
     }
     document.querySelector<HTMLButtonElement>("[data-clear-spell-filters]")!.click();
-    expect(document.querySelector("[data-result-count]")?.textContent).toContain("391");
+    expect(document.querySelector("[data-result-count]")?.textContent).toContain("444");
     expect(sort.value).toBe("relevance");
     expect(advanced.hidden).toBe(true);
     expect(document.querySelector<HTMLElement>("[data-spell-filter-count]")!.hidden).toBe(true);

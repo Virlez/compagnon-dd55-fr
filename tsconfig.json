@@ -6,9 +6,10 @@
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "strict": true,
+    "allowJs": true,
     "noEmit": true,
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "types": ["chrome", "node", "vitest/globals"]
   },
-  "include": ["src", "tests", "vite.config.ts"]
+  "include": ["src", "tests", "vite.config.ts", "vitest.mutation.config.ts"]
 }

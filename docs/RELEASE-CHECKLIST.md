@@ -5,6 +5,7 @@
 - `npm ci`
 - `npm run typecheck`
 - `npm test`
+- `npm run test:mutation` (score du périmètre au moins égal à 90 %)
 - `npx playwright install chromium`
 - `npm run test:e2e`
 - `npm run package`
@@ -12,6 +13,9 @@
 ## Vérifications manuelles
 
 - Charger `dist` comme extension non empaquetée dans Chrome et Edge.
+- Sur une installation neuve, ouvrir le compendium dans deux onglets : un seul propose la configuration rapide. Valider au clavier, vérifier la synchronisation des réglages et l’absence d’accueil après rechargement.
+- Vérifier qu’une installation déjà configurée conserve ses préférences, puis ouvrir « Revoir la configuration » dans Réglages et tester l’annulation et les réglages recommandés.
+- Filtrer les favoris par type, combiner avec la recherche, revenir du catalogue et retirer le dernier favori du type sélectionné ; vérifier la remise à zéro du filtre et le focus.
 - Vérifier une fiche intégrée, une fiche en fenêtre détachée et une fiche chargée dans une iframe.
 - Vérifier les profils Guerrier, Rôdeur, Magicien, Clerc et Roublard.
 - Vérifier que les fiches SRD ouvrent le compendium local et que les autres références ouvrent directement le bon onglet AideDD.
@@ -22,6 +26,7 @@
 - Vérifier l’accès Récents avec fiches locales et AideDD : compteur, ordre, déduplication, limite de 10, persistance, recherche et effacement.
 - Vérifier la navigation Catalogue / Favoris / Récents à 320 px et en vue agrandie : accès visibles pendant le défilement, conservation des recherches et filtres, catégories accessibles au clavier et fermeture du sélecteur par Échap avant le panneau.
 - Vérifier l’accès à la dernière référence du catalogue et les compteurs de toutes les catégories.
+- Après actualisation AideDD, vérifier les sources publiées attendues, l’absence d’Unearthed Arcana, les favoris enregistrés avant l’import et l’absence de carte externe en double pour les fiches DRS.
 - Vérifier les favoris locaux et AideDD : ajout depuis une carte locale, une fiche et une carte AideDD, compteur, persistance après rechargement, recherche, retrait, annulation du retrait et liste vide.
 - Dans deux onglets Roll20, ajouter et retirer des favoris rapidement, vérifier la synchronisation des compteurs et des listes, puis recharger les deux onglets.
 - Vérifier la restauration de la position et du nombre de résultats, `Ctrl/Cmd + K` et les niveaux successifs d’Échap, avec priorité aux fenêtres modales.

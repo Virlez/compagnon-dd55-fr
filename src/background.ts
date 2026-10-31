@@ -5,6 +5,7 @@ import type { ReferenceCollectionMutation } from "./types";
 const MENU_ID = "dd55-translate-sheet";
 let menuReady = false;
 let collectionMutationQueue: Promise<void> = Promise.resolve();
+let onboardingQueue: Promise<unknown> = Promise.resolve();
 
 function saveReferenceCollectionMutation(mutation: ReferenceCollectionMutation): Promise<unknown[]> {
   const save = async () => {
@@ -51,6 +52,19 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 
 chrome.runtime.onMessage.addListener((message: unknown, sender, sendResponse) => {
   if (!message || typeof message !== "object") return;
+  if ((message as { type?: string }).type === "DD55_CLAIM_ONBOARDING") {
+    if (!sender.tab?.id) return;
+    const claim = async () => {
+      const stored = await chrome.storage.local.get("onboardingVersion");
+      if (stored.onboardingVersion !== undefined && stored.onboardingVersion !== 0) return false;
+      await chrome.storage.local.set({ onboardingVersion: 1 });
+      return true;
+    };
+    const pending = onboardingQueue.then(claim, claim);
+    onboardingQueue = pending.catch(() => undefined);
+    void pending.then(claimed => sendResponse({ claimed }), () => sendResponse({ claimed: false }));
+    return true;
+  }
   if ((message as { type?: string }).type === "DD55_UPDATE_REFERENCE_COLLECTION") {
     const mutation = (message as { mutation?: unknown }).mutation;
     if (!isReferenceCollectionMutation(mutation)) {

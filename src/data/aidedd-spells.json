@@ -77,7 +77,7 @@
     "nameFr": "Amis / Faux amis",
     "slug": "amis-faux-amis",
     "level": 0,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "aliases": [
       "Amis",
       "Faux amis"
@@ -121,6 +121,17 @@
     "school": "Transmutation",
     "ritual": false,
     "concentration": true
+  },
+  {
+    "nameFr": "Anneau d'éclairs",
+    "nameEn": "Lightning Ring",
+    "slug": "anneau-d-eclairs",
+    "source": "Arcana Unleashed",
+    "level": 8,
+    "school": "Évocation",
+    "concentration": true,
+    "ritual": false,
+    "id": "lightning-ring"
   },
   {
     "id": "nondetection",
@@ -195,12 +206,23 @@
     "concentration": true
   },
   {
+    "nameFr": "Appuis instables",
+    "nameEn": "Uncertain Footing",
+    "slug": "appuis-instables",
+    "source": "Arcana Unleashed",
+    "level": 2,
+    "school": "Illusion",
+    "concentration": true,
+    "ritual": false,
+    "id": "uncertain-footing"
+  },
+  {
     "id": "elemental-weapon",
     "nameEn": "Elemental Weapon",
     "nameFr": "Arme élémentaire",
     "slug": "arme-elementaire",
     "level": 3,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Transmutation",
     "ritual": false,
     "concentration": true
@@ -235,7 +257,7 @@
     "nameFr": "Armure d'Agathys",
     "slug": "armure-d-agathys",
     "level": 1,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Abjuration",
     "ritual": false,
     "concentration": false
@@ -254,6 +276,17 @@
     "school": "Abjuration",
     "ritual": false,
     "concentration": false
+  },
+  {
+    "nameFr": "Armure de mort",
+    "nameEn": "Death Armor",
+    "slug": "armure-de-mort",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "level": 2,
+    "school": "Nécromancie",
+    "concentration": false,
+    "ritual": false,
+    "id": "death-armor"
   },
   {
     "id": "time-stop",
@@ -319,12 +352,23 @@
     "concentration": false
   },
   {
+    "nameFr": "Aura d'évasion",
+    "nameEn": "Aura of Evasion",
+    "slug": "aura-d-evasion",
+    "source": "Arcana Unleashed",
+    "level": 7,
+    "school": "Abjuration",
+    "concentration": true,
+    "ritual": false,
+    "id": "aura-of-evasion"
+  },
+  {
     "id": "aura-of-purity",
     "nameEn": "Aura of Purity",
     "nameFr": "Aura de pureté",
     "slug": "aura-de-purete",
     "level": 4,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Abjuration",
     "ritual": false,
     "concentration": true
@@ -347,7 +391,7 @@
     "nameFr": "Aura de vitalité",
     "slug": "aura-de-vitalite",
     "level": 3,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Abjuration",
     "ritual": false,
     "concentration": true
@@ -358,10 +402,21 @@
     "nameFr": "Aura du croisé",
     "slug": "aura-du-croise",
     "level": 3,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Évocation",
     "ritual": false,
     "concentration": true
+  },
+  {
+    "nameFr": "Aura funèbre",
+    "nameEn": "Dirge",
+    "slug": "aura-funebre",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "level": 6,
+    "school": "Enchantement",
+    "concentration": true,
+    "ritual": false,
+    "id": "dirge"
   },
   {
     "id": "nystuls-magic-aura",
@@ -499,6 +554,17 @@
     "concentration": false
   },
   {
+    "nameFr": "Bouclier cacophonique",
+    "nameEn": "Cacophonic Shield",
+    "slug": "bouclier-cacophonique",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "level": 3,
+    "school": "Évocation",
+    "concentration": true,
+    "ritual": false,
+    "id": "cacophonic-shield"
+  },
+  {
     "id": "fire-shield",
     "nameEn": "Fire Shield",
     "nameFr": "Bouclier de feu",
@@ -595,6 +661,17 @@
     "concentration": true
   },
   {
+    "nameFr": "Cape de lune d'Alustriel",
+    "nameEn": "Alustriel's Mooncloak",
+    "slug": "cape-de-lune-d-alustriel",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "level": 5,
+    "school": "Abjuration",
+    "concentration": true,
+    "ritual": false,
+    "id": "alustriels-mooncloak"
+  },
+  {
     "id": "vampiric-touch",
     "nameEn": "Vampiric Touch",
     "nameFr": "Caresse du vampire",
@@ -636,7 +713,7 @@
     "nameFr": "Cercle de pouvoir",
     "slug": "cercle-de-pouvoir",
     "level": 5,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Abjuration",
     "ritual": false,
     "concentration": true
@@ -743,7 +820,7 @@
     "nameFr": "Châtiment de cécité",
     "slug": "chatiment-de-cecite",
     "level": 3,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Évocation",
     "ritual": false,
     "concentration": false
@@ -754,7 +831,7 @@
     "nameFr": "Châtiment de courroux",
     "slug": "chatiment-de-courroux",
     "level": 1,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Nécromancie",
     "ritual": false,
     "concentration": false
@@ -789,7 +866,7 @@
     "nameFr": "Châtiment de stupeur",
     "slug": "chatiment-de-stupeur",
     "level": 4,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Enchantement",
     "ritual": false,
     "concentration": false
@@ -800,7 +877,7 @@
     "nameFr": "Châtiment de tonnerre",
     "slug": "chatiment-de-tonnerre",
     "level": 1,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Évocation",
     "ritual": false,
     "concentration": false
@@ -823,7 +900,7 @@
     "nameFr": "Châtiment du ban",
     "slug": "chatiment-du-ban",
     "level": 5,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Invocation",
     "ritual": false,
     "concentration": true
@@ -834,7 +911,7 @@
     "nameFr": "Chaudron bouillonnant de Tasha",
     "slug": "chaudron-bouillonnant-de-tasha",
     "level": 6,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Invocation",
     "ritual": false,
     "concentration": false
@@ -1038,6 +1115,17 @@
     "concentration": true
   },
   {
+    "nameFr": "Conscience fracturée",
+    "nameEn": "Fractured Awareness",
+    "slug": "conscience-fracturee",
+    "source": "Arcana Unleashed",
+    "level": 7,
+    "school": "Divination",
+    "concentration": true,
+    "ritual": false,
+    "id": "fractured-awareness"
+  },
+  {
     "id": "contact-other-plane",
     "nameEn": "Contact Other Plane",
     "nameFr": "Contact avec les plans",
@@ -1127,7 +1215,7 @@
     "nameFr": "Convocation d'aberration",
     "slug": "convocation-d-aberration",
     "level": 4,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Invocation",
     "ritual": false,
     "concentration": true
@@ -1138,7 +1226,7 @@
     "nameFr": "Convocation d'artificiel",
     "slug": "convocation-d-artificiel",
     "level": 4,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Invocation",
     "ritual": false,
     "concentration": true
@@ -1149,7 +1237,7 @@
     "nameFr": "Convocation d'élémentaire",
     "slug": "convocation-d-elementaire",
     "level": 4,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Invocation",
     "ritual": false,
     "concentration": true
@@ -1160,7 +1248,7 @@
     "nameFr": "Convocation de bête",
     "slug": "convocation-de-bete",
     "level": 2,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Invocation",
     "ritual": false,
     "concentration": true
@@ -1171,7 +1259,7 @@
     "nameFr": "Convocation de céleste",
     "slug": "convocation-de-celeste",
     "level": 5,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Invocation",
     "ritual": false,
     "concentration": true
@@ -1194,7 +1282,7 @@
     "nameFr": "Convocation de fée",
     "slug": "convocation-de-fee",
     "level": 3,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Invocation",
     "ritual": false,
     "concentration": true
@@ -1205,7 +1293,7 @@
     "nameFr": "Convocation de fiélon",
     "slug": "convocation-de-fielon",
     "level": 6,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Invocation",
     "ritual": false,
     "concentration": true
@@ -1216,7 +1304,7 @@
     "nameFr": "Convocation de mort-vivant",
     "slug": "convocation-de-mort-vivant",
     "level": 3,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Nécromancie",
     "ritual": false,
     "concentration": true
@@ -1266,10 +1354,21 @@
     "nameFr": "Cordon de flèches",
     "slug": "cordon-de-fleches",
     "level": 2,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Transmutation",
     "ritual": false,
     "concentration": false
+  },
+  {
+    "nameFr": "Corps de fer",
+    "nameEn": "Iron Body",
+    "slug": "corps-de-fer",
+    "source": "Arcana Unleashed",
+    "level": 8,
+    "school": "Transmutation",
+    "concentration": true,
+    "ritual": false,
+    "id": "iron-body"
   },
   {
     "id": "color-spray",
@@ -1301,7 +1400,7 @@
     "nameFr": "Coup de tonnerre",
     "slug": "coup-de-tonnerre",
     "level": 0,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Évocation",
     "ritual": false,
     "concentration": false
@@ -1312,7 +1411,7 @@
     "nameFr": "Couronne du dément",
     "slug": "couronne-du-dement",
     "level": 2,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Enchantement",
     "ritual": false,
     "concentration": true
@@ -1489,6 +1588,17 @@
     "concentration": false
   },
   {
+    "nameFr": "Déluge d'énergie négative",
+    "nameEn": "Negative Energy Flood",
+    "slug": "deluge-d-energie-negative",
+    "source": "Arcana Unleashed",
+    "level": 5,
+    "school": "Nécromancie",
+    "concentration": false,
+    "ritual": false,
+    "id": "negative-energy-flood"
+  },
+  {
     "id": "demiplane",
     "nameEn": "Demiplane",
     "nameFr": "Demi-plan",
@@ -1499,6 +1609,28 @@
     "school": "Invocation",
     "ritual": false,
     "concentration": false
+  },
+  {
+    "nameFr": "Démobilisation",
+    "nameEn": "Wardaway",
+    "slug": "demobilisation",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "level": 1,
+    "school": "Abjuration",
+    "concentration": false,
+    "ritual": false,
+    "id": "wardaway"
+  },
+  {
+    "nameFr": "Dérobade d'Elminster",
+    "nameEn": "Elminster's Elusion",
+    "slug": "derobade-d-elminster",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "level": 2,
+    "school": "Abjuration",
+    "concentration": true,
+    "ritual": false,
+    "id": "elminsters-elusion"
   },
   {
     "id": "disintegrate",
@@ -1585,6 +1717,17 @@
     "concentration": true
   },
   {
+    "nameFr": "Détonation",
+    "nameEn": "Detonate",
+    "slug": "detonation",
+    "source": "Arcana Unleashed",
+    "level": 9,
+    "school": "Évocation",
+    "concentration": false,
+    "ritual": false,
+    "id": "detonate"
+  },
+  {
     "id": "enthrall",
     "nameEn": "Enthrall",
     "nameFr": "Discours captivant",
@@ -1646,6 +1789,17 @@
     "school": "Abjuration",
     "ritual": false,
     "concentration": true
+  },
+  {
+    "nameFr": "Distance distordue",
+    "nameEn": "Distorted Distance",
+    "slug": "distance-distordue",
+    "source": "Arcana Unleashed",
+    "level": 4,
+    "school": "Illusion",
+    "concentration": true,
+    "ritual": false,
+    "id": "distorted-distance"
   },
   {
     "id": "divination",
@@ -1744,6 +1898,17 @@
     "concentration": false
   },
   {
+    "nameFr": "Dragon illusoire",
+    "nameEn": "Illusory Dragon",
+    "slug": "dragon-illusoire",
+    "source": "Arcana Unleashed",
+    "level": 8,
+    "school": "Illusion",
+    "concentration": true,
+    "ritual": false,
+    "id": "illusory-dragon"
+  },
+  {
     "id": "druidcraft",
     "nameEn": "Druidcraft",
     "nameFr": "Druidisme",
@@ -1761,7 +1926,7 @@
     "nameFr": "Duel forcé",
     "slug": "duel-force",
     "level": 1,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Enchantement",
     "ritual": false,
     "concentration": true
@@ -1803,6 +1968,17 @@
     "concentration": false
   },
   {
+    "nameFr": "Élucubration de Mordenkainen",
+    "nameEn": "Mordenkainen's Lucubration",
+    "slug": "elucubration-de-mordenkainen",
+    "source": "Arcana Unleashed",
+    "level": 5,
+    "school": "Divination",
+    "concentration": false,
+    "ritual": false,
+    "id": "mordenkainens-lucubration"
+  },
+  {
     "id": "prismatic-spray",
     "nameEn": "Prismatic Spray",
     "nameFr": "Embruns prismatiques",
@@ -1837,6 +2013,17 @@
     "school": "Invocation",
     "ritual": false,
     "concentration": true
+  },
+  {
+    "nameFr": "Énervation",
+    "nameEn": "Enervation",
+    "slug": "enervation",
+    "source": "Arcana Unleashed",
+    "level": 5,
+    "school": "Nécromancie",
+    "concentration": true,
+    "ritual": false,
+    "id": "enervation"
   },
   {
     "id": "weird",
@@ -1931,10 +2118,21 @@
     "nameFr": "État cadavérique",
     "slug": "etat-cadaverique",
     "level": 3,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Nécromancie",
     "ritual": true,
     "concentration": false
+  },
+  {
+    "nameFr": "Étoile de Mystra",
+    "nameEn": "Holy Star of Mystra",
+    "slug": "etoile-de-mystra",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "level": 8,
+    "school": "Évocation",
+    "concentration": true,
+    "ritual": false,
+    "id": "holy-star-of-mystra"
   },
   {
     "id": "awaken",
@@ -1947,6 +2145,17 @@
     "school": "Transmutation",
     "ritual": false,
     "concentration": false
+  },
+  {
+    "nameFr": "Explosion purulente",
+    "nameEn": "Festering Blast",
+    "slug": "explosion-purulente",
+    "source": "Arcana Unleashed",
+    "level": 4,
+    "school": "Nécromancie",
+    "concentration": false,
+    "ritual": false,
+    "id": "festering-blast"
   },
   {
     "id": "fabricate",
@@ -1971,6 +2180,17 @@
     "school": "Transmutation",
     "ritual": false,
     "concentration": false
+  },
+  {
+    "nameFr": "Familier de combat",
+    "nameEn": "Battle Familiar",
+    "slug": "familier-de-combat",
+    "source": "Arcana Unleashed",
+    "level": 2,
+    "school": "Invocation",
+    "concentration": false,
+    "ritual": false,
+    "id": "battle-familiar"
   },
   {
     "id": "divine-favor",
@@ -2007,6 +2227,17 @@
     "school": "Transmutation",
     "ritual": false,
     "concentration": false
+  },
+  {
+    "nameFr": "Flamboiement de magefeu",
+    "nameEn": "Spellfire Flare",
+    "slug": "flamboiement-de-magefeu",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "level": 1,
+    "school": "Évocation",
+    "concentration": false,
+    "ritual": false,
+    "id": "spellfire-flare"
   },
   {
     "id": "continual-flame",
@@ -2077,7 +2308,7 @@
     "nameFr": "Flèche de foudre",
     "slug": "fleche-de-foudre",
     "level": 3,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Transmutation",
     "ritual": false,
     "concentration": false
@@ -2093,6 +2324,17 @@
     "school": "Nécromancie",
     "ritual": false,
     "concentration": false
+  },
+  {
+    "nameFr": "Flétrissure et floraison",
+    "nameEn": "Wither and Bloom",
+    "slug": "fletrissure-et-floraison",
+    "source": "Arcana Unleashed",
+    "level": 2,
+    "school": "Nécromancie",
+    "concentration": false,
+    "ritual": false,
+    "id": "wither-and-bloom"
   },
   {
     "id": "blur",
@@ -2112,7 +2354,7 @@
     "nameFr": "Fontaine de lune",
     "slug": "fontaine-de-lune",
     "level": 4,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Évocation",
     "ritual": false,
     "concentration": true
@@ -2174,7 +2416,7 @@
     "nameFr": "Fouet épineux",
     "slug": "fouet-epineux",
     "level": 0,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Transmutation",
     "ritual": false,
     "concentration": false
@@ -2209,7 +2451,7 @@
     "nameFr": "Frappe du vent d'acier",
     "slug": "frappe-du-vent-d-acier",
     "level": 5,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Invocation",
     "ritual": false,
     "concentration": false
@@ -2256,7 +2498,7 @@
     "nameFr": "Glas",
     "slug": "glas",
     "level": 0,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Nécromancie",
     "ritual": false,
     "concentration": false
@@ -2327,7 +2569,7 @@
     "nameFr": "Grêle d'épines",
     "slug": "grele-d-epines",
     "level": 1,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Invocation",
     "ritual": false,
     "concentration": false
@@ -2379,6 +2621,17 @@
     "school": "Enchantement",
     "ritual": false,
     "concentration": true
+  },
+  {
+    "nameFr": "Homoncules serviables de Deryan",
+    "nameEn": "Deryan's Helpful Homunculi",
+    "slug": "homoncules-serviables-de-deryan",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "level": 2,
+    "school": "Invocation",
+    "concentration": false,
+    "ritual": true,
+    "id": "deryans-helpful-homunculi"
   },
   {
     "id": "identify",
@@ -2501,6 +2754,17 @@
     "concentration": true
   },
   {
+    "nameFr": "Imprégnation élémentaire de Songal",
+    "nameEn": "Songal's Elemental Suffusion",
+    "slug": "impregnation-elementaire-de-songal",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "level": 5,
+    "school": "Transmutation",
+    "concentration": true,
+    "ritual": false,
+    "id": "songals-elemental-suffusion"
+  },
+  {
     "id": "command",
     "nameEn": "Command",
     "nameFr": "Injonction",
@@ -2523,6 +2787,17 @@
     "school": "Invocation",
     "ritual": false,
     "concentration": true
+  },
+  {
+    "nameFr": "Instillation du doute",
+    "nameEn": "Inflict Doubt",
+    "slug": "instillation-du-doute",
+    "source": "Arcana Unleashed",
+    "level": 3,
+    "school": "Enchantement",
+    "concentration": true,
+    "ritual": false,
+    "id": "inflict-doubt"
   },
   {
     "id": "forbiddance",
@@ -2585,6 +2860,17 @@
     "concentration": true
   },
   {
+    "nameFr": "Invocation d'artificiels",
+    "nameEn": "Conjure Constructs",
+    "slug": "invocation-d-artificiels",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "level": 3,
+    "school": "Invocation",
+    "concentration": true,
+    "ritual": false,
+    "id": "conjure-constructs"
+  },
+  {
     "id": "conjure-elemental",
     "nameEn": "Conjure Elemental",
     "nameFr": "Invocation d'élémentaire",
@@ -2633,6 +2919,17 @@
     "concentration": true
   },
   {
+    "nameFr": "Invocation de dinosaure",
+    "nameEn": "Summon Dinosaur",
+    "slug": "invocation-de-dinosaure",
+    "source": "Arcana Unleashed",
+    "level": 6,
+    "school": "Invocation",
+    "concentration": true,
+    "ritual": false,
+    "id": "summon-dinosaur"
+  },
+  {
     "id": "conjure-fey",
     "nameEn": "Conjure Fey",
     "nameFr": "Invocation de fée",
@@ -2645,12 +2942,23 @@
     "concentration": true
   },
   {
+    "nameFr": "Invocation de plante",
+    "nameEn": "Summon Plant",
+    "slug": "invocation-de-plante",
+    "source": "Arcana Unleashed",
+    "level": 5,
+    "school": "Invocation",
+    "concentration": true,
+    "ritual": false,
+    "id": "summon-plant"
+  },
+  {
     "id": "conjure-barrage",
     "nameEn": "Conjure Barrage",
     "nameFr": "Invocation de projectiles / Hérissement",
     "slug": "invocation-de-projectiles-herissement",
     "level": 3,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "aliases": [
       "Invocation de projectiles",
       "Hérissement"
@@ -2665,10 +2973,21 @@
     "nameFr": "Invocation de volée",
     "slug": "invocation-de-volee",
     "level": 5,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Invocation",
     "ritual": false,
     "concentration": false
+  },
+  {
+    "nameFr": "Invulnérabilité",
+    "nameEn": "Invulnerability",
+    "slug": "invulnerabilite",
+    "source": "Arcana Unleashed",
+    "level": 9,
+    "school": "Abjuration",
+    "concentration": true,
+    "ritual": false,
+    "id": "invulnerability"
   },
   {
     "id": "flame-blade",
@@ -2681,6 +3000,50 @@
     "school": "Évocation",
     "ritual": false,
     "concentration": true
+  },
+  {
+    "nameFr": "Lame du désastre",
+    "nameEn": "Blade of Disaster",
+    "slug": "lame-du-desastre",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "level": 9,
+    "school": "Invocation",
+    "concentration": true,
+    "ritual": false,
+    "id": "blade-of-disaster"
+  },
+  {
+    "nameFr": "Lamentation de la banshee",
+    "nameEn": "Wail of the Banshee",
+    "slug": "lamentation-de-la-banshee",
+    "source": "Arcana Unleashed",
+    "level": 9,
+    "school": "Nécromancie",
+    "concentration": false,
+    "ritual": false,
+    "id": "wail-of-the-banshee"
+  },
+  {
+    "nameFr": "Lance d'argent de Laeral",
+    "nameEn": "Laeral's Silver Lance",
+    "slug": "lance-d-argent-de-laeral",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "level": 3,
+    "school": "Évocation",
+    "concentration": false,
+    "ritual": false,
+    "id": "laerals-silver-lance"
+  },
+  {
+    "nameFr": "Lanterne des esprits",
+    "nameEn": "Spirit Lantern",
+    "slug": "lanterne-des-esprits",
+    "source": "Arcana Unleashed",
+    "level": 5,
+    "school": "Nécromancie",
+    "concentration": false,
+    "ritual": false,
+    "id": "spirit-lantern"
   },
   {
     "id": "slow",
@@ -2712,7 +3075,7 @@
     "nameFr": "Liane avide",
     "slug": "liane-avide",
     "level": 4,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Invocation",
     "ritual": false,
     "concentration": true
@@ -2951,6 +3314,17 @@
     "concentration": false
   },
   {
+    "nameFr": "Marée funeste",
+    "nameEn": "Doomtide",
+    "slug": "maree-funeste",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "level": 4,
+    "school": "Invocation",
+    "concentration": true,
+    "ritual": false,
+    "id": "doomtide"
+  },
+  {
     "id": "hunters-mark",
     "nameEn": "Hunter's Mark",
     "nameFr": "Marque du chasseur",
@@ -2976,6 +3350,17 @@
     "school": "Nécromancie",
     "ritual": false,
     "concentration": true
+  },
+  {
+    "nameFr": "Mélodie perturbatrice",
+    "nameEn": "Disruptive Tune",
+    "slug": "melodie-perturbatrice",
+    "source": "Arcana Unleashed",
+    "level": 2,
+    "school": "Abjuration",
+    "concentration": true,
+    "ritual": false,
+    "id": "disruptive-tune"
   },
   {
     "id": "message",
@@ -3062,6 +3447,17 @@
     "concentration": false
   },
   {
+    "nameFr": "Miroirs envoûtants",
+    "nameEn": "Entrancing Mirrors",
+    "slug": "miroirs-envoutants",
+    "source": "Arcana Unleashed",
+    "level": 8,
+    "school": "Illusion",
+    "concentration": true,
+    "ritual": false,
+    "id": "entrancing-mirrors"
+  },
+  {
     "id": "alter-self",
     "nameEn": "Alter Self",
     "nameFr": "Modification d'apparence",
@@ -3084,6 +3480,17 @@
     "school": "Enchantement",
     "ritual": false,
     "concentration": true
+  },
+  {
+    "nameFr": "Moment de prescience",
+    "nameEn": "Moment of Prescience",
+    "slug": "moment-de-prescience",
+    "source": "Arcana Unleashed",
+    "level": 8,
+    "school": "Divination",
+    "concentration": false,
+    "ritual": false,
+    "id": "moment-of-prescience"
   },
   {
     "id": "phantom-steed",
@@ -3134,6 +3541,17 @@
     "concentration": false
   },
   {
+    "nameFr": "Mot de pouvoir douloureux",
+    "nameEn": "Power Word Pain",
+    "slug": "mot-de-pouvoir-douloureux",
+    "source": "Arcana Unleashed",
+    "level": 7,
+    "school": "Enchantement",
+    "concentration": false,
+    "ritual": false,
+    "id": "power-word-pain"
+  },
+  {
     "id": "power-word-stun",
     "nameEn": "Power Word Stun",
     "nameFr": "Mot de pouvoir étourdissant",
@@ -3151,7 +3569,7 @@
     "nameFr": "Mot de pouvoir fortifiant",
     "slug": "mot-de-pouvoir-fortifiant",
     "level": 7,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Enchantement",
     "ritual": false,
     "concentration": false
@@ -3186,7 +3604,7 @@
     "nameFr": "Mot de radiance",
     "slug": "mot-de-radiance",
     "level": 0,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Évocation",
     "ritual": false,
     "concentration": false
@@ -3365,7 +3783,7 @@
     "nameFr": "Nuée de dagues",
     "slug": "nuee-de-dagues",
     "level": 2,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Invocation",
     "ritual": false,
     "concentration": true
@@ -3511,7 +3929,7 @@
     "nameFr": "Perception bestiale",
     "slug": "perception-bestiale",
     "level": 2,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Divination",
     "ritual": true,
     "concentration": true
@@ -3522,7 +3940,7 @@
     "nameFr": "Perturbations synaptiques",
     "slug": "perturbations-synaptiques",
     "level": 5,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Enchantement",
     "ritual": false,
     "concentration": false
@@ -3576,7 +3994,7 @@
     "nameFr": "Piqûre mentale",
     "slug": "piqure-mentale",
     "level": 0,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Enchantement",
     "ritual": false,
     "concentration": false
@@ -3611,7 +4029,7 @@
     "nameFr": "Portail arcanique",
     "slug": "portail-arcanique",
     "level": 6,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Invocation",
     "ritual": false,
     "concentration": true
@@ -3670,7 +4088,7 @@
     "nameFr": "Présence royale de Yolane",
     "slug": "presence-royale-de-yolane",
     "level": 5,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Enchantement",
     "ritual": false,
     "concentration": true
@@ -3928,6 +4346,17 @@
     "concentration": false
   },
   {
+    "nameFr": "Remaillage du destin",
+    "nameEn": "Reweave Fate",
+    "slug": "remaillage-du-destin",
+    "source": "Arcana Unleashed",
+    "level": 7,
+    "school": "Divination",
+    "concentration": false,
+    "ritual": false,
+    "id": "reweave-fate"
+  },
+  {
     "id": "mending",
     "nameEn": "Mending",
     "nameFr": "Réparation",
@@ -4048,6 +4477,28 @@
     "concentration": false
   },
   {
+    "nameFr": "Rétrospection",
+    "nameEn": "Hindsight",
+    "slug": "retrospection",
+    "source": "Arcana Unleashed",
+    "level": 9,
+    "school": "Divination",
+    "concentration": true,
+    "ritual": false,
+    "id": "hindsight"
+  },
+  {
+    "nameFr": "Riposte arcanique",
+    "nameEn": "Backlash",
+    "slug": "riposte-arcanique",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "level": 4,
+    "school": "Abjuration",
+    "concentration": false,
+    "ritual": false,
+    "id": "backlash"
+  },
+  {
     "id": "hallow",
     "nameEn": "Hallow",
     "nameFr": "Sanctification",
@@ -4111,6 +4562,17 @@
     "concentration": true
   },
   {
+    "nameFr": "Serviteur homoncule",
+    "nameEn": "Homunculus Servant",
+    "slug": "serviteur-homoncule",
+    "source": "Eberron: Forge of the Artificer",
+    "level": 2,
+    "school": "Invocation",
+    "concentration": false,
+    "ritual": true,
+    "id": "homunculus-servant"
+  },
+  {
     "id": "unseen-servant",
     "nameEn": "Unseen Servant",
     "nameFr": "Serviteur invisible",
@@ -4121,6 +4583,17 @@
     "school": "Invocation",
     "ritual": true,
     "concentration": false
+  },
+  {
+    "nameFr": "Sieste",
+    "nameEn": "Catnap",
+    "slug": "sieste",
+    "source": "Arcana Unleashed",
+    "level": 3,
+    "school": "Enchantement",
+    "concentration": false,
+    "ritual": false,
+    "id": "catnap"
   },
   {
     "id": "silence",
@@ -4285,6 +4758,17 @@
     "concentration": true
   },
   {
+    "nameFr": "Sphères lumineuses d'Elminster",
+    "nameEn": "Elminster's Effulgent Spheres",
+    "slug": "spheres-lumineuses-d-elminster",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "level": 6,
+    "school": "Évocation",
+    "concentration": false,
+    "ritual": false,
+    "id": "elminsters-effulgent-spheres"
+  },
+  {
     "id": "spare-the-dying",
     "nameEn": "Spare the Dying",
     "nameFr": "Stabilisation",
@@ -4295,6 +4779,17 @@
     "school": "Nécromancie",
     "ritual": false,
     "concentration": false
+  },
+  {
+    "nameFr": "Subjugation",
+    "nameEn": "Transfix",
+    "slug": "subjugation",
+    "source": "Arcana Unleashed",
+    "level": 7,
+    "school": "Enchantement",
+    "concentration": true,
+    "ritual": false,
+    "id": "transfix"
   },
   {
     "id": "suggestion",
@@ -4350,7 +4845,7 @@
     "nameFr": "Télépathie",
     "slug": "telepathie",
     "level": 8,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Divination",
     "ritual": false,
     "concentration": false
@@ -4392,6 +4887,17 @@
     "concentration": false
   },
   {
+    "nameFr": "Tempête de magefeu",
+    "nameEn": "Spellfire Storm",
+    "slug": "tempete-de-magefeu",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "level": 4,
+    "school": "Évocation",
+    "concentration": true,
+    "ritual": false,
+    "id": "spellfire-storm"
+  },
+  {
     "id": "sleet-storm",
     "nameEn": "Sleet Storm",
     "nameFr": "Tempête de neige",
@@ -4409,7 +4915,7 @@
     "nameFr": "Tempête radieuse de Jallarzi",
     "slug": "tempete-radieuse-de-jallarzi",
     "level": 5,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Évocation",
     "ritual": false,
     "concentration": true
@@ -4444,7 +4950,7 @@
     "nameFr": "Tentacules de Hadar",
     "slug": "tentacules-de-hadar",
     "level": 1,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Invocation",
     "ritual": false,
     "concentration": false
@@ -4465,6 +4971,17 @@
     "concentration": true
   },
   {
+    "nameFr": "Terrain de duel",
+    "nameEn": "Dueling Ground",
+    "slug": "terrain-de-duel",
+    "source": "Arcana Unleashed",
+    "level": 2,
+    "school": "Abjuration",
+    "concentration": false,
+    "ritual": true,
+    "id": "dueling-ground"
+  },
+  {
     "id": "hallucinatory-terrain",
     "nameEn": "Hallucinatory Terrain",
     "nameFr": "Terrain hallucinatoire",
@@ -4475,6 +4992,17 @@
     "school": "Illusion",
     "ritual": false,
     "concentration": false
+  },
+  {
+    "nameFr": "Terre tombale",
+    "nameEn": "Grave Ground",
+    "slug": "terre-tombale",
+    "source": "Arcana Unleashed",
+    "level": 5,
+    "school": "Nécromancie",
+    "concentration": true,
+    "ritual": false,
+    "id": "grave-ground"
   },
   {
     "id": "illusory-script",
@@ -4530,13 +5058,24 @@
     "nameFr": "Trait ensorcelé",
     "slug": "trait-ensorcele",
     "level": 1,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "aliases": [
       "Éclair de sorcière"
     ],
     "school": "Évocation",
     "ritual": false,
     "concentration": true
+  },
+  {
+    "nameFr": "Transcurateur de la Simbule",
+    "nameEn": "Simbul's Synostodweomer",
+    "slug": "transcurateur-de-la-simbule",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "level": 7,
+    "school": "Transmutation",
+    "concentration": false,
+    "ritual": false,
+    "id": "simbuls-synostodweomer"
   },
   {
     "id": "earthquake",
@@ -4584,7 +5123,7 @@
     "nameFr": "Vague destructrice",
     "slug": "vague-destructrice",
     "level": 5,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Évocation",
     "ritual": false,
     "concentration": false
@@ -4600,6 +5139,17 @@
     "school": "Évocation",
     "ritual": false,
     "concentration": false
+  },
+  {
+    "nameFr": "Vagues d'épuisement",
+    "nameEn": "Waves of Exhaustion",
+    "slug": "vagues-d-epuisement",
+    "source": "Arcana Unleashed",
+    "level": 5,
+    "school": "Nécromancie",
+    "concentration": true,
+    "ritual": false,
+    "id": "waves-of-exhaustion"
   },
   {
     "id": "wind-walk",
@@ -4635,7 +5185,7 @@
     "nameFr": "Vif carquois",
     "slug": "vif-carquois",
     "level": 5,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Transmutation",
     "ritual": false,
     "concentration": true
@@ -4646,10 +5196,21 @@
     "nameFr": "Vigueur arcanique",
     "slug": "vigueur-arcanique",
     "level": 2,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Abjuration",
     "ritual": false,
     "concentration": false
+  },
+  {
+    "nameFr": "Vipère de Syluné",
+    "nameEn": "Syluné's Viper",
+    "slug": "vipere-de-sylune",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "level": 3,
+    "school": "Invocation",
+    "concentration": false,
+    "ritual": false,
+    "id": "sylunes-viper"
   },
   {
     "id": "darkvision",
@@ -4662,6 +5223,17 @@
     "school": "Transmutation",
     "ritual": false,
     "concentration": false
+  },
+  {
+    "nameFr": "Vision des ères écoulées",
+    "nameEn": "Vision of Elapsing Eons",
+    "slug": "vision-des-eres-ecoulees",
+    "source": "Arcana Unleashed",
+    "level": 9,
+    "school": "Illusion",
+    "concentration": false,
+    "ritual": false,
+    "id": "vision-of-elapsing-eons"
   },
   {
     "id": "true-seeing",
@@ -4693,7 +5265,7 @@
     "nameFr": "Voile défensif",
     "slug": "voile-defensif",
     "level": 0,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Abjuration",
     "ritual": false,
     "concentration": true
@@ -4716,10 +5288,21 @@
     "nameFr": "Voracité de Hadar",
     "slug": "voracite-de-hadar",
     "level": 3,
-    "source": "PHB 2024",
+    "source": "Player's Handbook 2024",
     "school": "Invocation",
     "ritual": false,
     "concentration": true
+  },
+  {
+    "nameFr": "Zone d'amabilité",
+    "nameEn": "Zone of Amicability",
+    "slug": "zone-d-amabilite",
+    "source": "Arcana Unleashed",
+    "level": 4,
+    "school": "Enchantement",
+    "concentration": false,
+    "ritual": false,
+    "id": "zone-of-amicability"
   },
   {
     "id": "zone-of-truth",

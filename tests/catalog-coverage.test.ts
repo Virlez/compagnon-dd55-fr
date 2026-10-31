@@ -6,24 +6,51 @@ import { translations } from "../src/data/translations";
 import { referenceUrl } from "../src/services/reference-matcher";
 import { compendiumEntries } from "../src/services/srd-compendium";
 import magicItemsData from "../src/data/aidedd-magic-items.json";
+import legacyReferences from "./fixtures/aidedd-legacy-identities.json";
+import { isAllowedExternalUrl } from "../src/services/external-url";
 
 describe("couverture du catalogue 2024", () => {
   beforeEach(() => { document.body.innerHTML = ""; });
 
-  it("contient les 391 sorts et les 137 dons sans doublon", () => {
-    expect(spells).toHaveLength(391);
-    expect(feats).toHaveLength(137);
-    expect(new Set(spells.map(spell => spell.id)).size).toBe(391);
-    expect(new Set(spells.map(spell => spell.slug)).size).toBe(391);
-    expect(new Set(feats.map(feat => feat.id)).size).toBe(137);
-    expect(new Set(feats.map(feat => feat.slug)).size).toBe(137);
+  it("importe toutes les sources publiées attendues, sans Unearthed Arcana", () => {
+    const countSources = (entries: typeof feats) => entries.reduce<Record<string, number>>((counts, item) => {
+      counts[item.source ?? ""] = (counts[item.source ?? ""] ?? 0) + 1;
+      return counts;
+    }, {});
+    expect(countSources(spells)).toEqual({ "SRD 5.2.1": 339, "Player's Handbook 2024": 52, "Arcana Unleashed": 33, "Forgotten Realms: Heroes of Faerûn": 19, "Eberron: Forge of the Artificer": 1 });
+    expect(countSources(feats)).toEqual({ "Player's Handbook 2024": 75, "Arcana Unleashed": 25, "Forgotten Realms: Heroes of Faerûn": 34, "Eberron: Forge of the Artificer": 28, "Ravenloft: The Horrors Within": 2 });
+    expect([...spells, ...feats].some(item => /unearthed\s+arcana/i.test(item.source ?? ""))).toBe(false);
+    for (const [kind, entries] of [["spell", spells], ["feat", feats]] as const) {
+      for (const reference of entries) expect(isAllowedExternalUrl(referenceUrl(kind, reference)), reference.nameFr).toBe(true);
+    }
   });
 
-  it("relie exactement 339 sorts au SRD et 52 sorts à AideDD", () => {
+  it("préserve les identifiants sauvegardés avant l’ajout des suppléments", () => {
+    const spellIds = new Set(spells.map(item => item.id));
+    const featIds = new Set(feats.map(item => item.id));
+    for (const id of legacyReferences.spells) expect(spellIds.has(id), id).toBe(true);
+    for (const id of legacyReferences.feats) expect(featIds.has(id), id).toBe(true);
+    for (const { id, oldName, newSlug } of legacyReferences.renamedFeats) {
+      const current = feats.find(item => item.id === id);
+      expect(current?.slug, id).toBe(newSlug);
+      expect(current?.aliases, id).toContain(oldName);
+    }
+  });
+
+  it("contient les 444 sorts et les 164 dons sans doublon", () => {
+    expect(spells).toHaveLength(444);
+    expect(feats).toHaveLength(164);
+    expect(new Set(spells.map(spell => spell.id)).size).toBe(444);
+    expect(new Set(spells.map(spell => spell.slug)).size).toBe(444);
+    expect(new Set(feats.map(feat => feat.id)).size).toBe(164);
+    expect(new Set(feats.map(feat => feat.slug)).size).toBe(164);
+  });
+
+  it("relie exactement 339 sorts au SRD et 105 sorts à AideDD", () => {
     const local = spells.filter(spell => spell.compendiumId);
     const external = spells.filter(spell => !spell.compendiumId);
     expect(local).toHaveLength(339);
-    expect(external).toHaveLength(52);
+    expect(external).toHaveLength(105);
     for (const spell of local) {
       const entry = compendiumEntries.find(candidate => candidate.id === spell.compendiumId);
       expect(entry?.type, spell.nameEn).toBe("spell");
@@ -33,7 +60,15 @@ describe("couverture du catalogue 2024", () => {
     }
   });
 
-  it("fournit école, rituel et concentration pour les 391 sorts", () => {
+  it("relie les 17 dons DRS à une fiche locale unique", () => {
+    const local = feats.filter(item => item.compendiumId);
+    expect(local).toHaveLength(17);
+    expect(new Set(local.map(item => item.compendiumId)).size).toBe(17);
+    expect(feats.filter(item => !item.compendiumId)).toHaveLength(147);
+    for (const reference of local) expect(compendiumEntries.find(entry => entry.id === reference.compendiumId)?.type, reference.nameFr).toBe("feat");
+  });
+
+  it("fournit école, rituel et concentration pour les 444 sorts", () => {
     const schools = ["Abjuration", "Divination", "Enchantement", "Évocation", "Illusion", "Invocation", "Nécromancie", "Transmutation"];
     expect(new Set(spells.map(spell => spell.school))).toEqual(new Set(schools));
     for (const spell of spells) {

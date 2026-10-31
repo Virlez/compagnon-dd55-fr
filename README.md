@@ -10,6 +10,7 @@ Extension Chrome/Edge Manifest V3 pour la feuille **D&D 2024 de Roll20**. Elle t
 
 ## Fonctionnalités
 
+- configuration guidée à la première ouverture, avec aperçu, réglages recommandés et reprise des préférences existantes ;
 - traduction automatique des principaux libellés de la feuille D&D 2024 ;
 - affichage optionnel des noms anglais à côté des traductions françaises ;
 - détection des sorts, dons et aptitudes de classe dans les contenus dynamiques de Roll20 ;
@@ -19,19 +20,20 @@ Extension Chrome/Edge Manifest V3 pour la feuille **D&D 2024 de Roll20**. Elle t
 - recherche avec tri par pertinence, nom ou niveau pour les sorts, et par pertinence, nom ou rareté pour les objets magiques ; filtres par classe et niveau pour les sorts, complétés par un panneau avancé repliable pour l’école, les rituels et la concentration ;
 - navigation persistante **Catalogue / Favoris / Récents**, avec catégories regroupées dans un sélecteur compact et accès aux 10 dernières fiches locales ou références AideDD consultées ;
 - favoris persistants pour épingler les fiches locales et références AideDD depuis les résultats ou leur fiche ;
+- filtre des favoris par type de référence, combinable avec la recherche ;
 - sauvegarde et restauration locale des favoris, des récents et des réglages dans un fichier JSON ;
 - retour à la liste avec position et nombre de résultats restaurés, raccourci `Ctrl/Cmd + K` vers la recherche et navigation progressive avec Échap ;
 - compteurs de filtres actifs dans chaque catégorie ;
 - catalogue de 350 objets magiques avec filtres combinables par type et rareté ;
 - catalogue d’armes, d’armures et de boucliers avec filtres par type et maîtrise d’arme, et accès direct à la règle de chaque botte d’arme ;
 - catalogue de 10 espèces, dont les neuf espèces du SRD et une fiche Aasimar complémentaire clairement attribuée, ainsi que les historiques du SRD avec accès direct au don accordé ;
-- catalogue complémentaire de **391 sorts** et **75 dons**, avec liens vers AideDD lorsque la fiche n’est pas disponible dans le SRD local ;
+- catalogue de **444 sorts** et **164 dons**, toutes sources publiées référencées sur AideDD, sans Unearthed Arcana ; les fiches DRS locales sont prioritaires et les autres références proposent un lien AideDD ;
 - menu contextuel **Traduire cette fiche D&D 2024** ;
 - prise en charge des différentes frames et surfaces utilisées par Roll20.
 
 ## Installation locale
 
-Prérequis : [Node.js](https://nodejs.org/) et npm.
+Prérequis : [Node.js 24 LTS](https://nodejs.org/en/download/) en version 24.22.2 ou plus récente dans la branche 24, et npm.
 
 ```bash
 npm install
@@ -49,7 +51,11 @@ Après une modification du code, relancez `npm run build`, puis rechargez l’ex
 
 ## Utilisation
 
-Ouvrez une table Roll20 utilisant la feuille officielle D&D 5 moderne (`dnd2024byroll20`). Le bouton **D&D 5.5 FR** donne accès au compendium dès l'arrivée sur la table :
+Ouvrez une table Roll20 utilisant la feuille officielle D&D 5 moderne (`dnd2024byroll20`). Le bouton **D&D 5.5 FR** donne accès au compendium dès l'arrivée sur la table.
+
+À la première ouverture d’une installation neuve, choisissez la traduction, l’affichage des noms anglais et la taille du texte dans la configuration rapide. L’aperçu s’actualise avant validation. **Commencer** applique vos choix ; **Utiliser les réglages recommandés** active la traduction bilingue avec un texte normal. Vous pouvez fermer sans modifier les réglages et retrouver ce parcours avec **Réglages > Revoir la configuration**. Il n’est proposé qu’une fois entre les onglets et n’interrompt pas les installations déjà configurées.
+
+Dans Réglages :
 
 - **Traduire la feuille** active ou désactive les enrichissements ;
 - **Conserver les noms anglais** affiche les noms bilingues lorsqu’ils sont disponibles.
@@ -62,6 +68,8 @@ Utilisez l’étoile d’une fiche locale ou d’un résultat AideDD pour l’aj
 
 Dans **Réglages > Sauvegarde**, exportez ou restaurez favoris, récents et réglages dans un fichier JSON. La restauration remplace les données locales après confirmation ; le fichier n’est créé ou lu qu’à votre demande.
 
+Dans **Favoris**, le sélecteur **Type de favori** affiche les catégories présentes et leurs compteurs. Il se combine avec la recherche et conserve le type choisi lorsque vous passez par le catalogue ou les récents.
+
 Vous pouvez également faire un clic droit dans la fiche et sélectionner **Traduire cette fiche D&D 2024**. Les références absentes du SRD local ne sont ouvertes sur AideDD qu’après une action explicite de votre part.
 
 ## Développement et vérifications
@@ -69,9 +77,12 @@ Vous pouvez également faire un clic droit dans la fiche et sélectionner **Trad
 ```bash
 npm test
 npm run typecheck
+npm audit --audit-level=moderate
 npm run build
 npm run test:e2e
 ```
+
+Les tests de mutation s’exécutent avec `npm run test:mutation`. Stryker modifie temporairement la logique de validation des sauvegardes, des collections de références, du premier démarrage et des URL externes, puis vérifie que les tests détectent ces changements. La CI échoue si le score de ce périmètre passe sous 90 %. Le rapport détaillé est généré dans `reports/mutation/index.html` et conservé comme artefact GitHub Actions. Voir [le périmètre et la méthode](docs/MUTATION-TESTING.md).
 
 Pour reconstruire automatiquement pendant le développement :
 
@@ -90,7 +101,7 @@ python scripts/build-compendium.py
 python scripts/build-monsters.py
 ```
 
-Pour actualiser les métadonnées École, Rituel et Concentration des 391 références AideDD, exécutez `npm run data:aidedd-spells`. Cette génération est la seule étape qui accède au réseau ; l’extension construite reste entièrement hors ligne.
+Pour actualiser les catalogues AideDD, exécutez `npm run data:aidedd-spells` et `npm run data:aidedd-feats`. Ces scripts sélectionnent toutes les sources publiées et toutes les catégories, excluent les Unearthed Arcana, puis importent les noms, liens et métadonnées. Ils conservent les identifiants existants, les anciennes traductions comme alias et les liens vers les fiches DRS locales. L’import s’arrête si une référence existante disparaît ou si un doublon apparaît. Les textes complets des fiches hors DRS ne sont pas embarqués. Ces étapes de génération accèdent au réseau ; l’extension construite conserve son fonctionnement hors ligne.
 
 Les scripts produisent les données structurées utilisées par l’extension dans `src/data/`.
 

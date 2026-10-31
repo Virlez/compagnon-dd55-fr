@@ -1,28 +1,43 @@
 {
   "name": "compagnon-dd55-fr",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=24.22.2 <25"
+  },
   "scripts": {
     "build": "vite build",
     "dev": "vite build --watch",
     "test": "vitest run --exclude tests/e2e/**",
+    "test:mutation": "stryker run",
     "test:e2e": "npm run build && playwright test",
     "icons": "node scripts/generate-icons.mjs",
     "data:magic-items": "node scripts/build-magic-items.mjs",
     "data:aidedd-spells": "node scripts/import-aidedd-spells.mjs",
+    "data:aidedd-feats": "node scripts/import-aidedd-feats.mjs",
     "data:aidedd-magic-items": "node scripts/import-aidedd-magic-items.mjs",
     "data:monsters": "python scripts/build-monsters.py",
     "package": "npm run build && powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package-extension.ps1",
     "typecheck": "tsc --noEmit"
   },
+  "overrides": {
+    "@stryker-mutator/core": {
+      "minimatch": "^11.0.3"
+    },
+    "typed-rest-client": {
+      "qs": "^6.17.1"
+    }
+  },
   "devDependencies": {
     "@playwright/test": "^1.62.0",
+    "@stryker-mutator/core": "10.1.1",
+    "@stryker-mutator/vitest-runner": "10.1.1",
     "@types/chrome": "^0.0.287",
-    "@types/node": "^22.10.2",
+    "@types/node": "^24.10.0",
     "jsdom": "^25.0.1",
     "typescript": "^5.7.2",
-    "vite": "^6.0.3",
-    "vitest": "^4.1.10"
+    "vite": "^6.4.4",
+    "vitest": "^4.1.12"
   }
 }

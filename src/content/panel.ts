@@ -1,6 +1,8 @@
 import { feats, spells } from "../data/references";
 import magicItemsData from "../data/aidedd-magic-items.json";
 import { createBackup, parseBackup } from "./backup";
+import { createQuickSetup } from "./quick-setup";
+import { claimFirstRun } from "../services/onboarding-state";
 import { findReference, normalizeName, referenceUrl } from "../services/reference-matcher";
 import { buildMonsterRollCommand, isMonsterActionRollable, prepareRoll20Chat, resolveMonsterAction, type MonsterAttackRollMode } from "../services/roll20-monster";
 import { compendiumEntries, findCompendiumEntry, searchCompendiumResults, type CompendiumEntry, type CompendiumSearchResult, type CompendiumTable, type CompendiumType, type MonsterAction, type MonsterActionSection } from "../services/srd-compendium";
@@ -91,7 +93,7 @@ const totalReferenceCount = compendiumEntries.length + externalReferenceCatalog.
 function escapeHtml(value: string): string {
   const element = document.createElement("span");
   element.textContent = value;
-  return element.innerHTML;
+  return element.innerHTML.replaceAll('"', "&quot;").replaceAll("'", "&#39;");
 }
 
 function searchTokens(value: string): string[] {
@@ -417,6 +419,7 @@ export function mountPanel(preferences: Preferences, onChange: (next: Partial<Pr
   const viewQueries = { catalog: "", favorites: "", recent: "" };
   const viewFor = (type: CompendiumFilter | undefined) => type === "favorites" || type === "recent" ? type : "catalog";
   let currentQuery = "";
+  let activeFavoriteType = "";
   let activeSpellClass = "";
   let activeSpellLevel = "";
   let activeSpellSchool: "" | SpellSchool = "";
@@ -514,6 +517,12 @@ export function mountPanel(preferences: Preferences, onChange: (next: Partial<Pr
   libraryControls.append(categoryNav, panel.querySelector(".dd55-search-wrap")!, resultHeading);
   panel.querySelector("[data-home]")!.prepend(libraryControls);
   const categoryBrowser = panel.querySelector<HTMLElement>(".dd55-category-browser")!;
+  const favoriteFilter = document.createElement("label");
+  favoriteFilter.className = "dd55-favorite-filter";
+  favoriteFilter.hidden = true;
+  favoriteFilter.innerHTML = `<span>Type de favori</span><select data-favorite-type aria-label="Type de favori"></select>`;
+  categoryBrowser.after(favoriteFilter);
+  const favoriteType = favoriteFilter.querySelector<HTMLSelectElement>("select")!;
   const categoryToggle = panel.querySelector<HTMLButtonElement>("[data-category-toggle]")!;
   const categoryOptions = panel.querySelector<HTMLElement>("#dd55-category-options")!;
   const closeCategoryPicker = (restoreFocus = false) => {
@@ -752,7 +761,8 @@ export function mountPanel(preferences: Preferences, onChange: (next: Partial<Pr
     clearRecents.hidden = activeType !== "recent";
     const view = viewFor(activeType);
     categoryBrowser.hidden = view !== "catalog";
-    panel.querySelector<HTMLElement>("[data-result-title]")!.hidden = view === "catalog";
+    favoriteFilter.hidden = view !== "favorites";
+    panel.querySelector<HTMLElement>("[data-result-title]")!.hidden = view !== "recent";
     const categoryLabel = categories.find(category => category.type === (activeType ?? ""))?.label ?? "Toutes les catégories";
     panel.querySelector<HTMLElement>("[data-category-label]")!.textContent = categoryLabel;
     categoryToggle.setAttribute("aria-label", `Catégorie : ${categoryLabel}. Changer de catégorie`);
@@ -906,7 +916,7 @@ export function mountPanel(preferences: Preferences, onChange: (next: Partial<Pr
         renderList();
         const restored = focused && [...results.querySelectorAll<HTMLButtonElement>("[data-favorite-toggle]")]
           .find(button => favoriteKey(favoriteReferenceFromButton(button) ?? { kind: "local", entryId: "" }) === favoriteKey(focused));
-        (restored ?? results.querySelector<HTMLButtonElement>("[data-empty-open-catalogue]"))?.focus();
+        (restored ?? results.querySelector<HTMLButtonElement>("[data-empty-clear-favorite-filter], [data-empty-open-catalogue]"))?.focus();
       } else {
         results.querySelectorAll<HTMLButtonElement>("[data-favorite-toggle]").forEach(button => {
           const reference = favoriteReferenceFromButton(button);
@@ -982,6 +992,18 @@ export function mountPanel(preferences: Preferences, onChange: (next: Partial<Pr
       const isFavoritesView = activeType === "favorites";
       const references = isFavoritesView ? favoriteReferences : recentReferences;
       const resolved = references.map(reference => ({ reference, value: isFavoritesView ? resolveFavorite(reference) : resolveRecent(reference) })).filter(item => item.value);
+      const favoriteCategory = (value: typeof resolved[number]["value"]) => {
+        const type = value?.local?.type ?? value?.external?.kind;
+        return type === "class" || type === "subclass" ? "classes" : type === "species" || type === "background" ? "origins" : type;
+      };
+      if (isFavoritesView) {
+        favoriteType.innerHTML = categories.flatMap(category => {
+          const count = category.type ? resolved.filter(item => favoriteCategory(item.value) === category.type).length : resolved.length;
+          return count || category.type === activeFavoriteType || !category.type
+            ? [`<option value="${category.type}">${category.type ? category.label : "Tous les favoris"} (${count})</option>`] : [];
+        }).join("");
+        favoriteType.value = activeFavoriteType;
+      }
       if (resolved.length !== references.length) {
         const valid = resolved.map(item => item.reference);
         if (isFavoritesView) persistFavorites(valid);
@@ -994,6 +1016,7 @@ export function mountPanel(preferences: Preferences, onChange: (next: Partial<Pr
         ? new Set(externalReferences(currentQuery).map(reference => `${reference.kind}:${reference.item.id}`))
         : undefined;
       const cards = resolved.flatMap(({ reference, value }) => {
+        if (isFavoritesView && activeFavoriteType && favoriteCategory(value) !== activeFavoriteType) return [];
         if (value?.local) {
           const entry = value.local;
           return localMatches && !localMatches.has(entry.id) ? [] : [renderEntryCard({ entry, score: 0, matchedFields: [], excerpt: "" }, currentQuery, isFavorite(reference))];
@@ -1008,7 +1031,7 @@ export function mountPanel(preferences: Preferences, onChange: (next: Partial<Pr
       panel.querySelector<HTMLElement>("[data-result-title]")!.textContent = currentQuery ? `${collectionTitle} pour « ${currentQuery} »` : isFavoritesView ? "Mes favoris" : "Consultés récemment";
       panel.querySelector<HTMLElement>("[data-result-count]")!.textContent = `${cards.length} référence${cards.length > 1 ? "s" : ""}`;
       clearSearch.hidden = !currentQuery;
-      results.innerHTML = cards.join("") || `<div class="dd55-empty"><strong>${currentQuery ? "Aucune fiche trouvée" : references.length ? "Aucun résultat" : isFavoritesView ? "Aucun favori" : "Aucune fiche consultée"}</strong><p>${currentQuery ? `Aucun élément de ${collectionTitle.toLocaleLowerCase("fr")} ne correspond à « ${escapeHtml(currentQuery)} ».` : isFavoritesView ? "Ajoutez des fiches avec l’étoile pour les retrouver ici." : "Les fiches locales et AideDD que vous ouvrez apparaîtront ici."}</p><div>${currentQuery ? `<button type="button" data-empty-clear-search>Effacer la recherche</button>` : `<button type="button" data-empty-open-catalogue>Ouvrir le catalogue</button>`}</div></div>`;
+      results.innerHTML = cards.join("") || `<div class="dd55-empty"><strong>${currentQuery ? "Aucune fiche trouvée" : references.length ? "Aucun résultat" : isFavoritesView ? "Aucun favori" : "Aucune fiche consultée"}</strong><p>${currentQuery ? `Aucun élément de ${collectionTitle.toLocaleLowerCase("fr")} ne correspond à « ${escapeHtml(currentQuery)} ».` : isFavoritesView && activeFavoriteType ? "Aucun favori dans cette catégorie." : isFavoritesView ? "Ajoutez des fiches avec l’étoile pour les retrouver ici." : "Les fiches locales et AideDD que vous ouvrez apparaîtront ici."}</p><div>${currentQuery ? `<button type="button" data-empty-clear-search>Effacer la recherche</button>` : ""}${isFavoritesView && activeFavoriteType ? `<button type="button" data-empty-clear-favorite-filter>Afficher tous les favoris</button>` : !currentQuery ? `<button type="button" data-empty-open-catalogue>Ouvrir le catalogue</button>` : ""}</div></div>`;
       return;
     }
     let matchingResults = activeType === "classes"
@@ -1118,7 +1141,7 @@ export function mountPanel(preferences: Preferences, onChange: (next: Partial<Pr
       results.querySelector("[data-load-more]")?.remove();
       if (pageMarkup) results.insertAdjacentHTML("beforeend", pageMarkup);
     } else {
-      results.innerHTML = pageMarkup || `<div class="dd55-empty"><strong>Aucune fiche trouvée</strong><p>${currentQuery ? `Aucun résultat pour « ${currentQuery} »${hasFilters ? " avec les filtres actifs" : ""}.` : "Aucune référence ne correspond aux filtres actifs."}</p><div>${currentQuery ? `<button type="button" data-empty-clear-search>Effacer la recherche</button>` : ""}${hasFilters ? `<button type="button" data-empty-reset-filters>Réinitialiser les filtres</button>` : ""}</div></div>`;
+      results.innerHTML = pageMarkup || `<div class="dd55-empty"><strong>Aucune fiche trouvée</strong><p>${currentQuery ? `Aucun résultat pour « ${escapeHtml(currentQuery)} »${hasFilters ? " avec les filtres actifs" : ""}.` : "Aucune référence ne correspond aux filtres actifs."}</p><div>${currentQuery ? `<button type="button" data-empty-clear-search>Effacer la recherche</button>` : ""}${hasFilters ? `<button type="button" data-empty-reset-filters>Réinitialiser les filtres</button>` : ""}</div></div>`;
     }
     if (remaining) results.insertAdjacentHTML("beforeend", `<button type="button" class="dd55-load-more" data-load-more>Afficher ${Math.min(80, remaining)} références de plus <small>${remaining} restantes</small></button>`);
   };
@@ -1223,13 +1246,16 @@ export function mountPanel(preferences: Preferences, onChange: (next: Partial<Pr
         renderList();
         const remainingFavorites = [...results.querySelectorAll<HTMLButtonElement>("[data-favorite-toggle]")];
         (remainingFavorites[Math.min(favoriteIndex, remainingFavorites.length - 1)]
-          ?? (currentQuery ? search : results.querySelector<HTMLButtonElement>("[data-empty-open-catalogue]")))?.focus();
+          ?? (currentQuery ? search : results.querySelector<HTMLButtonElement>("[data-empty-clear-favorite-filter], [data-empty-open-catalogue]")))?.focus();
       }
       else updateFavoriteToggle(favoriteButton, favorite);
       return;
     }
     if ((event.target as Element).closest("[data-empty-clear-search]")) {
       search.value = ""; currentQuery = ""; displayLimit = 80; renderList(); search.focus(); return;
+    }
+    if ((event.target as Element).closest("[data-empty-clear-favorite-filter]")) {
+      activeFavoriteType = ""; renderList(); favoriteType.focus(); return;
     }
     if ((event.target as Element).closest("[data-empty-open-catalogue]")) {
       categoryNav.querySelector<HTMLButtonElement>("[data-view='catalog']")!.click();
@@ -1363,6 +1389,7 @@ export function mountPanel(preferences: Preferences, onChange: (next: Partial<Pr
     if (!button) return;
     setCategory(button.dataset.view === "catalog" ? catalogType : button.dataset.view as "favorites" | "recent");
   });
+  favoriteType.addEventListener("change", () => { activeFavoriteType = favoriteType.value; renderList(); });
   categoryToggle.addEventListener("click", () => {
     const opening = categoryOptions.hidden;
     categoryOptions.hidden = !opening;
@@ -1490,7 +1517,9 @@ export function mountPanel(preferences: Preferences, onChange: (next: Partial<Pr
       setExpanded(Boolean(currentPreferences.expandedByDefault));
       if (!currentPreferences.expandedByDefault && currentPreferences.panelPosition) placePanel(currentPreferences.panelPosition.left, currentPreferences.panelPosition.top);
       (home.hidden ? panel.querySelector<HTMLElement>("[data-back], [data-settings-back]") : search)?.focus();
-    }
+      if (quickSetup.isOpen) panel.querySelector<HTMLElement>("[data-quick-setup] h2")!.focus();
+      else void maybeShowFirstRun();
+    } else quickSetup.close();
   });
   expandButton.addEventListener("click", () => setExpanded(!panel.classList.contains("is-expanded")));
   settingsButton.addEventListener("click", () => {
@@ -1507,6 +1536,64 @@ export function mountPanel(preferences: Preferences, onChange: (next: Partial<Pr
     settingsButton.focus();
   };
   panel.querySelector("[data-settings-back]")?.addEventListener("click", closeSettings);
+  let setupReturnToSettings = false;
+  const setupTip = document.createElement("p");
+  setupTip.className = "dd55-setup-tip";
+  setupTip.hidden = true;
+  setupTip.innerHTML = `<span>Recherchez une référence puis utilisez ☆ pour la retrouver dans vos favoris.</span><button type="button" aria-label="Masquer le conseil">×</button>`;
+  libraryControls.after(setupTip);
+  setupTip.querySelector("button")!.addEventListener("click", () => { setupTip.hidden = true; search.focus(); });
+  const quickSetup = createQuickSetup(panel, () => currentPreferences, next => {
+    updatePreferences(next);
+    panel.querySelector<HTMLInputElement>("[data-enabled]")!.checked = next.enabled;
+    panel.querySelector<HTMLInputElement>("[data-bilingual]")!.checked = next.bilingual;
+    panel.querySelector<HTMLSelectElement>("[data-setting-font-size]")!.value = next.fontSize ?? "normal";
+    if (!setupReturnToSettings) setupTip.hidden = false;
+  }, () => {
+    settings.hidden = !setupReturnToSettings;
+    home.hidden = setupReturnToSettings;
+    detail.hidden = true;
+    (setupReturnToSettings ? panel.querySelector<HTMLElement>("[data-reopen-setup]")! : search).focus();
+  });
+  const openQuickSetup = (fromSettings: boolean) => {
+    setupReturnToSettings = fromSettings;
+    closeCategoryPicker();
+    home.hidden = true; detail.hidden = true; settings.hidden = true;
+    panel.scrollTop = 0;
+    quickSetup.show();
+  };
+  const maybeShowFirstRun = async () => {
+    if (currentPreferences.onboardingVersion !== 0) return;
+    currentPreferences.onboardingVersion = 1;
+    const claimed = await claimFirstRun();
+    if (!claimed) return;
+    updatePreferences({ onboardingVersion: 1 });
+    if (!panel.hidden && !home.hidden) openQuickSetup(false);
+  };
+  const reopenSetup = document.createElement("button");
+  reopenSetup.type = "button";
+  reopenSetup.dataset.reopenSetup = "";
+  reopenSetup.textContent = "Revoir la configuration";
+  panel.querySelector(".dd55-settings-content")!.prepend(reopenSetup);
+  reopenSetup.addEventListener("click", () => openQuickSetup(true));
+  document.addEventListener("dd55:preferences-changed", event => {
+    const next = (event as CustomEvent<Partial<Preferences>>).detail;
+    if (!next || typeof next !== "object") return;
+    if (typeof next.enabled === "boolean") {
+      currentPreferences.enabled = next.enabled;
+      panel.querySelector<HTMLInputElement>("[data-enabled]")!.checked = next.enabled;
+    }
+    if (typeof next.bilingual === "boolean") {
+      currentPreferences.bilingual = next.bilingual;
+      panel.querySelector<HTMLInputElement>("[data-bilingual]")!.checked = next.bilingual;
+    }
+    if (next.fontSize && ["small", "normal", "large"].includes(next.fontSize)) {
+      currentPreferences.fontSize = next.fontSize;
+      panel.querySelector<HTMLSelectElement>("[data-setting-font-size]")!.value = next.fontSize;
+    }
+    if (typeof next.onboardingVersion === "number") currentPreferences.onboardingVersion = next.onboardingVersion;
+    applyVisualPreferences();
+  });
   const backupStatus = panel.querySelector<HTMLElement>("[data-backup-status]")!;
   const backupFile = panel.querySelector<HTMLInputElement>("[data-backup-file]")!;
   const importBackupButton = panel.querySelector<HTMLButtonElement>("[data-import-backup]")!;
@@ -1570,7 +1657,7 @@ export function mountPanel(preferences: Preferences, onChange: (next: Partial<Pr
       backupFile.value = "";
     }
   });
-  panel.querySelector("[data-close]")?.addEventListener("click", () => { panel.hidden = true; launcher.setAttribute("aria-expanded", "false"); });
+  panel.querySelector("[data-close]")?.addEventListener("click", () => { quickSetup.close(); panel.hidden = true; launcher.setAttribute("aria-expanded", "false"); launcher.focus(); });
   panel.addEventListener("change", event => {
     const target = event.target as HTMLInputElement | HTMLSelectElement;
     if (target.matches("[data-enabled], [data-bilingual]")) {
@@ -1600,6 +1687,7 @@ export function mountPanel(preferences: Preferences, onChange: (next: Partial<Pr
     if (event.key === "Escape" && !panel.hidden) {
       if (panel.querySelector("[data-roll-mode-dialog]")) return;
       event.preventDefault();
+      if (quickSetup.isOpen) { quickSetup.close(); return; }
       if (!categoryOptions.hidden) { closeCategoryPicker(true); return; }
       if (!settings.hidden) { closeSettings(); return; }
       if (!detail.hidden) { returnToList(); return; }
@@ -1609,6 +1697,7 @@ export function mountPanel(preferences: Preferences, onChange: (next: Partial<Pr
     if (typeof event.key !== "string" || event.key.toLocaleLowerCase() !== "k" || !(event.ctrlKey || event.metaKey) || event.altKey || event.shiftKey) return;
     if (panel.querySelector("[data-roll-mode-dialog]")) return;
     event.preventDefault();
+    quickSetup.close();
     panel.hidden = false;
     launcher.setAttribute("aria-expanded", "true");
     if (!settings.hidden) { settings.hidden = true; detail.hidden = true; home.hidden = false; }
@@ -1619,18 +1708,20 @@ export function mountPanel(preferences: Preferences, onChange: (next: Partial<Pr
       search.focus();
       search.select();
     }
+    void maybeShowFirstRun();
   });
   document.addEventListener("dd55:open-entry", event => {
     const id = (event as CustomEvent<string>).detail;
     const entry = compendiumEntries.find(item => item.id === id);
     if (!entry) return;
+    quickSetup.close();
     panel.hidden = false; launcher.setAttribute("aria-expanded", "true"); showEntry(entry);
   });
   document.addEventListener("dd55:toggle-launcher", () => {
     const visible = launcher.hidden;
     launcher.hidden = !visible;
     if (visible && launcher.style.left && launcher.style.top) placeLauncher(Number.parseFloat(launcher.style.left), Number.parseFloat(launcher.style.top));
-    if (!visible) { panel.hidden = true; launcher.setAttribute("aria-expanded", "false"); }
+    if (!visible) { quickSetup.close(); panel.hidden = true; launcher.setAttribute("aria-expanded", "false"); }
     onLauncherChange?.({ launcherVisible: visible });
   });
   window.addEventListener("resize", () => {

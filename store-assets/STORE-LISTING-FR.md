@@ -1,4 +1,4 @@
-# Fiche Store française — version 1.4.1
+# Fiche Store française — version 1.4.2 en préparation
 
 Ce document contient les textes prêts à copier dans le Chrome Web Store et Microsoft Edge Add-ons.
 
@@ -25,6 +25,7 @@ Cette description fait 115 caractères et correspond au champ `description` du m
 >
 > PRINCIPALES FONCTIONNALITÉS
 >
+> • configuration rapide à la première ouverture, avec aperçu et réglages recommandés ;
 > • traduction des principaux libellés de la feuille ;
 > • noms anglais conservés en option ;
 > • recherche locale avec résultats par pertinence dans les règles, sorts, dons, classes, origines, équipements et objets magiques ;
@@ -32,7 +33,7 @@ Cette description fait 115 caractères et correspond au champ `description` du m
 > • filtres avancés des sorts par école, rituel et concentration ;
 > • tri des sorts par nom ou par niveau croissant ;
 > • historique des 10 dernières références consultées, avec recherche et effacement ;
-> • favoris persistants pour retrouver les références locales et AideDD épinglées ;
+> • favoris persistants pour retrouver les références locales et AideDD épinglées, avec recherche et filtre par type ;
 > • export et restauration manuels des favoris, récents et réglages dans un fichier JSON ;
 > • retour à la liste restauré et raccourci Ctrl/Cmd + K vers la recherche ;
 > • compteurs de filtres actifs dans les différentes catégories ;
@@ -53,14 +54,16 @@ Cette description fait 115 caractères et correspond au champ `description` du m
 >
 > Projet indépendant, non affilié à Roll20, Wizards of the Coast ou AideDD. Le contenu SRD intégré est utilisé sous licence Creative Commons Attribution 4.0.
 
-## Notes de version 1.4.1
+## Notes de version 1.4.2
 
-> • Catalogue complet de 1 367 références, avec chargement progressif et compteurs cohérents.
-> • Favoris accessibles directement depuis les résultats, synchronisés entre les onglets et réversibles après un retrait.
-> • Recherche et position conservées lors du passage entre Catalogue, Favoris et Récents.
-> • Sauvegarde et restauration manuelles des favoris, récents et réglages dans un fichier JSON.
-> • Navigation au clavier et réactivité améliorées sur les grandes feuilles Roll20.
-> • Correction d’une erreur liée à certains événements clavier émis par Roll20.
+> • Catalogue étendu à 444 sorts et 164 dons, toutes sources publiées AideDD, sans Unearthed Arcana et avec priorité aux fiches DRS locales.
+> • Correction de 22 liens de dons, avec conservation des favoris et recherche par les anciens noms français.
+> • Configuration guidée à la première ouverture : traduction, noms anglais et taille du texte, avec aperçu et réglages recommandés.
+> • Filtre par type dans les favoris, combinable avec la recherche et conservé pendant la navigation.
+> • Correction de l’affichage des recherches sans résultat contenant des caractères HTML.
+> • Mise à jour de la chaîne de développement vers Node.js 24 LTS et de ses dépendances de sécurité.
+
+La mise à jour de Node.js concerne la construction de l’extension. Elle ne change pas les prérequis des utilisateurs Chrome ou Edge.
 
 ## Déclarations à préparer dans l’onglet Confidentialité
 
