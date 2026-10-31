@@ -27,7 +27,7 @@ Extension Chrome/Edge Manifest V3 pour la feuille **D&D 2024 de Roll20**. Elle t
 - catalogue de 350 objets magiques avec filtres combinables par type et rareté ;
 - catalogue d’armes, d’armures et de boucliers avec filtres par type et maîtrise d’arme, et accès direct à la règle de chaque botte d’arme ;
 - catalogue de 10 espèces, dont les neuf espèces du SRD et une fiche Aasimar complémentaire clairement attribuée, ainsi que les historiques du SRD avec accès direct au don accordé ;
-- catalogue complémentaire de **391 sorts** et **75 dons**, avec liens vers AideDD lorsque la fiche n’est pas disponible dans le SRD local ;
+- catalogue de **444 sorts** et **164 dons**, toutes sources publiées référencées sur AideDD, sans Unearthed Arcana ; les fiches DRS locales sont prioritaires et les autres références proposent un lien AideDD ;
 - menu contextuel **Traduire cette fiche D&D 2024** ;
 - prise en charge des différentes frames et surfaces utilisées par Roll20.
 
@@ -101,7 +101,7 @@ python scripts/build-compendium.py
 python scripts/build-monsters.py
 ```
 
-Pour actualiser les métadonnées École, Rituel et Concentration des 391 références AideDD, exécutez `npm run data:aidedd-spells`. Cette génération est la seule étape qui accède au réseau ; l’extension construite reste entièrement hors ligne.
+Pour actualiser les catalogues AideDD, exécutez `npm run data:aidedd-spells` et `npm run data:aidedd-feats`. Ces scripts sélectionnent toutes les sources publiées et toutes les catégories, excluent les Unearthed Arcana, puis importent les noms, liens et métadonnées. Ils conservent les identifiants existants, les anciennes traductions comme alias et les liens vers les fiches DRS locales. L’import s’arrête si une référence existante disparaît ou si un doublon apparaît. Les textes complets des fiches hors DRS ne sont pas embarqués. Ces étapes de génération accèdent au réseau ; l’extension construite conserve son fonctionnement hors ligne.
 
 Les scripts produisent les données structurées utilisées par l’extension dans `src/data/`.
 

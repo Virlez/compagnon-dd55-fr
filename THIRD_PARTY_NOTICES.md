@@ -8,7 +8,7 @@ Le texte local du compendium est dérivé du PDF français `fr_srd_cc_v5.2.1.pdf
 
 ## AideDD et Roll20
 
-AideDD est utilisé comme destination de liens pour les références françaises absentes du SRD local. Aucun contenu de ses pages n'est embarqué dans l'extension. Roll20 est la plateforme cible, mais aucun code ni contenu propriétaire Roll20 n'est redistribué.
+AideDD est utilisé comme destination de liens pour les références françaises absentes du SRD local. Les catalogues de [sorts](https://www.aidedd.org/spell/fr/) et de [dons](https://www.aidedd.org/feat/fr/) fournissent les noms, liens et métadonnées d’indexation (niveau, école, catégorie, source, rituel et concentration). Les textes complets des fiches hors DRS ne sont pas embarqués. Les Unearthed Arcana sont exclues de ces imports. Roll20 est la plateforme cible, mais aucun code ni contenu propriétaire Roll20 n'est redistribué.
 
 Ce projet n'est affilié ni à Roll20, ni à Wizards of the Coast, ni à AideDD.
 

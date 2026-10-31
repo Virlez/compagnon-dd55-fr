@@ -15,6 +15,7 @@
     "icons": "node scripts/generate-icons.mjs",
     "data:magic-items": "node scripts/build-magic-items.mjs",
     "data:aidedd-spells": "node scripts/import-aidedd-spells.mjs",
+    "data:aidedd-feats": "node scripts/import-aidedd-feats.mjs",
     "data:aidedd-magic-items": "node scripts/import-aidedd-magic-items.mjs",
     "data:monsters": "python scripts/build-monsters.py",
     "package": "npm run build && powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package-extension.ps1",

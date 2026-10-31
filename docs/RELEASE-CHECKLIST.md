@@ -26,6 +26,7 @@
 - Vérifier l’accès Récents avec fiches locales et AideDD : compteur, ordre, déduplication, limite de 10, persistance, recherche et effacement.
 - Vérifier la navigation Catalogue / Favoris / Récents à 320 px et en vue agrandie : accès visibles pendant le défilement, conservation des recherches et filtres, catégories accessibles au clavier et fermeture du sélecteur par Échap avant le panneau.
 - Vérifier l’accès à la dernière référence du catalogue et les compteurs de toutes les catégories.
+- Après actualisation AideDD, vérifier les sources publiées attendues, l’absence d’Unearthed Arcana, les favoris enregistrés avant l’import et l’absence de carte externe en double pour les fiches DRS.
 - Vérifier les favoris locaux et AideDD : ajout depuis une carte locale, une fiche et une carte AideDD, compteur, persistance après rechargement, recherche, retrait, annulation du retrait et liste vide.
 - Dans deux onglets Roll20, ajouter et retirer des favoris rapidement, vérifier la synchronisation des compteurs et des listes, puis recharger les deux onglets.
 - Vérifier la restauration de la position et du nombre de résultats, `Ctrl/Cmd + K` et les niveaux successifs d’Échap, avec priorité aux fenêtres modales.

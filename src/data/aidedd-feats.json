@@ -1,0 +1,1444 @@
+[
+  {
+    "nameFr": "Adepte de l'abjuration",
+    "nameEn": "Abjuration Adept",
+    "slug": "adepte-de-l-abjuration",
+    "source": "Arcana Unleashed",
+    "category": "general",
+    "id": "abjuration-adept"
+  },
+  {
+    "nameFr": "Adepte de l'enchantement",
+    "nameEn": "Enchantment Adept",
+    "slug": "adepte-de-l-enchantement",
+    "source": "Arcana Unleashed",
+    "category": "general",
+    "id": "enchantment-adept"
+  },
+  {
+    "nameFr": "Adepte de l'évocation",
+    "nameEn": "Evocation Adept",
+    "slug": "adepte-de-l-evocation",
+    "source": "Arcana Unleashed",
+    "category": "general",
+    "id": "evocation-adept"
+  },
+  {
+    "nameFr": "Adepte de l'illusion",
+    "nameEn": "Illusion Adept",
+    "slug": "adepte-de-l-illusion",
+    "source": "Arcana Unleashed",
+    "category": "general",
+    "id": "illusion-adept"
+  },
+  {
+    "nameFr": "Adepte de l'invocation",
+    "nameEn": "Conjuration Adept",
+    "slug": "adepte-de-l-invocation",
+    "source": "Arcana Unleashed",
+    "category": "general",
+    "id": "conjuration-adept"
+  },
+  {
+    "nameFr": "Adepte de la divination",
+    "nameEn": "Divination Adept",
+    "slug": "adepte-de-la-divination",
+    "source": "Arcana Unleashed",
+    "category": "general",
+    "id": "divination-adept"
+  },
+  {
+    "nameFr": "Adepte de la nécromancie",
+    "nameEn": "Necromancy Adept",
+    "slug": "adepte-de-la-necromancie",
+    "source": "Arcana Unleashed",
+    "category": "general",
+    "id": "necromancy-adept"
+  },
+  {
+    "nameFr": "Adepte de la transmutation",
+    "nameEn": "Transmutation Adept",
+    "slug": "adepte-de-la-transmutation",
+    "source": "Arcana Unleashed",
+    "category": "general",
+    "id": "transmutation-adept"
+  },
+  {
+    "id": "hof-adepte-de-magefeu",
+    "nameEn": "Spellfire Adept",
+    "nameFr": "Adepte du magefeu",
+    "slug": "adepte-du-magefeu",
+    "category": "general",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "aliases": [
+      "Adepte de magefeu"
+    ]
+  },
+  {
+    "id": "elemental-adept",
+    "nameEn": "Elemental Adept",
+    "nameFr": "Adepte élémentaire",
+    "slug": "adepte-elementaire",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "hof-affinite-au-mythal",
+    "nameEn": "Mythal Touched",
+    "nameFr": "Affinité de mythal",
+    "slug": "affinite-de-mythal",
+    "category": "general",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "aliases": [
+      "Affinité au mythal"
+    ]
+  },
+  {
+    "id": "fey-touched",
+    "nameEn": "Fey-Touched",
+    "nameFr": "Affinité féerique",
+    "slug": "affinite-feerique",
+    "category": "general",
+    "aliases": [
+      "Touché par les fées"
+    ],
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "shadow-touched",
+    "nameEn": "Shadow-Touched",
+    "nameFr": "Affinité ombreuse",
+    "slug": "affinite-ombreuse",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "hof-agent-de-l-alliance-des-seigneurs",
+    "nameEn": "Lords' Alliance Agent",
+    "nameFr": "Agent de l'Alliance des Seigneurs",
+    "slug": "agent-de-l-alliance-des-seigneurs",
+    "category": "origin",
+    "source": "Forgotten Realms: Heroes of Faerûn"
+  },
+  {
+    "id": "hof-agent-des-menestrels",
+    "nameEn": "Harper Agent",
+    "nameFr": "Agent des Ménestrels",
+    "slug": "agent-des-menestrels",
+    "category": "origin",
+    "source": "Forgotten Realms: Heroes of Faerûn"
+  },
+  {
+    "id": "ability-score-improvement",
+    "nameEn": "Ability Score Improvement",
+    "nameFr": "Amélioration de caractéristique",
+    "slug": "amelioration-de-caracteristique",
+    "category": "general",
+    "source": "Player's Handbook 2024",
+    "compendiumId": "feat-amelioration-de-caracteristique"
+  },
+  {
+    "nameFr": "Ami familier",
+    "nameEn": "Familiar Friend",
+    "slug": "ami-familier",
+    "source": "Arcana Unleashed",
+    "category": "origin",
+    "id": "familiar-friend"
+  },
+  {
+    "nameFr": "Anatomie transmutée",
+    "nameEn": "Transmuted Anatomy",
+    "slug": "anatomie-transmutee",
+    "source": "Arcana Unleashed",
+    "category": "origin",
+    "id": "transmuted-anatomy"
+  },
+  {
+    "id": "archery",
+    "nameEn": "Archery",
+    "nameFr": "Archerie",
+    "slug": "archerie",
+    "category": "fighting-style",
+    "source": "Player's Handbook 2024",
+    "compendiumId": "feat-archerie"
+  },
+  {
+    "id": "great-weapon-fighting",
+    "nameEn": "Great Weapon Fighting",
+    "nameFr": "Arme à deux mains",
+    "slug": "arme-a-deux-mains",
+    "category": "fighting-style",
+    "aliases": [
+      "Armes à deux mains"
+    ],
+    "source": "Player's Handbook 2024",
+    "compendiumId": "feat-armes-a-deux-mains"
+  },
+  {
+    "id": "thrown-weapon-fighting",
+    "nameEn": "Thrown Weapon Fighting",
+    "nameFr": "Arme de lancer",
+    "slug": "arme-de-lancer",
+    "category": "fighting-style",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "nameFr": "Artiste arcanique",
+    "nameEn": "Arcane Artist",
+    "slug": "artiste-arcanique",
+    "source": "Arcana Unleashed",
+    "category": "origin",
+    "id": "arcane-artist"
+  },
+  {
+    "id": "athlete",
+    "nameEn": "Athlete",
+    "nameFr": "Athlète",
+    "slug": "athlete",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "tavern-brawler",
+    "nameEn": "Tavern Brawler",
+    "nameFr": "Bagarreur de tavernes",
+    "slug": "bagarreur-de-tavernes",
+    "category": "origin",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "crusher",
+    "nameEn": "Crusher",
+    "nameFr": "Broyeur",
+    "slug": "broyeur",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "hof-malfrat-zhent",
+    "nameEn": "Zhentarim Ruffian",
+    "nameFr": "Cagoulard du Zhentarim",
+    "slug": "cagoulard-du-zhentarim",
+    "category": "origin",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "aliases": [
+      "Malfrat Zhent"
+    ]
+  },
+  {
+    "id": "lucky",
+    "nameEn": "Lucky",
+    "nameFr": "Chanceux",
+    "slug": "chanceux",
+    "category": "origin",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "chef",
+    "nameEn": "Chef",
+    "nameFr": "Chef cuisinier",
+    "slug": "chef-cuisinier",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "two-weapon-fighting",
+    "nameEn": "Two-Weapon Fighting",
+    "nameFr": "Combat à deux armes",
+    "slug": "combat-a-deux-armes",
+    "category": "fighting-style",
+    "source": "Player's Handbook 2024",
+    "compendiumId": "feat-combat-a-deux-armes"
+  },
+  {
+    "id": "unarmed-fighting",
+    "nameEn": "Unarmed Fighting",
+    "nameFr": "Combat à mains nues",
+    "slug": "combat-a-mains-nues",
+    "category": "fighting-style",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "blind-fighting",
+    "nameEn": "Blind Fighting",
+    "nameFr": "Combat en aveugle",
+    "slug": "combat-en-aveugle",
+    "category": "fighting-style",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "dual-wielder",
+    "nameEn": "Dual Wielder",
+    "nameFr": "Combattant à deux armes",
+    "slug": "combattant-a-deux-armes",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "mounted-combatant",
+    "nameEn": "Mounted Combatant",
+    "nameFr": "Combattant monté",
+    "slug": "combattant-monte",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "actor",
+    "nameEn": "Actor",
+    "nameFr": "Comédien",
+    "slug": "comedien",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "nameFr": "Connaisseur de la magie",
+    "nameEn": "Magic Connoisseur",
+    "slug": "connaisseur-de-la-magie",
+    "source": "Arcana Unleashed",
+    "category": "general",
+    "id": "magic-connoisseur"
+  },
+  {
+    "id": "hof-recrue-des-dragons-pourpres",
+    "nameEn": "Purple Dragon Rook",
+    "nameFr": "Conscrit du Dragon pourpre",
+    "slug": "conscrit-du-dragon-pourpre",
+    "category": "origin",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "aliases": [
+      "Recrue des Dragons pourpres"
+    ]
+  },
+  {
+    "id": "hof-travail-d-equipe-des-menestrels",
+    "nameEn": "Harper Teamwork",
+    "nameFr": "Coopération des Ménestrels",
+    "slug": "cooperation-des-menestrels",
+    "category": "general",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "aliases": [
+      "Travail d'équipe des Ménestrels"
+    ]
+  },
+  {
+    "nameFr": "Croque-mort arcanique",
+    "nameEn": "Arcane Undertaker",
+    "slug": "croque-mort-arcanique",
+    "source": "Arcana Unleashed",
+    "category": "origin",
+    "id": "arcane-undertaker"
+  },
+  {
+    "id": "defense",
+    "nameEn": "Defense",
+    "nameFr": "Défense",
+    "slug": "defense",
+    "category": "fighting-style",
+    "source": "Player's Handbook 2024",
+    "compendiumId": "feat-defense"
+  },
+  {
+    "id": "hof-resolution-seigneuriale",
+    "nameEn": "Lordly Resolve",
+    "nameFr": "Détermination seigneuriale",
+    "slug": "determination-seigneuriale",
+    "category": "general",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "aliases": [
+      "Résolution seigneuriale"
+    ]
+  },
+  {
+    "id": "skulker",
+    "nameEn": "Skulker",
+    "nameFr": "Discret",
+    "slug": "discret",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "skilled",
+    "nameEn": "Skilled",
+    "nameFr": "Doué",
+    "slug": "doue",
+    "category": "origin",
+    "source": "Player's Handbook 2024",
+    "compendiumId": "feat-doue"
+  },
+  {
+    "id": "efa-dracogramme-aberrant",
+    "nameEn": "Aberrant Dragonmark",
+    "nameFr": "Dracogramme aberrant",
+    "slug": "dracogramme-aberrant",
+    "category": "dragonmark",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "efa-dracogramme-puissant",
+    "nameEn": "Potent Dragonmark",
+    "nameFr": "Dracogramme puissant",
+    "slug": "dracogramme-puissant",
+    "category": "general",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "dueling",
+    "nameEn": "Dueling",
+    "nameFr": "Duel",
+    "slug": "duel",
+    "category": "fighting-style",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "defensive-duelist",
+    "nameEn": "Defensive Duelist",
+    "nameFr": "Duelliste défensif",
+    "slug": "duelliste-defensif",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "nameFr": "Éloquence arcanique",
+    "nameEn": "Arcane Eloquence",
+    "slug": "eloquence-arcanique",
+    "source": "Arcana Unleashed",
+    "category": "origin",
+    "id": "arcane-eloquence"
+  },
+  {
+    "id": "piercer",
+    "nameEn": "Piercer",
+    "nameFr": "Empaleur / Perforateur",
+    "slug": "empaleur-perforateur",
+    "category": "general",
+    "aliases": [
+      "Empaleur",
+      "Perforateur"
+    ],
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "grappler",
+    "nameEn": "Grappler",
+    "nameFr": "Empoigneur",
+    "slug": "empoigneur",
+    "category": "general",
+    "aliases": [
+      "Lutteur"
+    ],
+    "source": "Player's Handbook 2024",
+    "compendiumId": "feat-empoigneur"
+  },
+  {
+    "id": "poisoner",
+    "nameEn": "Poisoner",
+    "nameFr": "Empoisonneur",
+    "slug": "empoisonneur",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "keen-mind",
+    "nameEn": "Keen Mind",
+    "nameFr": "Esprit affûté",
+    "slug": "esprit-affute",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "hof-etincelle-de-magefeu",
+    "nameEn": "Spellfire Spark",
+    "nameFr": "Étincelle du magefeu",
+    "slug": "etincelle-du-magefeu",
+    "category": "origin",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "aliases": [
+      "Étincelle de magefeu"
+    ]
+  },
+  {
+    "id": "skill-expert",
+    "nameEn": "Skill Expert",
+    "nameFr": "Expert",
+    "slug": "expert",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "charger",
+    "nameEn": "Charger",
+    "nameFr": "Expert de la charge",
+    "slug": "expert-de-la-charge",
+    "category": "general",
+    "aliases": [
+      "Chargeur"
+    ],
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "crafter",
+    "nameEn": "Crafter",
+    "nameFr": "Façonneur",
+    "slug": "faconneur",
+    "category": "origin",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "nameFr": "Familier apaisant",
+    "nameEn": "Soothing Familiar",
+    "slug": "familier-apaisant",
+    "source": "Arcana Unleashed",
+    "category": "general",
+    "id": "soothing-familiar"
+  },
+  {
+    "nameFr": "Familier d'Outremonde",
+    "nameEn": "Otherworldly Familiar",
+    "slug": "familier-d-outremonde",
+    "source": "Arcana Unleashed",
+    "category": "general",
+    "id": "otherworldly-familiar"
+  },
+  {
+    "nameFr": "Familier élémentaire",
+    "nameEn": "Elemental Familiar",
+    "slug": "familier-elementaire",
+    "source": "Arcana Unleashed",
+    "category": "general",
+    "id": "elemental-familiar"
+  },
+  {
+    "nameFr": "Familier guerrier",
+    "nameEn": "Warlike Familiar",
+    "slug": "familier-guerrier",
+    "source": "Arcana Unleashed",
+    "category": "general",
+    "id": "warlike-familiar"
+  },
+  {
+    "id": "boon-irresistible-offense",
+    "nameEn": "Boon of Irresistible Offense",
+    "nameFr": "Faveur d'attaque irrésistible",
+    "slug": "faveur-d-attaque-irresistible",
+    "category": "epic-boon",
+    "source": "Player's Handbook 2024",
+    "compendiumId": "feat-faveur-d-attaque-irresistible"
+  },
+  {
+    "id": "hof-faveur-d-eclat-exquis",
+    "nameEn": "Boon of Exquisite Radiance",
+    "nameFr": "Faveur d'éclat sublime",
+    "slug": "faveur-d-eclat-sublime",
+    "category": "epic-boon",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "aliases": [
+      "Faveur d'éclat exquis"
+    ]
+  },
+  {
+    "id": "hof-faveur-de-fortune",
+    "nameEn": "Boon of Fortune's Favor",
+    "nameFr": "Faveur de bonne fortune",
+    "slug": "faveur-de-bonne-fortune",
+    "category": "epic-boon",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "aliases": [
+      "Faveur de fortune"
+    ]
+  },
+  {
+    "id": "hof-faveur-de-carnage",
+    "nameEn": "Boon of Bloodshed",
+    "nameFr": "Faveur de carnage",
+    "slug": "faveur-de-carnage",
+    "category": "epic-boon",
+    "source": "Forgotten Realms: Heroes of Faerûn"
+  },
+  {
+    "id": "hof-faveur-de-communication",
+    "nameEn": "Boon of Communication",
+    "nameFr": "Faveur de communication",
+    "slug": "faveur-de-communication",
+    "category": "epic-boon",
+    "source": "Forgotten Realms: Heroes of Faerûn"
+  },
+  {
+    "id": "boon-skill",
+    "nameEn": "Boon of Skill",
+    "nameFr": "Faveur de compétence",
+    "slug": "faveur-de-competence",
+    "category": "epic-boon",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "boon-dimensional-travel",
+    "nameEn": "Boon of Dimensional Travel",
+    "nameFr": "Faveur de déplacement dimensionnel",
+    "slug": "faveur-de-deplacement-dimensionnel",
+    "category": "epic-boon",
+    "source": "Player's Handbook 2024",
+    "compendiumId": "feat-faveur-de-deplacement-dimensionnel"
+  },
+  {
+    "id": "hof-faveur-de-formes-fluides",
+    "nameEn": "Boon of Fluid Forms",
+    "nameFr": "Faveur de fluidité",
+    "slug": "faveur-de-fluidite",
+    "category": "epic-boon",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "aliases": [
+      "Faveur de formes fluides"
+    ]
+  },
+  {
+    "id": "boon-night-spirit",
+    "nameEn": "Boon of the Night Spirit",
+    "nameFr": "Faveur de l'esprit nocturne",
+    "slug": "faveur-de-l-esprit-nocturne",
+    "category": "epic-boon",
+    "source": "Player's Handbook 2024",
+    "compendiumId": "feat-faveur-de-l-esprit-nocturne"
+  },
+  {
+    "id": "hof-faveur-de-la-tempete-furieuse",
+    "nameEn": "Boon of the Furious Storm",
+    "nameFr": "Faveur de la tempête furieuse",
+    "slug": "faveur-de-la-tempete-furieuse",
+    "category": "epic-boon",
+    "source": "Forgotten Realms: Heroes of Faerûn"
+  },
+  {
+    "id": "hof-faveur-de-rejouissances",
+    "nameEn": "Boon of Revelry",
+    "nameFr": "Faveur de liesse",
+    "slug": "faveur-de-liesse",
+    "category": "epic-boon",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "aliases": [
+      "Faveur de réjouissances"
+    ]
+  },
+  {
+    "id": "hof-faveur-de-maitrise-des-poisons",
+    "nameEn": "Boon of Poison Mastery",
+    "nameFr": "Faveur de maîtrise du poison",
+    "slug": "faveur-de-maitrise-du-poison",
+    "category": "epic-boon",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "aliases": [
+      "Faveur de maîtrise des poisons"
+    ]
+  },
+  {
+    "id": "boon-spell-recall",
+    "nameEn": "Boon of Spell Recall",
+    "nameFr": "Faveur de mémoire magique",
+    "slug": "faveur-de-memoire-magique",
+    "category": "epic-boon",
+    "source": "Player's Handbook 2024",
+    "compendiumId": "feat-faveur-de-memoire-magique"
+  },
+  {
+    "id": "boon-combat-prowess",
+    "nameEn": "Boon of Combat Prowess",
+    "nameFr": "Faveur de prouesse martiale",
+    "slug": "faveur-de-prouesse-martiale",
+    "category": "epic-boon",
+    "source": "Player's Handbook 2024",
+    "compendiumId": "feat-faveur-de-prouesse-martiale"
+  },
+  {
+    "id": "boon-recovery",
+    "nameEn": "Boon of Recovery",
+    "nameFr": "Faveur de récupération",
+    "slug": "faveur-de-recuperation",
+    "category": "epic-boon",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "hof-faveur-de-resilience-desesperee",
+    "nameEn": "Boon of Desperate Resilience",
+    "nameFr": "Faveur de résilience du désespoir",
+    "slug": "faveur-de-resilience-du-desespoir",
+    "category": "epic-boon",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "aliases": [
+      "Faveur de résilience désespérée"
+    ]
+  },
+  {
+    "id": "boon-energy-resistance",
+    "nameEn": "Boon of Energy Resistance",
+    "nameFr": "Faveur de résistance aux énergies",
+    "slug": "faveur-de-resistance-aux-energies",
+    "category": "epic-boon",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "hof-faveur-de-sante-abondante",
+    "nameEn": "Boon of Bountiful Health",
+    "nameFr": "Faveur de santé florissante",
+    "slug": "faveur-de-sante-florissante",
+    "category": "epic-boon",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "aliases": [
+      "Faveur de santé abondante"
+    ]
+  },
+  {
+    "id": "efa-faveur-de-siberys",
+    "nameEn": "Boon of Siberys",
+    "nameFr": "Faveur de Siberys",
+    "slug": "faveur-de-siberys",
+    "category": "epic-boon",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "hof-faveur-de-terreur",
+    "nameEn": "Boon of Terror",
+    "nameFr": "Faveur de terreur",
+    "slug": "faveur-de-terreur",
+    "category": "epic-boon",
+    "source": "Forgotten Realms: Heroes of Faerûn"
+  },
+  {
+    "id": "boon-fortitude",
+    "nameEn": "Boon of Fortitude",
+    "nameFr": "Faveur de vigueur",
+    "slug": "faveur-de-vigueur",
+    "category": "epic-boon",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "boon-truesight",
+    "nameEn": "Boon of Truesight",
+    "nameFr": "Faveur de vision véritable / vision lucide",
+    "slug": "faveur-de-vision-veritable-vision-lucide",
+    "category": "epic-boon",
+    "aliases": [
+      "Faveur de Vision lucide",
+      "Faveur de vision véritable",
+      "vision lucide",
+      "Faveur de vision véritable / Vision lucide"
+    ],
+    "source": "Player's Handbook 2024",
+    "compendiumId": "feat-faveur-de-vision-lucide"
+  },
+  {
+    "id": "boon-speed",
+    "nameEn": "Boon of Speed",
+    "nameFr": "Faveur de vitesse",
+    "slug": "faveur-de-vitesse",
+    "category": "epic-boon",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "hof-faveur-du-buveur-d-ames",
+    "nameEn": "Boon of the Soul Drinker",
+    "nameFr": "Faveur du buveur d'âmes",
+    "slug": "faveur-du-buveur-d-ames",
+    "category": "epic-boon",
+    "source": "Forgotten Realms: Heroes of Faerûn"
+  },
+  {
+    "id": "boon-fate",
+    "nameEn": "Boon of Fate",
+    "nameFr": "Faveur du destin",
+    "slug": "faveur-du-destin",
+    "category": "epic-boon",
+    "source": "Player's Handbook 2024",
+    "compendiumId": "feat-faveur-du-destin"
+  },
+  {
+    "id": "hof-faveur-du-soleil-brillant",
+    "nameEn": "Boon of the Bright Sun",
+    "nameFr": "Faveur du soleil radieux",
+    "slug": "faveur-du-soleil-radieux",
+    "category": "epic-boon",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "aliases": [
+      "Faveur du soleil brillant"
+    ]
+  },
+  {
+    "id": "inspiring-leader",
+    "nameEn": "Inspiring Leader",
+    "nameFr": "Figure de proue",
+    "slug": "figure-de-proue",
+    "category": "general",
+    "aliases": [
+      "Chef inspirant"
+    ],
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "martial-weapon-training",
+    "nameEn": "Martial Weapon Training",
+    "nameFr": "Formation aux armes de guerre",
+    "slug": "formation-aux-armes-de-guerre",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "durable",
+    "nameEn": "Durable",
+    "nameFr": "Gaillard",
+    "slug": "gaillard",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "healer",
+    "nameEn": "Healer",
+    "nameFr": "Guérisseur",
+    "slug": "guerisseur",
+    "category": "origin",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "spell-sniper",
+    "nameEn": "Spell Sniper",
+    "nameFr": "Incantateur d'élite",
+    "slug": "incantateur-d-elite",
+    "category": "general",
+    "aliases": [
+      "Tireur de sorts"
+    ],
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "hof-lanceur-froid",
+    "nameEn": "Cold Caster",
+    "nameFr": "Incantateur du froid",
+    "slug": "incantateur-du-froid",
+    "category": "general",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "aliases": [
+      "Lanceur froid"
+    ]
+  },
+  {
+    "nameFr": "Infiltré arcanique",
+    "nameEn": "Arcane Infiltrator",
+    "slug": "infiltre-arcanique",
+    "source": "Arcana Unleashed",
+    "category": "origin",
+    "id": "arcane-infiltrator"
+  },
+  {
+    "id": "magic-initiate",
+    "nameEn": "Magic Initiate",
+    "nameFr": "Initié à la magie",
+    "slug": "initie-a-la-magie",
+    "category": "origin",
+    "source": "Player's Handbook 2024",
+    "compendiumId": "feat-initie-a-la-magie"
+  },
+  {
+    "id": "hof-initie-du-culte-du-dragon",
+    "nameEn": "Cult of the Dragon Initiate",
+    "nameFr": "Initié du Culte du Dragon",
+    "slug": "initie-du-culte-du-dragon",
+    "category": "origin",
+    "source": "Forgotten Realms: Heroes of Faerûn"
+  },
+  {
+    "id": "interception",
+    "nameEn": "Interception",
+    "nameFr": "Interception",
+    "slug": "interception",
+    "category": "fighting-style",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "hof-justice-de-rue",
+    "nameEn": "Street Justice",
+    "nameFr": "Justice de la rue",
+    "slug": "justice-de-la-rue",
+    "category": "general",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "aliases": [
+      "Justice de rue"
+    ]
+  },
+  {
+    "id": "war-caster",
+    "nameEn": "War Caster",
+    "nameFr": "Mage de guerre",
+    "slug": "mage-de-guerre",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "hof-magie-de-l-enclave",
+    "nameEn": "Enclave Magic",
+    "nameFr": "Magie de l'Enclave",
+    "slug": "magie-de-l-enclave",
+    "category": "general",
+    "source": "Forgotten Realms: Heroes of Faerûn"
+  },
+  {
+    "id": "hof-magie-de-genie",
+    "nameEn": "Genie Magic",
+    "nameFr": "Magie des génies",
+    "slug": "magie-des-genies",
+    "category": "general",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "aliases": [
+      "Magie de génie"
+    ]
+  },
+  {
+    "id": "ritual-caster",
+    "nameEn": "Ritual Caster",
+    "nameFr": "Magie rituelle",
+    "slug": "magie-rituelle",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "weapon-master",
+    "nameEn": "Weapon Master",
+    "nameFr": "Maître d'armes",
+    "slug": "maitre-d-armes",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "polearm-master",
+    "nameEn": "Polearm Master",
+    "nameFr": "Maître d'hast",
+    "slug": "maitre-d-hast",
+    "category": "general",
+    "aliases": [
+      "Maître des armes d'hast"
+    ],
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "great-weapon-master",
+    "nameEn": "Great Weapon Master",
+    "nameFr": "Maître des armes lourdes / Cogneur lourd",
+    "slug": "maitre-des-armes-lourdes-cogneur-lourd",
+    "category": "general",
+    "aliases": [
+      "Maître des armes lourdes",
+      "Cogneur lourd"
+    ],
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "medium-armor-master",
+    "nameEn": "Medium Armor Master",
+    "nameFr": "Maître des armures intermédiaires",
+    "slug": "maitre-des-armures-intermediaires",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "heavy-armor-master",
+    "nameEn": "Heavy Armor Master",
+    "nameFr": "Maître des armures lourdes",
+    "slug": "maitre-des-armures-lourdes",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "shield-master",
+    "nameEn": "Shield Master",
+    "nameFr": "Maître des boucliers",
+    "slug": "maitre-des-boucliers",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "crossbow-expert",
+    "nameEn": "Crossbow Expert",
+    "nameFr": "Maître-arbalétrier",
+    "slug": "maitre-arbaletrier",
+    "category": "general",
+    "aliases": [
+      "Expert des arbalètes"
+    ],
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "efa-marque-d-ecriture",
+    "nameEn": "Mark of Scribing",
+    "nameFr": "Marque d'écriture",
+    "slug": "marque-d-ecriture",
+    "category": "dragonmark",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "efa-marque-d-hospitalite",
+    "nameEn": "Mark of Hospitality",
+    "nameFr": "Marque d'hospitalité",
+    "slug": "marque-d-hospitalite",
+    "category": "dragonmark",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "efa-marque-d-ombre",
+    "nameEn": "Mark of Shadow",
+    "nameFr": "Marque d'ombre",
+    "slug": "marque-d-ombre",
+    "category": "dragonmark",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "efa-marque-de-creation",
+    "nameEn": "Mark of Making",
+    "nameFr": "Marque de création",
+    "slug": "marque-de-creation",
+    "category": "dragonmark",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "efa-marque-de-decouverte",
+    "nameEn": "Mark of Finding",
+    "nameFr": "Marque de découverte",
+    "slug": "marque-de-decouverte",
+    "category": "dragonmark",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "efa-marque-de-detection",
+    "nameEn": "Mark of Detection",
+    "nameFr": "Marque de détection",
+    "slug": "marque-de-detection",
+    "category": "dragonmark",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "efa-marque-de-dressage",
+    "nameEn": "Mark of Handling",
+    "nameFr": "Marque de dressage",
+    "slug": "marque-de-dressage",
+    "category": "dragonmark",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "efa-marque-de-guerison",
+    "nameEn": "Mark of Healing",
+    "nameFr": "Marque de guérison",
+    "slug": "marque-de-guerison",
+    "category": "dragonmark",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "efa-marque-de-passage",
+    "nameEn": "Mark of Passage",
+    "nameFr": "Marque de passage",
+    "slug": "marque-de-passage",
+    "category": "dragonmark",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "efa-marque-de-protection",
+    "nameEn": "Mark of Warding",
+    "nameFr": "Marque de protection",
+    "slug": "marque-de-protection",
+    "category": "dragonmark",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "efa-marque-de-sentinelle",
+    "nameEn": "Mark of Sentinel",
+    "nameFr": "Marque de sentinelle",
+    "slug": "marque-de-sentinelle",
+    "category": "dragonmark",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "efa-marque-de-tempete",
+    "nameEn": "Mark of Storm",
+    "nameFr": "Marque de tempête",
+    "slug": "marque-de-tempete",
+    "category": "dragonmark",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "hof-cicatrice-du-dragon",
+    "nameEn": "Dragonscarred",
+    "nameFr": "Marqué par les dragons",
+    "slug": "marque-par-les-dragons",
+    "category": "general",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "aliases": [
+      "Cicatrice du Dragon"
+    ]
+  },
+  {
+    "id": "efa-marque-supreme-aberrante",
+    "nameEn": "Greater Aberrant Mark",
+    "nameFr": "Marque suprême aberrante",
+    "slug": "marque-supreme-aberrante",
+    "category": "general",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "efa-marque-supreme-d-ecriture",
+    "nameEn": "Greater Mark of Scribing",
+    "nameFr": "Marque suprême d'écriture",
+    "slug": "marque-supreme-d-ecriture",
+    "category": "general",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "efa-marque-supreme-d-hospitalite",
+    "nameEn": "Greater Mark of Hospitality",
+    "nameFr": "Marque suprême d'hospitalité",
+    "slug": "marque-supreme-d-hospitalite",
+    "category": "general",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "efa-marque-supreme-d-ombre",
+    "nameEn": "Greater Mark of Shadow",
+    "nameFr": "Marque suprême d'ombre",
+    "slug": "marque-supreme-d-ombre",
+    "category": "general",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "efa-marque-supreme-de-creation",
+    "nameEn": "Greater Mark of Making",
+    "nameFr": "Marque suprême de création",
+    "slug": "marque-supreme-de-creation",
+    "category": "general",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "efa-marque-supreme-de-decouverte",
+    "nameEn": "Greater Mark of Finding",
+    "nameFr": "Marque suprême de découverte",
+    "slug": "marque-supreme-de-decouverte",
+    "category": "general",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "efa-marque-supreme-de-detection",
+    "nameEn": "Greater Mark of Detection",
+    "nameFr": "Marque suprême de détection",
+    "slug": "marque-supreme-de-detection",
+    "category": "general",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "efa-marque-supreme-de-dressage",
+    "nameEn": "Greater Mark of Handling",
+    "nameFr": "Marque suprême de dressage",
+    "slug": "marque-supreme-de-dressage",
+    "category": "general",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "efa-marque-supreme-de-guerison",
+    "nameEn": "Greater Mark of Healing",
+    "nameFr": "Marque suprême de guérison",
+    "slug": "marque-supreme-de-guerison",
+    "category": "general",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "efa-marque-supreme-de-passage",
+    "nameEn": "Greater Mark of Passage",
+    "nameFr": "Marque suprême de passage",
+    "slug": "marque-supreme-de-passage",
+    "category": "general",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "efa-marque-supreme-de-protection",
+    "nameEn": "Greater Mark of Warding",
+    "nameFr": "Marque suprême de protection",
+    "slug": "marque-supreme-de-protection",
+    "category": "general",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "efa-marque-supreme-de-sentinelle",
+    "nameEn": "Greater Mark of Sentinel",
+    "nameFr": "Marque suprême de sentinelle",
+    "slug": "marque-supreme-de-sentinelle",
+    "category": "general",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "efa-marque-supreme-de-tempete",
+    "nameEn": "Greater Mark of Storm",
+    "nameFr": "Marque suprême de tempête",
+    "slug": "marque-supreme-de-tempete",
+    "category": "general",
+    "source": "Eberron: Forge of the Artificer"
+  },
+  {
+    "id": "mobile",
+    "nameEn": "Speedy",
+    "nameFr": "Mobile",
+    "slug": "mobile",
+    "category": "general",
+    "aliases": [
+      "Véloce"
+    ],
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "musician",
+    "nameEn": "Musician",
+    "nameFr": "Musicien",
+    "slug": "musicien",
+    "category": "origin",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "hof-escroc-feerique",
+    "nameEn": "Fairy Trickster",
+    "nameFr": "Mystificateur féerique",
+    "slug": "mystificateur-feerique",
+    "category": "general",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "aliases": [
+      "Escroc féerique"
+    ]
+  },
+  {
+    "id": "hof-novice-de-l-enclave-d-emeraude",
+    "nameEn": "Emerald Enclave Fledgling",
+    "nameFr": "Novice de l'Enclave d'émeraude",
+    "slug": "novice-de-l-enclave-d-emeraude",
+    "category": "origin",
+    "source": "Forgotten Realms: Heroes of Faerûn"
+  },
+  {
+    "id": "observant",
+    "nameEn": "Observant",
+    "nameFr": "Observateur",
+    "slug": "observateur",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "hof-commandant-du-dragon-pourpre",
+    "nameEn": "Purple Dragon Commandant",
+    "nameFr": "Officier du Dragon pourpre",
+    "slug": "officier-du-dragon-pourpre",
+    "category": "general",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "aliases": [
+      "Commandant du Dragon Pourpre"
+    ]
+  },
+  {
+    "nameFr": "Présages arcaniques",
+    "nameEn": "Arcane Omens",
+    "slug": "presages-arcaniques",
+    "source": "Arcana Unleashed",
+    "category": "origin",
+    "id": "arcane-omens"
+  },
+  {
+    "id": "protection",
+    "nameEn": "Protection",
+    "nameFr": "Protection",
+    "slug": "protection",
+    "category": "fighting-style",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "nameFr": "Protection arcanique",
+    "nameEn": "Arcane Safeguard",
+    "slug": "protection-arcanique",
+    "source": "Arcana Unleashed",
+    "category": "origin",
+    "id": "arcane-safeguard"
+  },
+  {
+    "id": "moderately-armored",
+    "nameEn": "Moderately Armored",
+    "nameFr": "Protection intermédiaire",
+    "slug": "protection-intermediaire",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "lightly-armored",
+    "nameEn": "Lightly Armored",
+    "nameFr": "Protection légère",
+    "slug": "protection-legere",
+    "category": "general",
+    "aliases": [
+      "Armure légère"
+    ],
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "heavily-armored",
+    "nameEn": "Heavily Armored",
+    "nameFr": "Protection lourde",
+    "slug": "protection-lourde",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "hof-tyro-du-gantelet",
+    "nameEn": "Tyro of the Gauntlet",
+    "nameFr": "Recrue du Gantelet",
+    "slug": "recrue-du-gantelet",
+    "category": "origin",
+    "source": "Forgotten Realms: Heroes of Faerûn",
+    "aliases": [
+      "Tyro du Gantelet"
+    ]
+  },
+  {
+    "nameFr": "Regard affûté",
+    "nameEn": "Sharp Eye",
+    "slug": "regard-affute",
+    "source": "Ravenloft: The Horrors Within",
+    "category": "origin",
+    "id": "sharp-eye"
+  },
+  {
+    "id": "hof-resilience-de-l-ordre",
+    "nameEn": "Order's Resilience",
+    "nameFr": "Résilience de l'Ordre",
+    "slug": "resilience-de-l-ordre",
+    "category": "general",
+    "source": "Forgotten Realms: Heroes of Faerûn"
+  },
+  {
+    "id": "resilient",
+    "nameEn": "Resilient",
+    "nameFr": "Résilient",
+    "slug": "resilient",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "nameFr": "Résistant aux sorts",
+    "nameEn": "Spell Resistent",
+    "slug": "resistant-aux-sorts",
+    "source": "Arcana Unleashed",
+    "category": "general",
+    "id": "spell-resistent"
+  },
+  {
+    "id": "tough",
+    "nameEn": "Tough",
+    "nameFr": "Robuste",
+    "slug": "robuste",
+    "category": "origin",
+    "aliases": [
+      "Coriace"
+    ],
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "nameFr": "Sauteur de portail",
+    "nameEn": "Portal Jumper",
+    "slug": "sauteur-de-portail",
+    "source": "Arcana Unleashed",
+    "category": "origin",
+    "id": "portal-jumper"
+  },
+  {
+    "id": "savage-attacker",
+    "nameEn": "Savage Attacker",
+    "nameFr": "Sauvagerie martiale",
+    "slug": "sauvagerie-martiale",
+    "category": "origin",
+    "source": "Player's Handbook 2024",
+    "compendiumId": "feat-sauvagerie-martiale"
+  },
+  {
+    "id": "sentinel",
+    "nameEn": "Sentinel",
+    "nameFr": "Sentinelle",
+    "slug": "sentinelle",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "nameFr": "Sort de subterfuge",
+    "nameEn": "Spell Subterfuge",
+    "slug": "sort-de-subterfuge",
+    "source": "Arcana Unleashed",
+    "category": "general",
+    "id": "spell-subterfuge"
+  },
+  {
+    "nameFr": "Surcharge arcanique",
+    "nameEn": "Arcane Overload",
+    "slug": "surcharge-arcanique",
+    "source": "Arcana Unleashed",
+    "category": "origin",
+    "id": "arcane-overload"
+  },
+  {
+    "nameFr": "Survivant",
+    "nameEn": "Survivor",
+    "slug": "survivant",
+    "source": "Ravenloft: The Horrors Within",
+    "category": "origin",
+    "id": "survivor"
+  },
+  {
+    "id": "hof-tactiques-du-zhentarim",
+    "nameEn": "Zhentarim Tactics",
+    "nameFr": "Tactiques du Zhentarim",
+    "slug": "tactiques-du-zhentarim",
+    "category": "general",
+    "source": "Forgotten Realms: Heroes of Faerûn"
+  },
+  {
+    "id": "telekinetic",
+    "nameEn": "Telekinetic",
+    "nameFr": "Télékinésiste",
+    "slug": "telekinesiste",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "telepathic",
+    "nameEn": "Telepathic",
+    "nameFr": "Télépathe",
+    "slug": "telepathe",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "sharpshooter",
+    "nameEn": "Sharpshooter",
+    "nameFr": "Tireur d'élite",
+    "slug": "tireur-d-elite",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "slasher",
+    "nameEn": "Slasher",
+    "nameFr": "Trancheur",
+    "slug": "trancheur",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "mage-slayer",
+    "nameEn": "Mage Slayer",
+    "nameFr": "Tueur de mages",
+    "slug": "tueur-de-mages",
+    "category": "general",
+    "source": "Player's Handbook 2024"
+  },
+  {
+    "id": "alert",
+    "nameEn": "Alert",
+    "nameFr": "Vigilant",
+    "slug": "vigilant",
+    "category": "origin",
+    "source": "Player's Handbook 2024",
+    "compendiumId": "feat-vigilant"
+  }
+]

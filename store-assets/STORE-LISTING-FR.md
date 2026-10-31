@@ -56,6 +56,8 @@ Cette description fait 115 caractères et correspond au champ `description` du m
 
 ## Notes de version 1.4.2
 
+> • Catalogue étendu à 444 sorts et 164 dons, toutes sources publiées AideDD, sans Unearthed Arcana et avec priorité aux fiches DRS locales.
+> • Correction de 22 liens de dons, avec conservation des favoris et recherche par les anciens noms français.
 > • Configuration guidée à la première ouverture : traduction, noms anglais et taille du texte, avec aperçu et réglages recommandés.
 > • Filtre par type dans les favoris, combinable avec la recherche et conservé pendant la navigation.
 > • Correction de l’affichage des recherches sans résultat contenant des caractères HTML.

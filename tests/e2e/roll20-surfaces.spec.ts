@@ -38,6 +38,30 @@ async function loadBundleInFrame(frame: Frame): Promise<void> {
   await frame.addScriptTag({ path: bundlePath });
 }
 
+test("retrouve les suppléments publiés tout en privilégiant les fiches DRS locales", async ({ page }) => {
+  await page.setContent(sheetSignature);
+  await loadBundle(page);
+  await page.locator("#dd55-launcher").click();
+  for (const [query, kind, slug, source] of [
+    ["Anneau d'éclairs", "spell", "anneau-d-eclairs", "Arcana Unleashed"],
+    ["Serviteur homoncule", "spell", "serviteur-homoncule", "Eberron: Forge of the Artificer"],
+    ["Adepte de l'abjuration", "feat", "adepte-de-l-abjuration", "Arcana Unleashed"],
+    ["Regard affûté", "feat", "regard-affute", "Ravenloft: The Horrors Within"],
+    ["Adepte de magefeu", "feat", "adepte-du-magefeu", "Forgotten Realms: Heroes of Faerûn"]
+  ]) {
+    await page.locator("[data-search]").fill(query);
+    const card = page.locator(`[data-results] [data-external-url='https://www.aidedd.org/${kind}/fr/${slug}']`);
+    await expect(card).toBeVisible();
+    await expect(card).toContainText(source);
+    await expect(card).toHaveCount(1);
+  }
+  for (const [query, kind, slug, id] of [["Boule de feu", "spell", "boule-de-feu", "spell-boule-de-feu"], ["Archerie", "feat", "archerie", "feat-archerie"]]) {
+    await page.locator("[data-search]").fill(query);
+    await expect(page.locator(`[data-results] [data-entry-id='${id}']`)).toHaveCount(1);
+    await expect(page.locator(`[data-results] [data-external-url='https://www.aidedd.org/${kind}/fr/${slug}']`)).toHaveCount(0);
+  }
+});
+
 test("filtre les favoris par type sans perdre la recherche ni le focus", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 390, height: 740 });
   await page.setContent(sheetSignature);
@@ -131,8 +155,8 @@ test("ouvre le compendium local et expose le catalogue complet", async ({ page }
   await page.locator("#dd55-launcher").click();
   await expect(page.locator("#dd55-companion")).toBeVisible();
   await expect(page.locator("[data-category='rule']")).toHaveText("Règles70✓");
-  await expect(page.locator("[data-category='spell']")).toHaveText("Sorts391✓");
-  await expect(page.locator("[data-category='feat']")).toHaveText("Dons137✓");
+  await expect(page.locator("[data-category='spell']")).toHaveText("Sorts444✓");
+  await expect(page.locator("[data-category='feat']")).toHaveText("Dons164✓");
   await expect(page.locator("[data-category='equipment']")).toHaveText("Équipement51✓");
   await expect(page.locator("[data-category='origins']")).toHaveText("Origines14✓");
   await expect(page.locator("[data-category='magic-item']")).toHaveText("Objets magiques350✓");

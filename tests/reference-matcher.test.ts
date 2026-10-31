@@ -29,10 +29,10 @@ describe("reference matcher", () => {
   ])("utilise le lien AideDD publié pour %s", (id, slug) => {
     expect(referenceUrl("feat", feats.find(feat => feat.id === id)!)).toBe(`https://www.aidedd.org/feat/fr/${slug}`);
   });
-  it("référence les 137 dons AideDD sans identifiant ni lien en double", () => {
-    expect(feats).toHaveLength(137);
-    expect(new Set(feats.map(feat => feat.id)).size).toBe(137);
-    expect(new Set(feats.map(feat => referenceUrl("feat", feat))).size).toBe(137);
+  it("référence les 164 dons AideDD sans identifiant ni lien en double", () => {
+    expect(feats).toHaveLength(164);
+    expect(new Set(feats.map(feat => feat.id)).size).toBe(164);
+    expect(new Set(feats.map(feat => referenceUrl("feat", feat))).size).toBe(164);
     expect(feats.filter(feat => feat.source === "Forgotten Realms: Heroes of Faerûn")).toHaveLength(34);
     expect(feats.filter(feat => feat.source === "Eberron: Forge of the Artificer")).toHaveLength(28);
   });
