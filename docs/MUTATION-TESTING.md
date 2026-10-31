@@ -46,6 +46,8 @@ Les 11 survivantes ont été examinées : cinq modifient des gardes de type redo
 
 Le client HTTP de Stryker, `typed-rest-client` 2.3.1, impose une version de `qs` avec des alertes de sécurité. Un override limité à ce client impose `qs ^6.17.1`. Le lockfile fixe la version résolue ; l’audit npm doit rester vert lors des mises à jour. Aucun de ces outils de test n’est inclus dans l’extension distribuée.
 
+Au 31 octobre 2026, l’alerte [GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249) concerne aussi la version de `minimatch` imposée par Stryker 10.1.1. Un override limité à `@stryker-mutator/core` utilise `minimatch ^11.0.3`. Le passage complet de mutation vérifie sa compatibilité avec Stryker ; le seuil et le périmètre restent identiques.
+
 ## Références
 
 - [Adaptateur Stryker pour Vitest](https://stryker-mutator.io/docs/stryker-js/vitest-runner/)

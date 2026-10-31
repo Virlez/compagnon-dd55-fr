@@ -19,7 +19,7 @@
 - Le build refuse les imports de modules partagés dans le script de contenu, qui doit rester autonome pour son injection par Chrome.
 - Les tests sous Node 24.22.2 passent : 329 unitaires, 31 navigateur, vérification TypeScript et build. Les scénarios d’installation neuve, de migration et de synchronisation chargent l’extension réelle dans Chromium.
 - Les [imports de catalogues AideDD](AIDEDD-CATALOG-1.4.2.md) valident les URL et métadonnées, excluent les Unearthed Arcana et préservent les identifiants existants. Les fiches DRS restent prioritaires, sans doublons visibles ; seuls les noms, liens et métadonnées sont importés pour les références hors DRS.
-- Le [contrôle de mutation](MUTATION-TESTING.md) couvre la validation des sauvegardes, les collections, le premier démarrage et les URL externes : 460 mutations détectées sur 471 (97,66 %), avec un seuil CI de 90 %. L’override `qs` du client HTTP de Stryker maintient l’audit npm sans vulnérabilité connue.
+- Le [contrôle de mutation](MUTATION-TESTING.md) couvre la validation des sauvegardes, les collections, le premier démarrage et les URL externes : 460 mutations détectées sur 471 (97,66 %), avec un seuil CI de 90 %. Les overrides `qs` et `minimatch`, limités aux outils de Stryker, corrigent les alertes transitives connues. La CI vérifie la dernière version de Node 24 disponible pour éviter de retenir un correctif en cache inférieur au minimum requis.
 
 ## Risques à suivre
 
